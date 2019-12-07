@@ -3,8 +3,13 @@ import {StyleSheet, Text, View, Switch, requireNativeComponent, ToastAndroid, De
 import {Button,Header} from 'react-native-elements';
 import StandList from './standList';
 import StandInfo from './standInfo';
-import {createAppContainer} from 'react-navigation';
+import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
+import { createBottomTabNavigator } from 'react-navigation-tabs';
+import SearchScreen from './searchScreen';
+import ToursScreen from './toursScreen';
+import ProfileScreen from './profileScreen';
+import Icon from 'react-native-vector-icons/Ionicons';  
 
 var BeaconManager = require('NativeModules').BeaconManager;
 const isOnText = "Switch OFF";
@@ -181,7 +186,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const MainNavigator = createStackNavigator({
+const HighlightNavigator = createStackNavigator({
   App: {screen: App},
   StandInfo: {screen: StandInfo},
   },
@@ -191,6 +196,69 @@ const MainNavigator = createStackNavigator({
     }
 });
 
-const AppNavigation = createAppContainer(MainNavigator);
+const SearchNavigator = createStackNavigator({
+  SearchScreen : SearchScreen,
+});
+
+const ToursNavigator = createStackNavigator({
+  ToursScreen : ToursScreen,
+});
+
+const ProfileNavigator = createStackNavigator({
+  ProfileScreen : ProfileScreen,
+});
+
+const TabNavigator = createBottomTabNavigator(
+  {
+    Highlight : {
+      screen : HighlightNavigator,
+      navigationOptions:{
+        tabBarLabel : 'Destacados',
+        tabBarIcon: ({tintColor})=>(
+          <Icon name="ios-star" color={tintColor} size={25}/>  
+        )
+      }
+    },
+    Serach : {
+      screen : SearchNavigator,
+      navigationOptions:{
+        tabBarLabel : 'Buscar',
+        tabBarIcon: ({tintColor})=>(
+          <Icon name="ios-search" color={tintColor} size={25}/>  
+        )
+      }
+    },
+    Tours : {
+      screen : ToursNavigator,
+      navigationOptions:{
+        tabBarLabel : 'Tours',
+        tabBarIcon: ({tintColor})=>(
+          <Icon name="ios-map" color={tintColor} size={25}/>  
+        )
+      }
+    },
+    Profile : {
+      screen : ProfileNavigator,
+      navigationOptions:{
+        tabBarLabel : 'Perfil',
+        tabBarIcon: ({tintColor})=>(
+          <Icon name="ios-person" color={tintColor} size={25}/>  
+        )
+      }
+    },
+  },
+  {
+    tabBarOptions: {
+      backgroundColor: '#F5FCFF',
+    },
+  }  
+);
+
+const AppNavigation = createAppContainer(
+  createSwitchNavigator({
+    Main : TabNavigator,
+    }
+  )
+);
 
 export default AppNavigation;
