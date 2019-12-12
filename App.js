@@ -8,7 +8,7 @@ import { createStackNavigator } from 'react-navigation-stack';
 import StandList from './standList';
 import StandInfo from './standInfo';
 
-const BeaconManager = require('NativeModules').BeaconManager;
+const BeaconManager = require('NativeModules').BeaconManager;// eslint-disable-line
 
 
 class App extends Component {
