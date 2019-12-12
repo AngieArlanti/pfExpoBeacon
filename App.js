@@ -1,24 +1,23 @@
 import React, {Component} from 'react';
-import {StyleSheet, Text, View, Switch, requireNativeComponent, ToastAndroid, DeviceEventEmitter} from 'react-native';
-import {Button,Header} from 'react-native-elements';
+import {StyleSheet, View } from 'react-native';
+import {Header} from 'react-native-elements';
 import StandList from './standList';
 import StandInfo from './standInfo';
-import {createAppContainer} from 'react-navigation';
+import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
-
-var BeaconManager = require('NativeModules').BeaconManager;
-const isOnText = "Switch OFF";
-const isOffText = "Switch ON";
+import { createBottomTabNavigator } from 'react-navigation-tabs';
+import SearchScreen from './searchScreen';
+import ToursScreen from './toursScreen';
+import ProfileScreen from './profileScreen';
+import Icon from 'react-native-vector-icons/Ionicons';  
 
 class App extends Component {
 
 constructor(props) {
   super(props);
   this.state = { isLoading: true};
-  this.state = { buttonText: isOffText};
   this.state = { isDataAvailable: false};
   //TODO: Figure out how to correctly initialize prop
-  this.state = { data: [{}]};
   this.state = { dataSource:[{}]};
 }
 
@@ -26,83 +25,6 @@ constructor(props) {
 componentDidMount(){
   this.getAllStands();
 }
-
-componentDidUpdate(prevProps,prevState){
-  if ((prevState.data !== this.state.data) && this.state.data!==undefined) {
-       this.getOrderedStands();
-  }
-}
-componentWillUnmount() {
-  this.startSubscription.remove();
-  this.stopSubscription.remove();
-}
-
-
-//Beacons
-
-suscribeForEvents() {
-  this.startSubscription = DeviceEventEmitter.addListener(BeaconManager.EVENT_BEACONS_RANGED, (data) => {
-    //TODO abrir pantalla con los beacons listados.
-    //Podes usar este this.state.isDataAvailable y this.state.data para mostrar lista de beacons en el render().
-    /* Vas a recibir esto:
-    "beacons":[
-         {
-            "proximity":"immediate",
-            "distance":0.01009895532367115,
-            "uuid":"2f234454-cf6d-4a0f-adf2-f4911ba9ffa6",
-            "major":0,
-            "minor":1,
-            "rssi":-48,
-            "macAddress":"0C:F3:EE:08:FC:DD"
-         },
-         {
-            "proximity":"immediate",
-            "distance":0.11185681527500883,
-            "uuid":"2f234454-cf6d-4a0f-adf2-f4911ba9ffa6",
-            "major":0,
-            "minor":1,
-            "rssi":-49,
-            "macAddress":"0C:F3:EE:04:19:21"
-         }
-    */
-    if(data.beacons){
-      this.stopRangingBeacons();
-      console.log(data);
-      ToastAndroid.show("Beacons: " + data.beacons[0].macAddress, ToastAndroid.SHORT);
-      this.setState({
-        isDataAvailable: true,
-        data: data.beacons
-      }, function(){
-      });
-
-    }
-  })
-}
-startRangingBeacons() {
-  try {
-    BeaconManager.startRangingBeacons();
-    this.suscribeForEvents();
-  } catch (e) {
-    console.error(e);
-  }
-}
-stopRangingBeacons() {
-  this.setState({ isLoading: false});
-  try {
-    BeaconManager.stopRangingBeacons();
-    this.unsuscribeForEvents();
-  } catch (e) {
-    console.error(e);
-  }
-}
-
-unsuscribeForEvents() {
-  this.stopSubscription = DeviceEventEmitter.addListener(BeaconManager.EVENT_BEACONS_RANGE_STOPPED, () => {
-    ToastAndroid.show("Beacons range stopped", ToastAndroid.SHORT);
-    this.startSubscription.remove();
-  })
-}
-
 
 // Services TODO: Modularize
 getAllStands(){
@@ -121,44 +43,13 @@ getAllStands(){
     });
 }
 
-getOrderedStands(){
-  return fetch('http://private-f63ff-standsv1.apiary-mock.com/stands/'+this.state.data[0].macAddress)
-    .then((response) => response.json())
-    .then((responseJson) => {
-      console.log(responseJson);
-      this.setState({
-        isLoading: false,
-        dataSource: responseJson,
-      }, function(){
-
-      });
-
-    })
-    .catch((error) =>{
-      console.error(error);
-    });
-}
-
-//Rendering and Screen UI events handrlers
-onRangeButtonPress = e =>{
-  this.startRangingBeacons();
-  this.setState({ isLoading: true});
-}
-
 render() {
  return (
    <View style={styles.container}>
       <View style={styles.top} >
             <Header
-      leftComponent={{ icon: 'menu', color: '#fff' }}
       centerComponent={{ text: 'EXPO ITBA', style: { color: '#fff' } }}
-      rightComponent={{ icon: 'home', color: '#fff' }}
       />
-        <Button
-          title="Range"
-          onPress={this.onRangeButtonPress}
-          loading={this.state.isLoading}
-        />
         <StandList stands={this.state.dataSource} navigation={this.props.navigation} isLoadingList={this.state.isLoading}/>
       </View>
   </View>
@@ -181,7 +72,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const MainNavigator = createStackNavigator({
+const HighlightNavigator = createStackNavigator({
   App: {screen: App},
   StandInfo: {screen: StandInfo},
   },
@@ -191,6 +82,85 @@ const MainNavigator = createStackNavigator({
     }
 });
 
-const AppNavigation = createAppContainer(MainNavigator);
+const SearchNavigator = createStackNavigator({
+  SearchScreen : SearchScreen,
+  StandInfo: {screen: StandInfo},
+  },
+  {
+  defaultNavigationOptions: {
+    header: null,
+  }
+});
+
+const ToursNavigator = createStackNavigator({
+  ToursScreen : ToursScreen,
+},
+{
+    defaultNavigationOptions: {
+      header: null,
+    }
+});
+
+const ProfileNavigator = createStackNavigator({
+  ProfileScreen : ProfileScreen,
+},
+{
+    defaultNavigationOptions: {
+      header: null,
+    }
+});
+
+const TabNavigator = createBottomTabNavigator(
+  {
+    Highlight : {
+      screen : HighlightNavigator,
+      navigationOptions:{
+        tabBarLabel : 'Destacados',
+        tabBarIcon: ({tintColor})=>(
+          <Icon name="ios-star" color={tintColor} size={25}/>  
+        )
+      }
+    },
+    Search : {
+      screen : SearchNavigator,
+      navigationOptions:{
+        tabBarLabel : 'Buscar',
+        tabBarIcon: ({tintColor})=>(
+          <Icon name="ios-search" color={tintColor} size={25}/>  
+        )
+      }
+    },
+    Tours : {
+      screen : ToursNavigator,
+      navigationOptions:{
+        tabBarLabel : 'Tours',
+        tabBarIcon: ({tintColor})=>(
+          <Icon name="ios-map" color={tintColor} size={25}/>  
+        )
+      }
+    },
+    Profile : {
+      screen : ProfileNavigator,
+      navigationOptions:{
+        tabBarLabel : 'Perfil',
+        tabBarIcon: ({tintColor})=>(
+          <Icon name="ios-person" color={tintColor} size={25}/>  
+        )
+      }
+    },
+  },
+  {
+    tabBarOptions: {
+      backgroundColor: '#F5FCFF',
+    },
+  }  
+);
+
+const AppNavigation = createAppContainer(
+  createSwitchNavigator({
+    Main : TabNavigator,
+    }
+  )
+);
 
 export default AppNavigation;

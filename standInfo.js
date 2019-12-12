@@ -7,14 +7,6 @@ export default class StandInfo extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      images: [
-        'https://source.unsplash.com/1024x768/?nature',
-        'https://source.unsplash.com/1024x768/?water',
-        'https://source.unsplash.com/1024x768/?girl',
-        'https://source.unsplash.com/1024x768/?tree'
-      ]
-    };
   }
 
   render() {
@@ -23,20 +15,16 @@ export default class StandInfo extends React.Component {
       <View style={styles.container}>
          <View style={styles.top} >
            <Header
-      leftComponent={{ icon: 'menu', color: '#fff' }}
-      centerComponent={{ text: 'Stand Info', style: { color: '#fff' } }}
-      rightComponent={{ icon: 'home', color: '#fff' }}
+      centerComponent={{ text: this.props.navigation.state.params.item.title, style: { color: '#fff' } }}
       />
            <SliderBox images={this.props.navigation.state.params.item.pictures} />
            <View style={styles.align}>
-            <Text>Puntuación: </Text>
             <Rating
               imageSize={20}
               readonly
               startingValue={this.props.navigation.state.params.item.ranking}
             />
           </View>
-            <Text style={styles.text, styles.title}>Descripción:</Text>
             <Text style={styles.text}>{this.props.navigation.state.params.item.description}</Text>
         </View>
       </View>
