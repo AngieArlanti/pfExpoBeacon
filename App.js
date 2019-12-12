@@ -121,7 +121,7 @@ const TabNavigator = createBottomTabNavigator(
         )
       }
     },
-    Serach : {
+    Search : {
       screen : SearchNavigator,
       navigationOptions:{
         tabBarLabel : 'Buscar',
