@@ -17,8 +17,6 @@ constructor(props) {
   super(props);
   this.state = { isLoading: true};
   this.state = { isDataAvailable: false};
-  //TODO: Figure out how to correctly initialize prop
-  this.state = { dataSource:[{}]};
 }
 
 // Lifecycle events
@@ -26,12 +24,14 @@ componentDidMount(){
   this.getAllStands();
 }
 
+// TODO Eliminar cuando conectemos con server real.
+// REEMPLACEN POR SU IP SI CORREN EN ANDROID FISICO, LA PUEDEN OBTENER CON: ifconfig | grep "inet " | grep -v 127.0.0.1
+// REEMPLAZAR POR 10.0.2.2 SI CORREN EN EMULADOR ANDROID
 // Services TODO: Modularize
 getAllStands(){
-  return fetch('http://private-f63ff-standsv1.apiary-mock.com/stands')
+  return fetch('http://192.168.0.175:8080/stands/list')
     .then((response) => response.json())
     .then((responseJson) => {
-
       this.setState({
         isLoading: false,
         dataSource: responseJson,
@@ -50,7 +50,8 @@ render() {
             <Header
       centerComponent={{ text: 'EXPO ITBA', style: { color: '#fff' } }}
       />
-        <StandList stands={this.state.dataSource} navigation={this.props.navigation} isLoadingList={this.state.isLoading}/>
+        {(this.state.dataSource !== null && this.state.dataSource !== undefined) &&
+        <StandList stands={this.state.dataSource} navigation={this.props.navigation} isLoadingList={this.state.isLoading}/>}
       </View>
   </View>
 );

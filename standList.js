@@ -17,7 +17,7 @@ export default class StandList extends React.Component {
     title={item.title}
     subtitle={item.short_description}
     leftAvatar={{
-      source: item.cover_url && { uri: item.cover_url }
+      source: item.cover && { uri: item.cover }
     }}
     onPress= {() => this.props.navigation.navigate('StandInfo', {
       item : item })}

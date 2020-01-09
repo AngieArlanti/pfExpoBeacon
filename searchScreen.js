@@ -27,22 +27,18 @@ componentWillUnmount() {
 }
 
 getOrderedStands(){
-    return fetch('http://private-f63ff-standsv1.apiary-mock.com/stands/'+this.state.data[0].macAddress)
-      .then((response) => response.json())
-      .then((responseJson) => {
-        console.log(responseJson);
-        this.setState({
-          isLoading: false,
-          dataSource: responseJson,
-        }, function(){
-  
-        });
-  
-      })
-      .catch((error) =>{
-        console.error(error);
+  return fetch('http://192.168.0.175:8080/stands?id='+this.state.data[0].macAddress)
+    .then((response) => response.json())
+    .then((responseJson) => {
+      this.setState({
+        isLoading: false,
+        dataSource: [responseJson],
       });
-  }
+    })
+    .catch((error) =>{
+      console.error(error);
+    });
+}
 
     //Beacons
 
