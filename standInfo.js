@@ -10,13 +10,11 @@ export default class StandInfo extends React.Component {
   }
 
   render() {
-    console.log(this.props.navigation.state.params.item.pictures);
+    console.log(this.props.navigation.state.params.item.pictures[0]);
     return (
       <View style={styles.container}>
          <View style={styles.top} >
-           <Header
-      centerComponent={{ text: this.props.navigation.state.params.item.title, style: { color: '#fff' } }}
-      />
+          
            <SliderBox images={this.props.navigation.state.params.item.pictures} />
            <View style={styles.align}>
             <Rating
