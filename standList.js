@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FlatList, StyleSheet, Text, View,Image,ScrollView,ActivityIndicator } from 'react-native';
+import { FlatList, StyleSheet, Text, View,Image,ScrollView,ActivityIndicator, StatusBar } from 'react-native';
 import { ListItem } from 'react-native-elements'
 
 /**
@@ -36,6 +36,7 @@ export default class StandList extends React.Component {
     }
   return (
     <View style={styles.container}>
+      
     <ScrollView
         style={styles.container}
         contentContainerStyle={styles.contentContainer}>
@@ -53,7 +54,6 @@ export default class StandList extends React.Component {
 const styles = StyleSheet.create({
   container: {
    flex: 1,
-   paddingTop: 22
   },
   item: {
     padding: 10,

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, View } from 'react-native';
+import {StyleSheet, View, StatusBar} from 'react-native';
 import {Header} from 'react-native-elements';
 import StandList from './standList';
 import StandInfo from './standInfo';
@@ -46,6 +46,7 @@ getAllStands(){
 render() {
  return (
    <View style={styles.container}>
+     <StatusBar hidden = {false} backgroundColor = "rgba(0,0,0,0)" translucent = {true}/>
       <View style={styles.top} >
             <Header
       centerComponent={{ text: 'EXPO ITBA', style: { color: '#fff' } }}
