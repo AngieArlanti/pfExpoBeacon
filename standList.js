@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { FlatList, StyleSheet, Text, View,Image,ScrollView,ActivityIndicator, StatusBar } from 'react-native';
+import { FlatList, StyleSheet, Text, View,Image,ScrollView,ActivityIndicator, StatusBar, ImageBackground } from 'react-native';
 import { ListItem } from 'react-native-elements'
+import { Card, CardItem, Thumbnail, Body, Left, Right, Button, Icon } from 'native-base'
 
 /**
 * @param props properties needed to render StandList:
@@ -13,7 +14,22 @@ export default class StandList extends React.Component {
   keyExtractor = (item, index) => index.toString()
 
   renderItem = ({ item }) => (
-  <ListItem
+    <Card style={{borderRadius: 100}}>
+      <CardItem bordered cardBody button onPress= {() => this.props.navigation.navigate('StandInfo', {item : item })}>
+        <Image source={{ uri :  item.cover }} style={styles.image} />
+      </CardItem>
+      <CardItem bordered>
+        <Body>
+          <Text style={styles.title}>
+            {item.title}
+          </Text>
+          <Text>
+            {item.short_description}
+          </Text>
+        </Body>
+      </CardItem>
+    </Card>
+  /*<ListItem
     title={item.title}
     subtitle={item.short_description}
     leftAvatar={{
@@ -23,7 +39,7 @@ export default class StandList extends React.Component {
       item : item })}
     bottomDivider
     chevron
-  />
+  />*/
   )
 
   render () {
@@ -80,5 +96,16 @@ const styles = StyleSheet.create({
     }),
     alignItems: 'center',
     backgroundColor: '#fbfbfb',
+  },
+  title:{
+    flex: 1,
+    textAlign: 'center',
+    fontSize: 20,
+  },  
+  image: {
+    height: 200,
+    width: null,
+    flex: 1,
+    borderRadius: 10,
   },
 })

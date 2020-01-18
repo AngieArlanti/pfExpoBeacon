@@ -27,7 +27,7 @@ componentWillUnmount() {
 }
 
 getOrderedStands(){
-  return fetch('http://192.168.0.175:8080/stands?id='+this.state.data[0].macAddress)
+  return fetch('http://10.0.2.2:8080/stands?id='+this.state.data[0].macAddress)
     .then((response) => response.json())
     .then((responseJson) => {
       this.setState({
