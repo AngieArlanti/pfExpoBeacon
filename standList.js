@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { FlatList, StyleSheet, Text, View,Image,ScrollView,ActivityIndicator, StatusBar, ImageBackground } from 'react-native';
-import { ListItem } from 'react-native-elements'
+import { FlatList, StyleSheet, Text, View,Image,ScrollView,ActivityIndicator, StatusBar } from 'react-native';
 import { Card, CardItem, Thumbnail, Body, Left, Right, Button, Icon } from 'native-base'
 
 /**
@@ -29,17 +28,6 @@ export default class StandList extends React.Component {
         </Body>
       </CardItem>
     </Card>
-  /*<ListItem
-    title={item.title}
-    subtitle={item.short_description}
-    leftAvatar={{
-      source: item.cover && { uri: item.cover }
-    }}
-    onPress= {() => this.props.navigation.navigate('StandInfo', {
-      item : item })}
-    bottomDivider
-    chevron
-  />*/
   )
 
   render () {
