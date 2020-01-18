@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
+<<<<<<< HEAD
 import { FlatList, StyleSheet, Text, View,Image,ScrollView,ActivityIndicator, StatusBar, ImageBackground } from 'react-native';
+=======
+import { FlatList, StyleSheet, Text, View,Image,ScrollView,ActivityIndicator, StatusBar } from 'react-native';
+>>>>>>> 3f16a97280b21af2864425299a15f654f8c94e43
 import { ListItem } from 'react-native-elements'
 import { Card, CardItem, Thumbnail, Body, Left, Right, Button, Icon } from 'native-base'
 
