@@ -2,7 +2,10 @@
   import {View, Text, StyleSheet,ToastAndroid, DeviceEventEmitter,ScrollView} from 'react-native';
   import {Button,Header} from 'react-native-elements';
   import StandList from './standList';
-  import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+  import MapView, {  MAP_TYPES,
+  PROVIDER_DEFAULT,
+  LocalTile,
+  ProviderPropType, } from 'react-native-maps';
   import Card from './components/Card'
 
   var BeaconManager = require('NativeModules').BeaconManager;
@@ -27,16 +30,7 @@
     this.startSubscription.remove();
     this.stopSubscription.remove();
   }
-  getInitialState() {
-    return {
-      region: {
-        latitude: 37.78825,
-        longitude: -122.4324,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
-      },
-    };
-  }
+
   onRegionChange(region) {
     this.setState({ region });
   }
@@ -98,6 +92,12 @@
         }
       })
     }
+    get mapType() {
+    // MapKit does not support 'none' as a base map
+    return this.props.provider === PROVIDER_DEFAULT
+      ? MAP_TYPES.STANDARD
+      : MAP_TYPES.NONE;
+  }
 
     unsuscribeForEvents() {
       this.stopSubscription = DeviceEventEmitter.addListener(BeaconManager.EVENT_BEACONS_RANGE_STOPPED, () => {
@@ -130,21 +130,31 @@
       this.setState({ isLoading: true});
       }
 
+
       render() {
         return (
           <View style={styles.container}>
             <MapView
-              provider={PROVIDER_GOOGLE} // remove if not using Google Maps
+              ref={(ref)=> this.mapRef = ref}
+              provider={this.props.provider}// remove if not using Google Maps
               style={styles.map}
               region={{
-                latitude: 37.78825,
-                longitude: -122.4324,
-                latitudeDelta: 0.015,
-                longitudeDelta: 0.0121,
+                latitude: -34.6403339,
+                longitude: -58.4015757,
+                latitudeDelta: 0.00000001,
+                longitudeDelta: 0.00000001,
               }}
+              minZoomLevel={17}
+              maxZoomLevel={20}
+              rotateEnabled={false}
             >
+            <LocalTile
+              pathTemplate="./tiles/{z}/{x}/{y}.png"
+              tileSize={256}
+              zIndex={-1}
+            />
             </MapView>
-            <View style={{ height: 130, marginTop: 20 }}>
+            <View style={{height: 130, marginBottom: 40 }}>
               <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                 <Card imageUri="https://www.marketingdirecto.com/wp-content/uploads/2019/03/stand.jpg" name="Home"/>
                 <Card imageUri="https://i.pinimg.com/originals/f0/49/06/f04906f1d079f8113e534345e44133a7.jpg" name="Experiences"/>
@@ -160,7 +170,7 @@
   const styles = StyleSheet.create({
     container: {
      ...StyleSheet.absoluteFillObject,
-     height: 400,
+     flex: 1,
      width: 400,
      justifyContent: 'flex-end',
      alignItems: 'center',
