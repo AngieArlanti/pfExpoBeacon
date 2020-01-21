@@ -1,14 +1,22 @@
 import React, { Component } from 'react';
-import { FlatList, StyleSheet, Text, View,Image,ScrollView,ActivityIndicator, StatusBar } from 'react-native';
+import { FlatList, StyleSheet, Text, View,Image,ScrollView,ActivityIndicator, StatusBar, Animated } from 'react-native';
 import { Card, CardItem, Thumbnail, Body, Left, Right, Button, Icon } from 'native-base'
 
 /**
 * @param props properties needed to render StandList:
 * - stands: array of stands' data.
 */
+
+const HEADER_MAX_HEIGHT = 200;
+const HEADER_MIN_HEIGHT = 25;
+const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
+
 export default class StandList extends React.Component {
   constructor(props){
   super(props);
+  this.state = {
+    scrollY: new Animated.Value(0),
+  };
 }
   keyExtractor = (item, index) => index.toString()
 
@@ -19,7 +27,7 @@ export default class StandList extends React.Component {
       </CardItem>
       <CardItem bordered>
         <Body>
-          <Text style={styles.title}>
+          <Text style={styles.dataTitle}>
             {item.title}
           </Text>
           <Text>
@@ -31,6 +39,22 @@ export default class StandList extends React.Component {
   )
 
   render () {
+    const headerHeight = this.state.scrollY.interpolate({
+      inputRange: [0, HEADER_SCROLL_DISTANCE],
+      outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
+      extrapolate: 'clamp',
+    });
+
+    const imageOpacity = this.state.scrollY.interpolate({
+      inputRange: [0, HEADER_SCROLL_DISTANCE / 2, HEADER_SCROLL_DISTANCE],
+      outputRange: [1, 1, 0],
+      extrapolate: 'clamp',
+    });
+    const imageTranslate = this.state.scrollY.interpolate({
+      inputRange: [0, HEADER_SCROLL_DISTANCE],
+      outputRange: [0, -50],
+      extrapolate: 'clamp',
+    });
   if(this.props.isLoadingList){
       return(
         <View style={{flex: 1, padding: 20}}>
@@ -43,13 +67,29 @@ export default class StandList extends React.Component {
       
     <ScrollView
         style={styles.container}
-        contentContainerStyle={styles.contentContainer}>
+        contentContainerStyle={styles.contentContainer}
+        scrollEventThrottle={16}
+        onScroll={Animated.event(
+          [{nativeEvent: {contentOffset: {y: this.state.scrollY}}}]
+          )}
+    >
+      <View style={styles.scrollViewContent}>
     <FlatList
       keyExtractor={this.keyExtractor}
       data={this.props.stands}
       renderItem={this.renderItem}
     />
+    </View>
     </ScrollView>
+    <Animated.View style={[styles.header, {height: headerHeight}]}>
+    <Animated.Image
+      style={[
+        styles.backgroundImage,
+        {opacity: imageOpacity, transform: [{translateY: imageTranslate}]},
+      ]}
+      source={require('./itba.jpg')}
+    />
+    </Animated.View>
   </View>
   )
   }
@@ -85,7 +125,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#fbfbfb',
   },
-  title:{
+  dataTitle:{
     flex: 1,
     textAlign: 'center',
     fontSize: 20,
@@ -94,6 +134,37 @@ const styles = StyleSheet.create({
     height: 200,
     width: null,
     flex: 1,
-    borderRadius: 10,
+  },
+  header: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: '#609bd1',
+    overflow: 'hidden',
+  },
+  bar: {
+    marginTop: 28,
+    height: 32,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  title: {
+    backgroundColor: 'transparent',
+    color: 'white',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  scrollViewContent: {
+    marginTop: HEADER_MAX_HEIGHT,
+  },
+  backgroundImage: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    width: null,
+    height: HEADER_MAX_HEIGHT,
+    resizeMode: 'cover',
   },
 })

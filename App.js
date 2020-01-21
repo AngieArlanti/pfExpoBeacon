@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, View, StatusBar} from 'react-native';
+import {StyleSheet, View, StatusBar, TouchableOpacity, Text} from 'react-native';
 import {Header} from 'react-native-elements';
 import StandList from './standList';
 import StandInfo from './standInfo';
@@ -9,7 +9,8 @@ import { createBottomTabNavigator } from 'react-navigation-tabs';
 import SearchScreen from './searchScreen';
 import ToursScreen from './toursScreen';
 import ProfileScreen from './profileScreen';
-import Icon from 'react-native-vector-icons/Ionicons';  
+import Icon from 'react-native-vector-icons/Ionicons';
+import HeaderImageScrollView, { TriggeringView } from 'react-native-image-header-scroll-view'; 
 
 class App extends Component {
 
@@ -48,9 +49,6 @@ render() {
    <View style={styles.container}>
      <StatusBar hidden = {false} backgroundColor = "rgba(0,0,0,0)" translucent = {true}/>
       <View style={styles.top} >
-            <Header
-      centerComponent={{ text: 'EXPO ITBA', style: { color: '#fff' } }}
-      />
         {(this.state.dataSource !== null && this.state.dataSource !== undefined) &&
         <StandList stands={this.state.dataSource} navigation={this.props.navigation} isLoadingList={this.state.isLoading}/>}
       </View>
@@ -153,7 +151,9 @@ const TabNavigator = createBottomTabNavigator(
   },
   {
     tabBarOptions: {
-      backgroundColor: '#F5FCFF',
+    },
+    style: {
+      backgroundColor: '#609bd1',
     },
   }  
 );
