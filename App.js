@@ -176,6 +176,7 @@ const SearchNavigator = createStackNavigator({
 
 const ToursNavigator = createStackNavigator({
   ToursScreen : ToursScreen,
+  StandInfo: {screen: StandInfo},
 },
 {
     defaultNavigationOptions: {
