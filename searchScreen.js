@@ -84,7 +84,7 @@ suscribeForEvents() {
   }
 
   saveDeviceProximity(standId){
-    fetch('http://192.168.0.75:8080/device_proximity', {
+    fetch('http://192.168.0.76:8080/device_proximity', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
