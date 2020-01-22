@@ -16,13 +16,13 @@ export default class ToursScreen extends React.Component {
           };
     }
     
-// Lifecycle events
-componentDidMount(){
-    this.getAllStands();
+  // Lifecycle events
+  componentDidMount(){
+    this.getSuggestedCongestionTour();
   }
 
-    getAllStands(){
-        return fetch('http://192.168.0.76:8080/stands/list')
+    getSuggestedCongestionTour(){
+        return fetch('http://192.168.0.75:8080/stands/suggested_tour')
           .then((response) => response.json())
           .then((responseJson) => {
             this.setState({

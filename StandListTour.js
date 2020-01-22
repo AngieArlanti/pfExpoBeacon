@@ -42,8 +42,8 @@ export default class StandList extends React.Component {
   return (
     
       <View style={styles.scrollViewContent}>
-        <Text style={styles.title}>Camino sugerido</Text>
-        <Text style={styles.text}>No te pierdas los stands mejor rankeados y recorrelos evitando las congestiones de gente</Text>
+        <Text style={styles.title}>Evitá las filas</Text>
+        <Text style={styles.text}>Chequeá la disponibilidad de los Stands en tiempo real, evitando la congestion de gente</Text>
     <FlatList
       keyExtractor={this.keyExtractor}
       data={this.props.stands}
