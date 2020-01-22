@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import {View, Text, StyleSheet,ToastAndroid, DeviceEventEmitter} from 'react-native';
 import {Button,Header} from 'react-native-elements';
 import StandList from './standList';
+import DeviceInfo from 'react-native-device-info';
+import { getUniqueId } from 'react-native-device-info';
 
 var BeaconManager = require('NativeModules').BeaconManager;
 
@@ -27,7 +29,7 @@ componentWillUnmount() {
 }
 
 getOrderedStands(){
-  return fetch('http://192.168.0.175:8080/stands?id='+this.state.data[0].macAddress)
+  return fetch('http://192.168.0.75:8080/stands?id='+this.state.data[0].macAddress)
     .then((response) => response.json())
     .then((responseJson) => {
       this.setState({
@@ -71,6 +73,7 @@ suscribeForEvents() {
         this.stopRangingBeacons();
         console.log(data);
         ToastAndroid.show("Beacons: " + data.beacons[0].macAddress, ToastAndroid.SHORT);
+        this.saveDeviceProximity(data.beacons[0].macAddress);
         this.setState({
           isDataAvailable: true,
           data: data.beacons
@@ -81,12 +84,26 @@ suscribeForEvents() {
     })
   }
 
+  saveDeviceProximity(standId){
+    fetch('http://192.168.0.75:8080/device_proximity', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        device_id: getUniqueId(),
+        immediate_stand_id: standId,
+      }),
+    });
+  }
+
   unsuscribeForEvents() {
     this.stopSubscription = DeviceEventEmitter.addListener(BeaconManager.EVENT_BEACONS_RANGE_STOPPED, () => {
       ToastAndroid.show("Beacons range stopped", ToastAndroid.SHORT);
       this.startSubscription.remove();
     })
-  }º
+  }
 
     startRangingBeacons() {
         try {
@@ -106,7 +123,7 @@ suscribeForEvents() {
         }
       }
 
-    //Rendering and Screen UI events handrlers
+    //Rendering and Screen UI events handlers
     onRangeButtonPress = e =>{
     this.startRangingBeacons();
     this.setState({ isLoading: true});

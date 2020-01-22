@@ -29,7 +29,7 @@ componentDidMount(){
 // REEMPLAZAR POR 10.0.2.2 SI CORREN EN EMULADOR ANDROID
 // Services TODO: Modularize
 getAllStands(){
-  return fetch('http://192.168.0.175:8080/stands/list')
+  return fetch('http://192.168.0.75:8080/stands/list')
     .then((response) => response.json())
     .then((responseJson) => {
       this.setState({
