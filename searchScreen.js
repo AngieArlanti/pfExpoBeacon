@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet,ToastAndroid, DeviceEventEmitter} from 'react-native';
-import {Button,Header} from 'react-native-elements';
+import {View, StyleSheet,ToastAndroid, DeviceEventEmitter, StatusBar} from 'react-native';
+import {Button} from 'react-native-elements';
 import StandList from './standList';
 
 var BeaconManager = require('NativeModules').BeaconManager;
@@ -115,10 +115,8 @@ suscribeForEvents() {
     render() {
         return(
         <View style={styles.container}>
+          <StatusBar hidden = {false} backgroundColor = '#609bd1' translucent = {true}/>
           <View style={styles.top} >
-           <Header 
-           centerComponent={{ text: 'Buscar', style: { color: '#fff' } }}
-          />
              <Button
                 title="Range"
                 onPress={this.onRangeButtonPress}
@@ -138,6 +136,7 @@ const styles = StyleSheet.create({
     },
     top: {
       flex: 1,
+      padding: 30,
     },
     bottom: {
       flex: 1,
