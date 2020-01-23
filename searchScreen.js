@@ -194,9 +194,27 @@ render() {
 
     <View style={{height: 130, marginBottom: 40 }}>
     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-    <Card imageUri="https://www.marketingdirecto.com/wp-content/uploads/2019/03/stand.jpg" title="Combot" distance="Estás a 7,5 m" nextEvent="Próxima actividad en 16 minutos"/>
-    <Card imageUri="https://i.pinimg.com/originals/f0/49/06/f04906f1d079f8113e534345e44133a7.jpg" title="Auto Fórmula SAE" distance="Estás a 24 m" nextEvent="Próxima actividad en 33 minutos"/>
-    <Card imageUri="https://dextailstands.com/wp-content/uploads/2019/11/Hispack_Zedis_1.jpg" title="Synthetic voice harmonization" distance="Estás a 43m" nextEvent="No hay actividades programadas"/>
+    <Card imageUri="https://user-images.githubusercontent.com/7771294/68998258-f9599f80-088e-11ea-931c-86f192479939.jpeg" title="Combot" distance="Estás a 7,5 m" nextEvent="Próxima actividad en 16 minutos"/>
+    <Card imageUri="https://user-images.githubusercontent.com/7771294/68998284-32920f80-088f-11ea-86aa-648135b7d262.jpg" title="Auto Fórmula SAE" distance="Estás a 24 m" nextEvent="Próxima actividad en 33 minutos"/>
+    <Card imageUri="https://user-images.githubusercontent.com/7771294/68998312-7dac2280-088f-11ea-82b7-975f253f9cdc.jpg" title="Synthetic voice harmonization" distance="Estás a 43m" nextEvent="No hay actividades programadas"/>
+    <Card imageUri="https://user-images.githubusercontent.com/7771294/68998234-83553880-088e-11ea-8763-b01236188de6.jpg" title="Combot" distance="Estás a 7,5 m" nextEvent="Próxima actividad en 16 minutos"/>
+    <Card imageUri="https://user-images.githubusercontent.com/7771294/68998440-358dff80-0891-11ea-9055-3e416cfc00b3.jpeg'" title="Auto Fórmula SAE" distance="Estás a 24 m" nextEvent="Próxima actividad en 33 minutos"/>
+    <Card imageUri="https://user-images.githubusercontent.com/7771294/68998441-36269600-0891-11ea-8cc7-bc9a7172be82.jpeg');" title="Synthetic voice harmonization" distance="Estás a 43m" nextEvent="No hay actividades programadas"/>
+    <Card imageUri="https://user-images.githubusercontent.com/7771294/68998442-36269600-0891-11ea-956c-17edb33f4651.jpg" title="Combot" distance="Estás a 7,5 m" nextEvent="Próxima actividad en 16 minutos"/>
+    <Card imageUri="https://user-images.githubusercontent.com/7771294/68998444-36269600-0891-11ea-8cc5-c0263263fd8f.jpeg" title="Auto Fórmula SAE" distance="Estás a 24 m" nextEvent="Próxima actividad en 33 minutos"/>
+    <Card imageUri="https://user-images.githubusercontent.com/7771294/68998445-36269600-0891-11ea-9747-12d2401e441d.jpg" title="Synthetic voice harmonization" distance="Estás a 43m" nextEvent="No hay actividades programadas"/>
+    <Card imageUri="https://user-images.githubusercontent.com/7771294/68998446-36bf2c80-0891-11ea-8448-d6cf724d30cb.jpg" title="Combot" distance="Estás a 7,5 m" nextEvent="Próxima actividad en 16 minutos"/>
+    <Card imageUri="https://user-images.githubusercontent.com/7771294/68998629-c239bd00-0893-11ea-9f84-9cf179282c6d.jpeg" title="Combot" distance="Estás a 7,5 m" nextEvent="Próxima actividad en 16 minutos"/>
+    <Card imageUri="ttps://user-images.githubusercontent.com/7771294/68998630-c2d25380-0893-11ea-9a90-967494e0fa8d.jpg" title="Combot" distance="Estás a 7,5 m" nextEvent="Próxima actividad en 16 minutos"/>
+    <Card imageUri="https://user-images.githubusercontent.com/7771294/68998631-c2d25380-0893-11ea-8a97-7d1ecf182caf.jpeg" title="Combot" distance="Estás a 7,5 m" nextEvent="Próxima actividad en 16 minutos"/>
+    <Card imageUri="https://user-images.githubusercontent.com/7771294/68998767-522c3680-0895-11ea-92ee-695cc8f8be5f.jpg" title="Combot" distance="Estás a 7,5 m" nextEvent="Próxima actividad en 16 minutos"/>
+    <Card imageUri="https://user-images.githubusercontent.com/7771294/68998766-522c3680-0895-11ea-8246-c929374925e3.jpg" title="Combot" distance="Estás a 7,5 m" nextEvent="Próxima actividad en 16 minutos"/>
+    <Card imageUri="https://user-images.githubusercontent.com/7771294/68998768-52c4cd00-0895-11ea-9851-24ec2a3e31ad.jpeg" title="Combot" distance="Estás a 7,5 m" nextEvent="Próxima actividad en 16 minutos"/>
+    <Card imageUri="https://user-images.githubusercontent.com/7771294/68998806-cbc42480-0895-11ea-9c96-c468c3359a8f.jpeg" title="Combot" distance="Estás a 7,5 m" nextEvent="Próxima actividad en 16 minutos"/>
+    <Card imageUri="https://user-images.githubusercontent.com/7771294/68998873-adaaf400-0896-11ea-9fb7-420463365810.jpg" title="Combot" distance="Estás a 7,5 m" nextEvent="Próxima actividad en 16 minutos"/>
+    <Card imageUri="https://user-images.githubusercontent.com/7771294/68998872-adaaf400-0896-11ea-8ccf-2a7efb2b476e.jpeg" title="Combot" distance="Estás a 7,5 m" nextEvent="Próxima actividad en 16 minutos"/>
+    <Card imageUri="https://user-images.githubusercontent.com/7771294/68998870-adaaf400-0896-11ea-89ca-0a35dc0a5135.jpg" title="Combot" distance="Estás a 7,5 m" nextEvent="Próxima actividad en 16 minutos"/>
+    <Card imageUri="https://user-images.githubusercontent.com/7771294/68998869-adaaf400-0896-11ea-9608-26bf23632411.jpeg" title="Combot" distance="Estás a 7,5 m" nextEvent="Próxima actividad en 16 minutos"/>
     </ScrollView>
     </View>
     </View>
