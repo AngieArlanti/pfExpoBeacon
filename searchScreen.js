@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet,ToastAndroid, DeviceEventEmitter,ScrollView, Dimensions, TouchableOpacity} from 'react-native';
+import {View, Text, StyleSheet,ToastAndroid, DeviceEventEmitter,ScrollView, Dimensions, TouchableOpacity,StatusBar} from 'react-native';
 import {Button,Header} from 'react-native-elements';
 import StandList from './standList';
 import MapView, {
@@ -10,8 +10,8 @@ import MapView, {
   Marker,
   AnimatedRegion,
 } from 'react-native-maps';
-import Card from './components/Card'
 import StandMarker from './components/StandMarker'
+import HorizontalCardGallery from './components/HorizontalCardGallery';
 
 var BeaconManager = require('NativeModules').BeaconManager;
 const { width, height } = Dimensions.get('window');
@@ -31,6 +31,7 @@ export default class SearchScreen extends React.Component {
     this.state = { isDataAvailable: false};
     this.state = { data: [{}]};
     this.state = { dataSource:[{}]};
+    this.state.markerElements =[];
     this.state = {
       coordinate: new AnimatedRegion({
         latitude: LATITUDE,
@@ -39,25 +40,52 @@ export default class SearchScreen extends React.Component {
     };
   }
 
-
-  componentDidUpdate(prevState){
-    if ((prevState.data !== this.state.data) && this.state.data!==undefined) {
-      this.getOrderedStands();
-    }
-  }
   componentWillUnmount() {
     this.startSubscription.remove();
     this.stopSubscription.remove();
+  }
+
+  // Lifecycle events
+  componentDidMount(){
+    this.getAllStands();
+  }
+
+  // TODO Eliminar cuando conectemos con server real.
+  // REEMPLACEN POR SU IP SI CORREN EN ANDROID FISICO, LA PUEDEN OBTENER CON: ifconfig | grep "inet " | grep -v 127.0.0.1
+  // REEMPLAZAR POR 10.0.2.2 SI CORREN EN EMULADOR ANDROID
+  // Services TODO: Modularize
+  getAllStands(){
+    return fetch('http://10.0.2.2:8080/stands/list')
+      .then((response) => response.json())
+      .then((responseJson) => {
+      var markerElementMap = responseJson.map(function(responseJson) {
+          return {
+            id: responseJson.id,
+            latlng: {
+            latitude: responseJson.latitude,
+            longitude: responseJson.longitude
+            }
+          }
+        });
+        this.setState({
+          isLoading: false,
+          dataSource: responseJson,
+          markerElements:markerElementMap,
+        }, function(){
+        });
+      })
+      .catch((error) =>{
+        console.error(error);
+      });
   }
 
   onRegionChange(region) {
     this.setState({ region });
   }
   getOrderedStands(){
-    return fetch('http://private-f63ff-standsv1.apiary-mock.com/stands/'+this.state.data[0].macAddress)
+    return fetch('http://10.0.2.2:8080/stands?id='+this.state.data[0].macAddress)
     .then((response) => response.json())
     .then((responseJson) => {
-      console.log(responseJson);
       this.setState({
         isLoading: false,
         dataSource: responseJson,
@@ -100,7 +128,6 @@ export default class SearchScreen extends React.Component {
   */
   if(data.beacons){
     this.stopRangingBeacons();
-    console.log(data);
     ToastAndroid.show("Beacons: " + data.beacons[0].macAddress, ToastAndroid.SHORT);
     this.setState({
       isDataAvailable: true,
@@ -151,10 +178,12 @@ onRangeButtonPress = e =>{
 }
 
 render() {
-  var pathTemplate= "/storage/emulated/0/maps/{z}/{x}/{y}.png"
-  //"./tiles/{z}/{x}/{y}.png"
+  if(this.state.markerElements === undefined){
+    this.state.markerElements = [];
+  }
   return (
     <View style={styles.container}>
+    <StatusBar hidden={false} backgroundColor="#609bd1" translucent={true}/>
     <MapView
     style={styles.map}
     region={{
@@ -164,58 +193,30 @@ render() {
       longitudeDelta: LONGITUDE_DELTA,
     }}
     minZoomLevel={17}
-    maxZoomLevel={20}
+    maxZoomLevel={22}
     rotateEnabled={false}
     >
-    <Marker
-    onPress={() => this.setState({ marker1: !this.state.marker1 })}
-    coordinate={{
-      latitude: LATITUDE + SPACE,
-      longitude: LONGITUDE + SPACE,
-    }}
-    centerOffset={{ x: -18, y: -60 }}
-    anchor={{ x: 0.69, y: 1 }}
-    >
-    <StandMarker standId={123}/>
-    </Marker>
-    <Marker
-    onPress={() => this.setState({ marker1: !this.state.marker1 })}
-    coordinate={{
-      latitude: LATITUDE + SPACE,
-      longitude: LONGITUDE + SPACE,
-    }}
-    centerOffset={{ x: -15, y: -15 }}
-    anchor={{ x: 0.1, y: 0.2 }}
-    >
-    <StandMarker standId={212}/>
-    </Marker>
-    <UrlTile urlTemplate={pathTemplate} tileSize={256} zIndex={1} />
+    {
+      this.state.markerElements.map(marker => {
+        return (
+          <Marker
+          onPress={() => this.setState({ markerSelected:marker.id})}
+          coordinate={marker.latlng}
+          >
+            <StandMarker standId={marker.id}/>
+          </Marker>
+        );
+      })
+    }
     </MapView>
 
-    <View style={{height: 130, marginBottom: 40 }}>
-    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-    <Card imageUri="https://user-images.githubusercontent.com/7771294/68998258-f9599f80-088e-11ea-931c-86f192479939.jpeg" title="Combot" distance="Estás a 7,5 m" nextEvent="Próxima actividad en 16 minutos"/>
-    <Card imageUri="https://user-images.githubusercontent.com/7771294/68998284-32920f80-088f-11ea-86aa-648135b7d262.jpg" title="Auto Fórmula SAE" distance="Estás a 24 m" nextEvent="Próxima actividad en 33 minutos"/>
-    <Card imageUri="https://user-images.githubusercontent.com/7771294/68998312-7dac2280-088f-11ea-82b7-975f253f9cdc.jpg" title="Synthetic voice harmonization" distance="Estás a 43m" nextEvent="No hay actividades programadas"/>
-    <Card imageUri="https://user-images.githubusercontent.com/7771294/68998234-83553880-088e-11ea-8763-b01236188de6.jpg" title="Combot" distance="Estás a 7,5 m" nextEvent="Próxima actividad en 16 minutos"/>
-    <Card imageUri="https://user-images.githubusercontent.com/7771294/68998440-358dff80-0891-11ea-9055-3e416cfc00b3.jpeg'" title="Auto Fórmula SAE" distance="Estás a 24 m" nextEvent="Próxima actividad en 33 minutos"/>
-    <Card imageUri="https://user-images.githubusercontent.com/7771294/68998441-36269600-0891-11ea-8cc7-bc9a7172be82.jpeg');" title="Synthetic voice harmonization" distance="Estás a 43m" nextEvent="No hay actividades programadas"/>
-    <Card imageUri="https://user-images.githubusercontent.com/7771294/68998442-36269600-0891-11ea-956c-17edb33f4651.jpg" title="Combot" distance="Estás a 7,5 m" nextEvent="Próxima actividad en 16 minutos"/>
-    <Card imageUri="https://user-images.githubusercontent.com/7771294/68998444-36269600-0891-11ea-8cc5-c0263263fd8f.jpeg" title="Auto Fórmula SAE" distance="Estás a 24 m" nextEvent="Próxima actividad en 33 minutos"/>
-    <Card imageUri="https://user-images.githubusercontent.com/7771294/68998445-36269600-0891-11ea-9747-12d2401e441d.jpg" title="Synthetic voice harmonization" distance="Estás a 43m" nextEvent="No hay actividades programadas"/>
-    <Card imageUri="https://user-images.githubusercontent.com/7771294/68998446-36bf2c80-0891-11ea-8448-d6cf724d30cb.jpg" title="Combot" distance="Estás a 7,5 m" nextEvent="Próxima actividad en 16 minutos"/>
-    <Card imageUri="https://user-images.githubusercontent.com/7771294/68998629-c239bd00-0893-11ea-9f84-9cf179282c6d.jpeg" title="Combot" distance="Estás a 7,5 m" nextEvent="Próxima actividad en 16 minutos"/>
-    <Card imageUri="ttps://user-images.githubusercontent.com/7771294/68998630-c2d25380-0893-11ea-9a90-967494e0fa8d.jpg" title="Combot" distance="Estás a 7,5 m" nextEvent="Próxima actividad en 16 minutos"/>
-    <Card imageUri="https://user-images.githubusercontent.com/7771294/68998631-c2d25380-0893-11ea-8a97-7d1ecf182caf.jpeg" title="Combot" distance="Estás a 7,5 m" nextEvent="Próxima actividad en 16 minutos"/>
-    <Card imageUri="https://user-images.githubusercontent.com/7771294/68998767-522c3680-0895-11ea-92ee-695cc8f8be5f.jpg" title="Combot" distance="Estás a 7,5 m" nextEvent="Próxima actividad en 16 minutos"/>
-    <Card imageUri="https://user-images.githubusercontent.com/7771294/68998766-522c3680-0895-11ea-8246-c929374925e3.jpg" title="Combot" distance="Estás a 7,5 m" nextEvent="Próxima actividad en 16 minutos"/>
-    <Card imageUri="https://user-images.githubusercontent.com/7771294/68998768-52c4cd00-0895-11ea-9851-24ec2a3e31ad.jpeg" title="Combot" distance="Estás a 7,5 m" nextEvent="Próxima actividad en 16 minutos"/>
-    <Card imageUri="https://user-images.githubusercontent.com/7771294/68998806-cbc42480-0895-11ea-9c96-c468c3359a8f.jpeg" title="Combot" distance="Estás a 7,5 m" nextEvent="Próxima actividad en 16 minutos"/>
-    <Card imageUri="https://user-images.githubusercontent.com/7771294/68998873-adaaf400-0896-11ea-9fb7-420463365810.jpg" title="Combot" distance="Estás a 7,5 m" nextEvent="Próxima actividad en 16 minutos"/>
-    <Card imageUri="https://user-images.githubusercontent.com/7771294/68998872-adaaf400-0896-11ea-8ccf-2a7efb2b476e.jpeg" title="Combot" distance="Estás a 7,5 m" nextEvent="Próxima actividad en 16 minutos"/>
-    <Card imageUri="https://user-images.githubusercontent.com/7771294/68998870-adaaf400-0896-11ea-89ca-0a35dc0a5135.jpg" title="Combot" distance="Estás a 7,5 m" nextEvent="Próxima actividad en 16 minutos"/>
-    <Card imageUri="https://user-images.githubusercontent.com/7771294/68998869-adaaf400-0896-11ea-9608-26bf23632411.jpeg" title="Combot" distance="Estás a 7,5 m" nextEvent="Próxima actividad en 16 minutos"/>
-    </ScrollView>
+    <View style={styles.bottom}>
+      <HorizontalCardGallery
+      style={styles.cardGallery}
+      stands={this.state.dataSource}
+      selected={this.state.markerSelected}
+      navigation={this.props.navigation}
+      />
     </View>
     </View>
   );
@@ -224,9 +225,7 @@ render() {
 
 const styles = StyleSheet.create({
   container: {
-    ...StyleSheet.absoluteFillObject,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
+    flex: 1,
   },
   map: {
     position: 'absolute',
@@ -239,6 +238,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginVertical: 20,
     backgroundColor: 'transparent',
+  },
+  bottom: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    marginBottom: 24,
+  },
+  cardGallery:{
+    position: 'absolute',
+    bottom:0,
   },
   bubble: {
     flex: 1,
