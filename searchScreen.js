@@ -186,7 +186,7 @@ render() {
     <StatusBar hidden={false} backgroundColor="#609bd1" translucent={true}/>
     <MapView
     style={styles.map}
-    region={{
+    initialRegion={{
       latitude: LATITUDE,
       longitude: LONGITUDE,
       latitudeDelta: LATITUDE_DELTA,
