@@ -61,6 +61,7 @@ export default class SearchScreen extends React.Component {
       var markerElementMap = responseJson.map(function(responseJson) {
           return {
             id: responseJson.id,
+            stand_number: responseJson.stand_number,
             latlng: {
             latitude: responseJson.latitude,
             longitude: responseJson.longitude
@@ -200,10 +201,11 @@ render() {
       this.state.markerElements.map(marker => {
         return (
           <Marker
+          key={marker.id}
           onPress={() => this.setState({ markerSelected:marker.id})}
           coordinate={marker.latlng}
           >
-            <StandMarker standId={marker.id}/>
+            <StandMarker standId={marker.stand_number+100}/>
           </Marker>
         );
       })
