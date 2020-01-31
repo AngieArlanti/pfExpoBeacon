@@ -12,6 +12,7 @@ import MapView, {
 } from 'react-native-maps';
 import StandMarker from './components/StandMarker'
 import HorizontalCardGallery from './components/HorizontalCardGallery';
+import StyleCommons from './assets/styles/StyleCommons'
 
 var BeaconManager = require('NativeModules').BeaconManager;
 const { width, height } = Dimensions.get('window');
@@ -58,10 +59,11 @@ export default class SearchScreen extends React.Component {
     return fetch('http://10.0.2.2:8080/stands/list')
       .then((response) => response.json())
       .then((responseJson) => {
-      var markerElementMap = responseJson.map(function(responseJson) {
+      var markerElementMap = responseJson.map(function(responseJson,index) {
           return {
             id: responseJson.id,
             stand_number: responseJson.stand_number,
+            stand_index: index,
             latlng: {
             latitude: responseJson.latitude,
             longitude: responseJson.longitude
@@ -202,7 +204,7 @@ render() {
         return (
           <Marker
           key={marker.id}
-          onPress={() => this.setState({ markerSelected:marker.id})}
+          onPress={() => this.setState({ markerSelected:marker.stand_index})}
           coordinate={marker.latlng}
           >
             <StandMarker standId={marker.stand_number+100}/>
@@ -216,7 +218,7 @@ render() {
       <HorizontalCardGallery
       style={styles.cardGallery}
       stands={this.state.dataSource}
-      selected={this.state.markerSelected}
+      indexSelected={this.state.markerSelected}
       navigation={this.props.navigation}
       />
     </View>

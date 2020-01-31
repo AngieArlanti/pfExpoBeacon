@@ -15,7 +15,7 @@ export default class HorizontalCardGallery extends React.Component {
   keyExtractor = (item, index) => index.toString()
 
   componentDidUpdate(prevProps) {
-     if ((prevProps.selected !== this.props.selected) && (this.props.selected!== undefined)) {
+     if ((prevProps.indexSelected !== this.props.indexSelected) && (this.props.indexSelected!== undefined)) {
        this.scrollToItem();
      }
    }
@@ -25,11 +25,7 @@ export default class HorizontalCardGallery extends React.Component {
   )
 
   scrollToItem = () => {
-    console.log("Stand"+this.props.stands);
-    console.log("Selected"+this.props.selected);
-    selectedStand = this.props.stands.filter(stand => stand.id === this.props.selected);
-    console.log("TUVITUVI: "+JSON.stringify(selectedStand[0]));
-    this.flatListRef.scrollToItem(selectedStand[0]);
+    this.flatListRef.scrollToIndex({index:this.props.indexSelected, viewPosition:0.5, animated:true});
   }
 
   render () {
