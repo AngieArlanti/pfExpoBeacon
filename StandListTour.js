@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { FlatList, StyleSheet, Text, View,Image,ActivityIndicator, StatusBar} from 'react-native';
-import { Card, CardItem, Thumbnail, Body, Left, Right, Button, Icon } from 'native-base'
+import { FlatList, StyleSheet, View,ActivityIndicator, Text} from 'react-native';
+import { ListItem } from 'react-native-elements'
 
 /**
 * @param props properties needed to render StandList:
@@ -12,26 +12,22 @@ const HEADER_MAX_HEIGHT = 300;
 export default class StandList extends React.Component {
   constructor(props){
   super(props);
-
 }
   keyExtractor = (item, index) => index.toString()
 
-  renderItem = ({ item }) => (
-    <Card style={{borderRadius: 100}}>
-      <CardItem bordered cardBody button onPress= {() => this.props.navigation.navigate('StandInfo', {item : item })}>
-        <Image source={{ uri :  item.cover }} style={styles.image} />
-      </CardItem>
-      <CardItem bordered>
-        <Body>
-          <Text style={styles.dataTitle}>
-            {item.title}
-          </Text>
-          <Text>
-            {item.short_description}
-          </Text>
-        </Body>
-      </CardItem>
-    </Card>
+  renderItem = (item, index) => (
+    <ListItem
+    leftElement={index}
+    title={item.title}
+    subtitle={item.short_description}
+    leftAvatar={{
+      source: item.cover && { uri: item.cover }
+    }}
+    onPress= {() => this.props.navigation.navigate('StandInfo', {
+      item : item })}
+    bottomDivider
+    chevron
+  />
   )
 
   render () {
@@ -46,10 +42,12 @@ export default class StandList extends React.Component {
   return (
     
       <View style={styles.scrollViewContent}>
+        <Text style={styles.title}>Evitá las filas</Text>
+        <Text style={styles.text}>Chequeá la disponibilidad de los Stands en tiempo real, evitando la congestion de gente</Text>
     <FlatList
       keyExtractor={this.keyExtractor}
       data={this.props.stands}
-      renderItem={this.renderItem}
+      renderItem={({item, index}) => this.renderItem(item, index+1)}
     />
     </View>
     
@@ -94,5 +92,18 @@ const styles = StyleSheet.create({
   },
   scrollViewContent: {
     marginTop: HEADER_MAX_HEIGHT,
+  },
+  title: {
+    backgroundColor: 'transparent',
+    fontSize: 30,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    justifyContent: "center",
+  },
+  text: {
+    fontSize: 15,
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 10,
   },
 })

@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.List;
 import javax.annotation.Nonnull;
 
-public class BeaconMonitorPakage implements ReactPackage {
+public class BeaconMonitorPackage implements ReactPackage {
 
     @Nonnull
     @Override
