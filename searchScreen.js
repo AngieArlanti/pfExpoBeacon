@@ -15,6 +15,7 @@ import StandMarker from './components/StandMarker';
 import LocationMarker from './components/LocationMarker';
 import HorizontalCardGallery from './components/HorizontalCardGallery';
 import StyleCommons from './assets/styles/StyleCommons';
+import { getUniqueId } from 'react-native-device-info';
 
 var BeaconManager = require('NativeModules').BeaconManager;
 const { width, height } = Dimensions.get('window');
@@ -61,29 +62,29 @@ export default class SearchScreen extends React.Component {
   // Services TODO: Modularize
   getAllStands(){
     return fetch('http://10.0.2.2:8080/stands/list')
-      .then((response) => response.json())
-      .then((responseJson) => {
+    .then((response) => response.json())
+    .then((responseJson) => {
       var markerElementMap = responseJson.map(function(responseJson,index) {
-          return {
-            id: responseJson.id,
-            stand_number: responseJson.stand_number,
-            stand_index: index,
-            latlng: {
+        return {
+          id: responseJson.id,
+          stand_number: responseJson.stand_number,
+          stand_index: index,
+          latlng: {
             latitude: responseJson.latitude,
             longitude: responseJson.longitude
-            }
           }
-        });
-        this.setState({
-          isLoading: false,
-          dataSource: responseJson,
-          markerElements:markerElementMap,
-        }, function(){
-        });
-      })
-      .catch((error) =>{
-        console.error(error);
+        }
       });
+      this.setState({
+        isLoading: false,
+        dataSource: responseJson,
+        markerElements:markerElementMap,
+      }, function(){
+      });
+    })
+    .catch((error) =>{
+      console.error(error);
+    });
   }
 
   onRegionChange(region) {
@@ -135,7 +136,9 @@ export default class SearchScreen extends React.Component {
   */
   if(data.beacons){
     this.stopRangingBeacons();
+    console.log(data);
     ToastAndroid.show("Beacons: " + data.beacons[0].macAddress, ToastAndroid.SHORT);
+    this.saveDeviceProximity(data.beacons[0].macAddress);
     this.setState({
       isDataAvailable: true,
       data: data.beacons
@@ -145,6 +148,7 @@ export default class SearchScreen extends React.Component {
   }
 })
 }
+
 get mapType() {
   // MapKit does not support 'none' as a base map
   return this.props.provider === PROVIDER_DEFAULT
@@ -152,6 +156,19 @@ get mapType() {
   : MAP_TYPES.NONE;
 }
 
+saveDeviceProximity(standId){
+  fetch('http://192.168.0.75:8080/device_proximity', {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      device_id: getUniqueId(),
+      immediate_stand_id: standId,
+    }),
+  });
+}
 
 unsuscribeForEvents() {
   this.stopSubscription = DeviceEventEmitter.addListener(BeaconManager.EVENT_BEACONS_RANGE_STOPPED, () => {
@@ -168,6 +185,7 @@ startRangingBeacons() {
     console.error(e);
   }
 }
+
 stopRangingBeacons() {
   this.setState({ isLoading: false});
   try {
@@ -178,101 +196,106 @@ stopRangingBeacons() {
   }
 }
 
-//Rendering and Screen UI events handrlers
+//Rendering and Screen UI events handlers
 onRangeButtonPress = e =>{
   this.startRangingBeacons();
   this.setState({ isLoading: true});
-}
 
-//Rendering and Screen UI events handrlers
-onGpsButtonPress = e =>{
-  console.log("GPS button pressed");
-  this.locateGuy(true);
-}
+  //Rendering and Screen UI events handrlers
+  onRangeButtonPress = e =>{
+    this.startRangingBeacons();
+    this.setState({ isLoading: true});
+  }
 
-//Rendering and Screen UI events handrlers
-onDirectionsButtonPress = e =>{
-  this.locateGuy();
-  this.showRouteTour(this.state.dataSource);
-}
+  //Rendering and Screen UI events handrlers
+  onGpsButtonPress = e =>{
+    console.log("GPS button pressed");
+    this.locateGuy(true);
+  }
 
-locateGuy(renderPath){
-  var fakeLocation =  [{
-        id: "ldksfjdslkf",
-        center: {
-          latitude: -34.6403200,
-          longitude: -58.401555,
-        },
-        radius: 1,
-      }];
-  console.log({renderPath});
-  this.setState({
-    locationMarker:fakeLocation,
-  }, function(renderPath){
-    console.log(renderPath);
-    if({renderPath}){
-      this.fillPolylineDataSource();
-    }
+  //Rendering and Screen UI events handrlers
+  onDirectionsButtonPress = e =>{
+    this.locateGuy();
+    this.showRouteTour(this.state.dataSource);
+  }
 
-  });
-}
+  locateGuy(renderPath){
+    var fakeLocation =  [{
+      id: "ldksfjdslkf",
+      center: {
+        latitude: -34.6403200,
+        longitude: -58.401555,
+      },
+      radius: 1,
+    }];
+    console.log({renderPath});
+    this.setState({
+      locationMarker:fakeLocation,
+    }, function(renderPath){
+      console.log(renderPath);
+      if({renderPath}){
+        this.fillPolylineDataSource();
+      }
 
-fillPolylineDataSource(){
-  let stand = [];
-  stand.push(this.state.dataSource[7]);
-  console.log("fillPolylineDataSource");
+    });
+  }
 
-  if (this.state.locationMarker!== undefined && this.state.locationMarker.length > 0){
-    let location=this.state.locationMarker.map(function(location){return {
-      latitude: location.center.latitude,
-      longitude: location.center.longitude
-    }});
-    if (stand !== undefined && location !== undefined) {
-      this.showRouteTour(stand, location[0]);
+  fillPolylineDataSource(){
+    let stand = [];
+    stand.push(this.state.dataSource[7]);
+    console.log("fillPolylineDataSource");
+
+    if (this.state.locationMarker!== undefined && this.state.locationMarker.length > 0){
+      let location=this.state.locationMarker.map(function(location){return {
+        latitude: location.center.latitude,
+        longitude: location.center.longitude
+      }});
+      if (stand !== undefined && location !== undefined) {
+        this.showRouteTour(stand, location[0]);
+      }
     }
   }
-}
 
-showRouteTour(stands,currentLocation){
+  showRouteTour(stands,currentLocation){
     let pois=stands.map(function(stand) {
-        return {
-          latitude: stand.latitude,
-          longitude: stand.longitude
-        }
-      });
+      return {
+        latitude: stand.latitude,
+        longitude: stand.longitude
+      }
+    });
     pois.unshift(currentLocation);
     console.log(pois);
     this.setState({
-              polyline:pois,
+      polyline:pois,
     }, function(){
     });
-}
+  }
 
-render() {
-  if(this.state.markerElements === undefined){
-    this.state.markerElements = [];
-  }
-  if(this.state.locationMarker === undefined){
-    this.state.locationMarker = [];
-  }
-  if(this.state.polyline === undefined){
-    this.state.polyline = [];
-  }
-  return (
-    <View style={styles.container}>
-    <StatusBar hidden={false} backgroundColor="#609bd1" translucent={true}/>
-    <MapView
-    style={styles.map}
-    initialRegion={{
-      latitude: LATITUDE,
-      longitude: LONGITUDE,
-      latitudeDelta: LATITUDE_DELTA,
-      longitudeDelta: LONGITUDE_DELTA,
-    }}
-    minZoomLevel={17}
-    maxZoomLevel={22}
-    rotateEnabled={false}
-    >
+  render() {
+    if(this.state.markerElements === undefined){
+      this.state.markerElements = [];
+    }
+    if(this.state.locationMarker === undefined){
+      this.state.locationMarker = [];
+    }
+    if(this.state.polyline === undefined){
+      this.state.polyline = [];
+    }
+    return (
+      <View style={styles.container}>
+      <StatusBar hidden={false} backgroundColor="#609bd1" translucent={true}/>
+      <MapView
+      style={styles.map}
+      initialRegion={{
+        latitude: LATITUDE,
+        longitude: LONGITUDE,
+        latitudeDelta: LATITUDE_DELTA,
+        longitudeDelta: LONGITUDE_DELTA,
+      }}
+      minZoomLevel={17}
+      maxZoomLevel={22}
+      rotateEnabled={false}
+      >
       {
         this.state.markerElements.map(marker => {
           return (
@@ -284,7 +307,7 @@ render() {
             calloutAnchor={{ x: 0, y: 0 }}
             anchor={{ x: 0.5, y: 0.5 }}
             >
-              <StandMarker standId={marker.stand_number+100}/>
+            <StandMarker standId={marker.stand_number+100}/>
             </Marker>
           );
         })
@@ -293,38 +316,38 @@ render() {
         this.state.locationMarker.map(loc=>{
           return (
             <Marker
-              key={loc.id}
-              coordinate={loc.center}
-              style={styles.locationMarkerStyle}
-              calloutAnchor={{ x: 0, y: 0 }}
-              anchor={{ x: 0.5, y: 0.5 }}
-              >
-              <LocationMarker/>
+            key={loc.id}
+            coordinate={loc.center}
+            style={styles.locationMarkerStyle}
+            calloutAnchor={{ x: 0, y: 0 }}
+            anchor={{ x: 0.5, y: 0.5 }}
+            >
+            <LocationMarker/>
             </Marker>
           );
         })
       }
-    <Polyline
-            coordinates={this.state.polyline}
-            strokeColor="green"
-            strokeWidth={3}
-          />
-    </MapView>
+      <Polyline
+      coordinates={this.state.polyline}
+      strokeColor="green"
+      strokeWidth={3}
+      />
+      </MapView>
 
-    <View style={styles.bottom}>
+      <View style={styles.bottom}>
       <TouchableOpacity style={styles.gpsButton} onPress={this.onGpsButtonPress}>
-        <Icon name={"gps-fixed"}  size={20} color="black" />
+      <Icon name={"gps-fixed"}  size={20} color="black" />
       </TouchableOpacity>
       <HorizontalCardGallery
-        style={styles.cardGallery}
-        stands={this.state.dataSource}
-        indexSelected={this.state.markerSelected}
-        navigation={this.props.navigation}
+      style={styles.cardGallery}
+      stands={this.state.dataSource}
+      indexSelected={this.state.markerSelected}
+      navigation={this.props.navigation}
       />
-    </View>
-    </View>
-  );
-}
+      </View>
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
@@ -360,17 +383,17 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   gpsButton: {
-      borderWidth:1,
-      borderColor:'rgba(0,0,0,0.2)',
-      alignItems:'center',
-      justifyContent:'center',
-      width:40,
-      height:40,
-      backgroundColor:'#fff',
-      borderRadius:50,
-      alignSelf: 'flex-end',
-      marginBottom: 16,
-      marginRight: 8,
+    borderWidth:1,
+    borderColor:'rgba(0,0,0,0.2)',
+    alignItems:'center',
+    justifyContent:'center',
+    width:40,
+    height:40,
+    backgroundColor:'#fff',
+    borderRadius:50,
+    alignSelf: 'flex-end',
+    marginBottom: 16,
+    marginRight: 8,
   },
   standMarkerStyle:{
     position: 'absolute',

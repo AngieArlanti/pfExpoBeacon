@@ -10,7 +10,7 @@ import ToursScreen from './toursScreen';
 import ProfileScreen from './profileScreen';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-const HEADER_MAX_HEIGHT = 200;
+const HEADER_MAX_HEIGHT = 300;
 const HEADER_MIN_HEIGHT = 25;
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
@@ -30,18 +30,12 @@ componentDidMount(){
   this.getAllStands();
 }
 
-componentDidUpdate(){
-  StatusBar.setTranslucent(true);
-  StatusBar.setBackgroundColor("rgba(1,0,0,0)");
-  StatusBar.setHidden(false);
-}
-
 // TODO Eliminar cuando conectemos con server real.
 // REEMPLACEN POR SU IP SI CORREN EN ANDROID FISICO, LA PUEDEN OBTENER CON: ifconfig | grep "inet " | grep -v 127.0.0.1
 // REEMPLAZAR POR 10.0.2.2 SI CORREN EN EMULADOR ANDROID
 // Services TODO: Modularize
 getAllStands(){
-  return fetch('http://10.0.2.2:8080/stands/list')
+  return fetch('http://192.168.0.75:8080/stands/list')
     .then((response) => response.json())
     .then((responseJson) => {
       this.setState({
@@ -182,6 +176,7 @@ const SearchNavigator = createStackNavigator({
 
 const ToursNavigator = createStackNavigator({
   ToursScreen : ToursScreen,
+  StandInfo: {screen: StandInfo},
 },
 {
     defaultNavigationOptions: {
