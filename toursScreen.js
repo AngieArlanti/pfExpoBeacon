@@ -15,14 +15,14 @@ export default class ToursScreen extends React.Component {
             scrollY: new Animated.Value(0),
           };
     }
-    
+
   // Lifecycle events
   componentDidMount(){
     this.getSuggestedCongestionTour();
   }
 
     getSuggestedCongestionTour(){
-        return fetch('http://192.168.0.75:8080/stands/suggested_tour')
+        return fetch('http://10.0.2.2:8080/stands/suggested_tour')
           .then((response) => response.json())
           .then((responseJson) => {
             this.setState({
@@ -42,7 +42,7 @@ export default class ToursScreen extends React.Component {
             outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
             extrapolate: 'clamp',
           });
-        
+
           const imageOpacity = this.state.scrollY.interpolate({
             inputRange: [0, HEADER_SCROLL_DISTANCE / 2, HEADER_SCROLL_DISTANCE],
             outputRange: [1, 1, 0],
@@ -56,9 +56,9 @@ export default class ToursScreen extends React.Component {
         return(
             <View style={styles.container}>
             <StatusBar hidden = {false} backgroundColor = "rgba(0,0,0,0)" translucent = {true}/>
-    
+
              <View style={styles.container}>
-             
+
              <ScrollView
                  style={styles.container}
                  contentContainerStyle={styles.contentContainer}
@@ -70,7 +70,7 @@ export default class ToursScreen extends React.Component {
                {(this.state.dataSource !== null && this.state.dataSource !== undefined) &&
                <StandListTour stands={this.state.dataSource} navigation={this.props.navigation} isLoadingList={this.state.isLoading}/>}
                </ScrollView>
-           
+
            </View>
              <Animated.View style={[styles.header, {height: headerHeight}]}>
            <Animated.Image
