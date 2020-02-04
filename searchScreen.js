@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet,ToastAndroid, DeviceEventEmitter,ScrollView, Dimensions, TouchableOpacity,StatusBar} from 'react-native';
-import {Button,Header} from 'react-native-elements';
+import {Button, Header, Icon} from 'react-native-elements';
 import StandList from './standList';
 import MapView, {
   MAP_TYPES,
@@ -9,10 +9,12 @@ import MapView, {
   UrlTile,
   Marker,
   AnimatedRegion,
+  Polyline,
 } from 'react-native-maps';
-import StandMarker from './components/StandMarker'
+import StandMarker from './components/StandMarker';
+import LocationMarker from './components/LocationMarker';
 import HorizontalCardGallery from './components/HorizontalCardGallery';
-import StyleCommons from './assets/styles/StyleCommons'
+import StyleCommons from './assets/styles/StyleCommons';
 
 var BeaconManager = require('NativeModules').BeaconManager;
 const { width, height } = Dimensions.get('window');
@@ -33,6 +35,8 @@ export default class SearchScreen extends React.Component {
     this.state = { data: [{}]};
     this.state = { dataSource:[{}]};
     this.state.markerElements =[];
+    this.state.locationMarker =[];
+    this.state.polyline =[];
     this.state = {
       coordinate: new AnimatedRegion({
         latitude: LATITUDE,
@@ -180,9 +184,79 @@ onRangeButtonPress = e =>{
   this.setState({ isLoading: true});
 }
 
+//Rendering and Screen UI events handrlers
+onGpsButtonPress = e =>{
+  console.log("GPS button pressed");
+  this.locateGuy(true);
+}
+
+//Rendering and Screen UI events handrlers
+onDirectionsButtonPress = e =>{
+  this.locateGuy();
+  this.showRouteTour(this.state.dataSource);
+}
+
+locateGuy(renderPath){
+  var fakeLocation =  [{
+        id: "ldksfjdslkf",
+        center: {
+          latitude: -34.6403200,
+          longitude: -58.401555,
+        },
+        radius: 1,
+      }];
+  console.log({renderPath});
+  this.setState({
+    locationMarker:fakeLocation,
+  }, function(renderPath){
+    console.log(renderPath);
+    if({renderPath}){
+      this.fillPolylineDataSource();
+    }
+
+  });
+}
+
+fillPolylineDataSource(){
+  let stand = [];
+  stand.push(this.state.dataSource[7]);
+  console.log("fillPolylineDataSource");
+
+  if (this.state.locationMarker!== undefined && this.state.locationMarker.length > 0){
+    let location=this.state.locationMarker.map(function(location){return {
+      latitude: location.center.latitude,
+      longitude: location.center.longitude
+    }});
+    if (stand !== undefined && location !== undefined) {
+      this.showRouteTour(stand, location[0]);
+    }
+  }
+}
+
+showRouteTour(stands,currentLocation){
+    let pois=stands.map(function(stand) {
+        return {
+          latitude: stand.latitude,
+          longitude: stand.longitude
+        }
+      });
+    pois.unshift(currentLocation);
+    console.log(pois);
+    this.setState({
+              polyline:pois,
+    }, function(){
+    });
+}
+
 render() {
   if(this.state.markerElements === undefined){
     this.state.markerElements = [];
+  }
+  if(this.state.locationMarker === undefined){
+    this.state.locationMarker = [];
+  }
+  if(this.state.polyline === undefined){
+    this.state.polyline = [];
   }
   return (
     <View style={styles.container}>
@@ -199,27 +273,53 @@ render() {
     maxZoomLevel={22}
     rotateEnabled={false}
     >
-    {
-      this.state.markerElements.map(marker => {
-        return (
-          <Marker
-          key={marker.id}
-          onPress={() => this.setState({ markerSelected:marker.stand_index})}
-          coordinate={marker.latlng}
-          >
-            <StandMarker standId={marker.stand_number+100}/>
-          </Marker>
-        );
-      })
-    }
+      {
+        this.state.markerElements.map(marker => {
+          return (
+            <Marker
+            key={marker.id}
+            onPress={() => this.setState({ markerSelected:marker.stand_index})}
+            coordinate={marker.latlng}
+            style={styles.standMarkerStyle}
+            calloutAnchor={{ x: 0, y: 0 }}
+            anchor={{ x: 0.5, y: 0.5 }}
+            >
+              <StandMarker standId={marker.stand_number+100}/>
+            </Marker>
+          );
+        })
+      }
+      {
+        this.state.locationMarker.map(loc=>{
+          return (
+            <Marker
+              key={loc.id}
+              coordinate={loc.center}
+              style={styles.locationMarkerStyle}
+              calloutAnchor={{ x: 0, y: 0 }}
+              anchor={{ x: 0.5, y: 0.5 }}
+              >
+              <LocationMarker/>
+            </Marker>
+          );
+        })
+      }
+    <Polyline
+            coordinates={this.state.polyline}
+            strokeColor="green"
+            strokeWidth={3}
+          />
     </MapView>
 
     <View style={styles.bottom}>
+      <TouchableOpacity style={styles.gpsButton} onPress={this.onGpsButtonPress}>
+        <Icon name={"gps-fixed"}  size={20} color="black" />
+      </TouchableOpacity>
       <HorizontalCardGallery
-      style={styles.cardGallery}
-      stands={this.state.dataSource}
-      indexSelected={this.state.markerSelected}
-      navigation={this.props.navigation}
+        style={styles.cardGallery}
+        stands={this.state.dataSource}
+        indexSelected={this.state.markerSelected}
+        navigation={this.props.navigation}
       />
     </View>
     </View>
@@ -259,4 +359,25 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     borderRadius: 20,
   },
+  gpsButton: {
+      borderWidth:1,
+      borderColor:'rgba(0,0,0,0.2)',
+      alignItems:'center',
+      justifyContent:'center',
+      width:40,
+      height:40,
+      backgroundColor:'#fff',
+      borderRadius:50,
+      alignSelf: 'flex-end',
+      marginBottom: 16,
+      marginRight: 8,
+  },
+  standMarkerStyle:{
+    position: 'absolute',
+    zIndex: 0,
+  },
+  locationMarkerStyle:{
+    position: 'absolute',
+    zIndex: 1,
+  }
 });
