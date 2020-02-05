@@ -61,8 +61,8 @@
 		7294C8BB4873469F95F1DEC4 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B50B73605F434D8ABA49747D /* Octicons.ttf */; };
 		C3F2C60521AC4260A92223DB /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9998F373A65D4DA882253D77 /* SimpleLineIcons.ttf */; };
 		47E00D8C81B74204ADC3610E /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 68F134CDA55A42AEBFB5B424 /* Zocial.ttf */; };
-		DBBF726552184308A62CCFCB /* libRNDeviceInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 57E13D7208DC4B74A41ED5C4 /* libRNDeviceInfo.a */; };
-		9460501780254704A956E8A9 /* libRNDeviceInfo-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6396C4CD6D184ED795DC771A /* libRNDeviceInfo-tvOS.a */; };
+		1AD1FE004AC54BAFB0164A7B /* libRNDeviceInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 45D8C0F158F4423787FA34AA /* libRNDeviceInfo.a */; };
+		B8CA5368872C4E548217415B /* libRNDeviceInfo-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A09291677AC74B9FB0A363DE /* libRNDeviceInfo-tvOS.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -381,9 +381,9 @@
 		B50B73605F434D8ABA49747D /* Octicons.ttf */ = {isa = PBXFileReference; name = "Octicons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		9998F373A65D4DA882253D77 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; name = "SimpleLineIcons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		68F134CDA55A42AEBFB5B424 /* Zocial.ttf */ = {isa = PBXFileReference; name = "Zocial.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		F7399A3C0701478B9C8BF6FE /* RNDeviceInfo.xcodeproj */ = {isa = PBXFileReference; name = "RNDeviceInfo.xcodeproj"; path = "../node_modules/react-native-device-info/ios/RNDeviceInfo.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
-		57E13D7208DC4B74A41ED5C4 /* libRNDeviceInfo.a */ = {isa = PBXFileReference; name = "libRNDeviceInfo.a"; path = "libRNDeviceInfo.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
-		6396C4CD6D184ED795DC771A /* libRNDeviceInfo-tvOS.a */ = {isa = PBXFileReference; name = "libRNDeviceInfo-tvOS.a"; path = "libRNDeviceInfo-tvOS.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		54B6164C63924102861E38D7 /* RNDeviceInfo.xcodeproj */ = {isa = PBXFileReference; name = "RNDeviceInfo.xcodeproj"; path = "../node_modules/react-native-device-info/ios/RNDeviceInfo.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		45D8C0F158F4423787FA34AA /* libRNDeviceInfo.a */ = {isa = PBXFileReference; name = "libRNDeviceInfo.a"; path = "libRNDeviceInfo.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		A09291677AC74B9FB0A363DE /* libRNDeviceInfo-tvOS.a */ = {isa = PBXFileReference; name = "libRNDeviceInfo-tvOS.a"; path = "libRNDeviceInfo-tvOS.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -415,7 +415,7 @@
 				E1E90EDB2B0C45A8A8AF3672 /* libRNGestureHandler.a in Frameworks */,
 				BC59D3435823489BB7BC4E7E /* libRNReanimated.a in Frameworks */,
 				AC5153E2C4D447AE90B30771 /* libRNVectorIcons.a in Frameworks */,
-				DBBF726552184308A62CCFCB /* libRNDeviceInfo.a in Frameworks */,
+				1AD1FE004AC54BAFB0164A7B /* libRNDeviceInfo.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -435,7 +435,7 @@
 				8B68EAAA4B1E4B1BA6F66459 /* libRNGestureHandler-tvOS.a in Frameworks */,
 				12ABDFBD5DD9485697A94BF1 /* libRNReanimated-tvOS.a in Frameworks */,
 				14B0AC40B64A4A978AEB9B87 /* libRNVectorIcons-tvOS.a in Frameworks */,
-				9460501780254704A956E8A9 /* libRNDeviceInfo-tvOS.a in Frameworks */,
+				B8CA5368872C4E548217415B /* libRNDeviceInfo-tvOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -610,7 +610,7 @@
 				C07A48B2A4934B799589B748 /* RNGestureHandler.xcodeproj */,
 				96E677F3B4EF4F5FA5F11F76 /* RNReanimated.xcodeproj */,
 				EDB4BA52B9E246FDAAF6497E /* RNVectorIcons.xcodeproj */,
-				F7399A3C0701478B9C8BF6FE /* RNDeviceInfo.xcodeproj */,
+				54B6164C63924102861E38D7 /* RNDeviceInfo.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";

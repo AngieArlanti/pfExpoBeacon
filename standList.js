@@ -8,7 +8,7 @@ import {Rating} from 'react-native-elements';
 * - stands: array of stands' data.
 */
 
-const HEADER_MAX_HEIGHT = 200;
+const HEADER_MAX_HEIGHT = 300;
 
 export default class StandList extends React.Component {
   constructor(props){
@@ -26,7 +26,7 @@ export default class StandList extends React.Component {
         <Body>
           <Text style={styles.dataTitle}>{item.title}</Text>
           <View style={[styles.sameLineComponents, styles.alignRanking]}>
-            <Text style = {styles.ranking}>{item.ranking_average.ranking.toFixed(1)}</Text>
+            <Text>{item.ranking_average.ranking.toFixed(1)}</Text>
             <Rating
               type = 'star'
               imageSize={15}
@@ -34,7 +34,7 @@ export default class StandList extends React.Component {
               startingValue={item.ranking_average.ranking}
               style = {styles.rating}
             />
-            <Text style = {styles.ranking}>({item.ranking_average.cant_rates})</Text>
+            <Text>({item.ranking_average.cant_rates})</Text>
           </View>
           <Text>
             {item.short_description}
@@ -112,12 +112,9 @@ const styles = StyleSheet.create({
     paddingBottom : 0,
   },
   rating : {
-    paddingTop: 5,
+    paddingTop: 3,
     paddingLeft : 10,
     paddingRight : 10
-  },
-  ranking: {
-    fontSize : 15,
   },
   dataTitle:{
     fontSize: 20,
