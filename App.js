@@ -35,7 +35,7 @@ componentDidMount(){
 // REEMPLAZAR POR 10.0.2.2 SI CORREN EN EMULADOR ANDROID
 // Services TODO: Modularize
 getAllStands(){
-  return fetch('http://192.168.0.75:8080/stands/list')
+  return fetch('http://10.0.2.2:8080/stands/list')
     .then((response) => response.json())
     .then((responseJson) => {
       this.setState({
@@ -71,7 +71,7 @@ render() {
      <StatusBar hidden = {false} backgroundColor = "rgba(0,0,0,0)" translucent = {true}/>
       <View style={styles.top} >
       <View style={styles.container}>
-      
+
       <ScrollView
           style={styles.container}
           contentContainerStyle={styles.contentContainer}
@@ -83,7 +83,7 @@ render() {
         {(this.state.dataSource !== null && this.state.dataSource !== undefined) &&
         <StandList stands={this.state.dataSource} navigation={this.props.navigation} isLoadingList={this.state.isLoading}/>}
         </ScrollView>
-    
+
     </View>
       </View>
       <Animated.View style={[styles.header, {height: headerHeight}]}>
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     flex: 1,
     textAlign: 'center',
     fontSize: 20,
-  },  
+  },
   image: {
     height: 200,
     width: null,
@@ -200,7 +200,7 @@ const TabNavigator = createBottomTabNavigator(
       navigationOptions:{
         tabBarLabel : 'Destacados',
         tabBarIcon: ({tintColor})=>(
-          <Icon name="ios-star" color={tintColor} size={25}/>  
+          <Icon name="ios-star" color={tintColor} size={25}/>
         )
       }
     },
@@ -209,7 +209,7 @@ const TabNavigator = createBottomTabNavigator(
       navigationOptions:{
         tabBarLabel : 'Buscar',
         tabBarIcon: ({tintColor})=>(
-          <Icon name="ios-search" color={tintColor} size={25}/>  
+          <Icon name="ios-search" color={tintColor} size={25}/>
         )
       }
     },
@@ -218,7 +218,7 @@ const TabNavigator = createBottomTabNavigator(
       navigationOptions:{
         tabBarLabel : 'Tours',
         tabBarIcon: ({tintColor})=>(
-          <Icon name="ios-map" color={tintColor} size={25}/>  
+          <Icon name="ios-map" color={tintColor} size={25}/>
         )
       }
     },
