@@ -27,7 +27,10 @@ constructor(props) {
 
 // Lifecycle events
 componentDidMount(){
-  this.getAllStands();
+  //Refresh standList
+  this._subscribe = this.props.navigation.addListener('didFocus', () => {
+    this.getAllStands();
+  });
 }
 
 componentDidUpdate(){
