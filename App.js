@@ -122,11 +122,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  dataTitle:{
-    flex: 1,
-    textAlign: 'center',
-    fontSize: 20,
-  },  
   image: {
     height: 200,
     width: null,

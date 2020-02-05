@@ -12,7 +12,6 @@ export default class SearchScreen extends React.Component {
         this.state = { isLoading: true};
         this.state = { isDataAvailable: false};
         this.state = { data: [{}]};
-        this.state = { dataSource:[{}]};
     }
 
 
@@ -27,6 +26,7 @@ componentWillUnmount() {
 }
 
 getOrderedStands(){
+  console.log(this.state.data[0].macAddress);
   return fetch('http://10.0.2.2:8080/stands?id='+this.state.data[0].macAddress)
     .then((response) => response.json())
     .then((responseJson) => {
@@ -123,7 +123,10 @@ suscribeForEvents() {
                 loading={this.state.isLoading}
              />
 
-            <StandList stands={this.state.dataSource} navigation={this.props.navigation} isLoadingList={this.state.isLoading}/>
+            {this.state.dataSource && 
+            <StandList stands={this.state.dataSource} 
+              navigation={this.props.navigation}
+              isLoadingList={this.state.isLoading}/>}
           </View>
         </View>
         );

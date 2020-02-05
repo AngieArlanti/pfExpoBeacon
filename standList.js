@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { FlatList, StyleSheet, Text, View,Image,ActivityIndicator, StatusBar} from 'react-native';
-import { Card, CardItem, Thumbnail, Body, Left, Right, Button, Icon } from 'native-base'
+import { Card, CardItem, Thumbnail, Body, Left, Right, Button, Icon } from 'native-base';
+import {Rating} from 'react-native-elements';
 
 /**
 * @param props properties needed to render StandList:
@@ -23,9 +24,18 @@ export default class StandList extends React.Component {
       </CardItem>
       <CardItem bordered>
         <Body>
-          <Text style={styles.dataTitle}>
-            {item.title}
-          </Text>
+          <Text style={styles.dataTitle}>{item.title}</Text>
+          <View style={[styles.sameLineComponents, styles.alignRanking]}>
+            <Text style = {styles.ranking}>{item.ranking_average.ranking.toFixed(1)}</Text>
+            <Rating
+              type = 'star'
+              imageSize={15}
+              readonly
+              startingValue={item.ranking_average.ranking}
+              style = {styles.rating}
+            />
+            <Text style = {styles.ranking}>({item.ranking_average.cant_rates})</Text>
+          </View>
           <Text>
             {item.short_description}
           </Text>
@@ -95,4 +105,25 @@ const styles = StyleSheet.create({
   scrollViewContent: {
     marginTop: HEADER_MAX_HEIGHT,
   },
+  sameLineComponents : {
+    flex: 1, 
+    flexDirection: 'row',
+    paddingTop : 0,
+    paddingBottom : 0,
+  },
+  rating : {
+    paddingTop: 5,
+    paddingLeft : 10,
+    paddingRight : 10
+  },
+  ranking: {
+    fontSize : 15,
+  },
+  dataTitle:{
+    fontSize: 20,
+    color : 'black',
+  },
+  alignRanking: {
+    paddingTop: 5,
+  }, 
 })
