@@ -27,7 +27,10 @@ constructor(props) {
 
 // Lifecycle events
 componentDidMount(){
-  this.getAllStands();
+  //Refresh standList
+  this._subscribe = this.props.navigation.addListener('didFocus', () => {
+    this.getAllStands();
+  });
 }
 
 // TODO Eliminar cuando conectemos con server real.
@@ -35,7 +38,7 @@ componentDidMount(){
 // REEMPLAZAR POR 10.0.2.2 SI CORREN EN EMULADOR ANDROID
 // Services TODO: Modularize
 getAllStands(){
-  return fetch('http://10.0.2.2:8080/stands/list')
+  return fetch('http://192.168.0.174:8080/stands/list')
     .then((response) => response.json())
     .then((responseJson) => {
       this.setState({
@@ -112,11 +115,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-  },
-  dataTitle:{
-    flex: 1,
-    textAlign: 'center',
-    fontSize: 20,
   },
   image: {
     height: 200,

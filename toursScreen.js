@@ -22,7 +22,7 @@ export default class ToursScreen extends React.Component {
   }
 
     getSuggestedCongestionTour(){
-        return fetch('http://10.0.2.2:8080/stands/suggested_tour')
+        return fetch('http://192.168.0.174:8080/stands/suggested_tour')
           .then((response) => response.json())
           .then((responseJson) => {
             this.setState({
