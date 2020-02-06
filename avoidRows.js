@@ -1,9 +1,6 @@
 import React, {Component} from 'react';
-import {View, StyleSheet, StatusBar, ScrollView, Animated, Text, TouchableOpacity} from 'react-native';
+import {View, StyleSheet, StatusBar, ScrollView, Animated, Text} from 'react-native';
 import StandListTour from './StandListTour';
-import { Card, CardItem, Button } from 'native-base';
-import { colors, Icon } from 'react-native-elements';
-import AvoidRows from './avoidRows';
 
 const HEADER_MAX_HEIGHT = 300;
 const HEADER_MIN_HEIGHT = 25;
@@ -37,7 +34,7 @@ export default class ToursScreen extends React.Component {
           .catch((error) =>{
             console.error(error);
           });
-    }
+      }
 
     render() {
         const headerHeight = this.state.scrollY.interpolate({
@@ -70,40 +67,8 @@ export default class ToursScreen extends React.Component {
                    [{nativeEvent: {contentOffset: {y: this.state.scrollY}}}]
                    )}
              >
-               <View style={styles.scrollViewContent}>
-                <View style={{paddingBottom : 30}}>
-                <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate('AvoidRows')}>
-                  <Icon color="white" name={"mood"} size={30} style={{alignSelf: 'center',
-                      alignContent: 'center',
-                      justifyContent: 'center',}}/>
-                  <Text style={styles.buttonText}>Evita filas</Text>
-                </TouchableOpacity>
-                </View>
-                <View style={{paddingBottom : 30}}>
-                <TouchableOpacity style={styles.button}>
-                  <Icon color="white" name={"thumb-up"} size={30} style={{alignSelf: 'center',
-                      alignContent: 'center',
-                      justifyContent: 'center',}}/>
-                  <Text style={styles.buttonText}>Recorridos Populares</Text>
-                </TouchableOpacity>
-                </View>
-                <View style={{paddingBottom : 30}}>
-                <TouchableOpacity style={styles.button}>
-                  <Icon color="white" name={"alarm"} size={30} style={{alignSelf: 'center',
-                      alignContent: 'center',
-                      justifyContent: 'center',}}/>
-                  <Text style={styles.buttonText}>Tengo 1 Hora</Text>
-                </TouchableOpacity>
-                </View>
-                <View style={{paddingBottom : 30}}>
-                <TouchableOpacity style={styles.button}>
-                  <Icon color="white" name={"alarm"} size={30} style={{alignSelf: 'center',
-                      alignContent: 'center',
-                      justifyContent: 'center',}}/>
-                  <Text style={styles.buttonText}>Tengo 2 Hora</Text>
-                </TouchableOpacity>
-                </View>
-                </View>
+               {(this.state.dataSource !== null && this.state.dataSource !== undefined) &&
+               <StandListTour stands={this.state.dataSource} navigation={this.props.navigation} isLoadingList={this.state.isLoading}/>}
                </ScrollView>
 
            </View>
@@ -142,24 +107,4 @@ const styles = StyleSheet.create({
         height: HEADER_MAX_HEIGHT,
         resizeMode: 'cover',
     },
-    scrollViewContent: {
-      marginTop: HEADER_MAX_HEIGHT + 30,
-    },
-    button : {
-      backgroundColor:'#00558B',
-      flex: 0,
-      flexDirection: 'row',
-      borderRadius: 6,
-      padding: 6,
-      alignSelf: 'center',
-      alignContent: 'center',
-      justifyContent: 'center',
-    },
-    buttonText : {
-      color: '#FFFFFF',
-      fontSize: 20,
-      paddingLeft: 15,
-      alignContent: 'center',
-      justifyContent: 'center',
-    }
 });

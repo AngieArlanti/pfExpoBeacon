@@ -7,6 +7,7 @@ import {createStackNavigator} from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import SearchScreen from './searchScreen';
 import ToursScreen from './toursScreen';
+import AvoidRows from './avoidRows';
 import ProfileScreen from './profileScreen';
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -38,7 +39,7 @@ componentDidMount(){
 // REEMPLAZAR POR 10.0.2.2 SI CORREN EN EMULADOR ANDROID
 // Services TODO: Modularize
 getAllStands(){
-  return fetch('http://192.168.0.174:8080/stands/list')
+  return fetch('http://10.0.2.2:8080/stands/list')
     .then((response) => response.json())
     .then((responseJson) => {
       this.setState({
@@ -174,6 +175,7 @@ const SearchNavigator = createStackNavigator({
 
 const ToursNavigator = createStackNavigator({
   ToursScreen : ToursScreen,
+  AvoidRows : AvoidRows,
   StandInfo: {screen: StandInfo},
 },
 {

@@ -12,7 +12,7 @@ export default class StandInfo extends React.Component {
   }
 
   ratingCompleted(rating) {
-    fetch('http://192.168.0.174:8080/stand_ranking', {
+    fetch('http://10.0.2.2:8080/stand_ranking', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
