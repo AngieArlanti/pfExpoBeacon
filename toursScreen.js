@@ -3,7 +3,8 @@ import {View, StyleSheet, StatusBar, ScrollView, Animated, Text, TouchableOpacit
 import StandListTour from './StandListTour';
 import { Card, CardItem, Button } from 'native-base';
 import { colors, Icon } from 'react-native-elements';
-import AvoidRows from './avoidRows';
+import TourDetailScreen from './tourDetailScreen';
+import TourCategoryButton from './components/TourCategoryButton'
 
 const HEADER_MAX_HEIGHT = 300;
 const HEADER_MIN_HEIGHT = 25;
@@ -72,7 +73,8 @@ export default class ToursScreen extends React.Component {
              >
                <View style={styles.scrollViewContent}>
                 <View style={{paddingBottom : 30}}>
-                <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate('AvoidRows')}>
+                <TourCategoryButton title="Evitar filas" image={require('./assets/images/tours-esquivando-filas.jpg')} navigation={this.props.navigation}/>
+                <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate('TourDetailScreen')}>
                   <Icon color="white" name={"mood"} size={30} style={{alignSelf: 'center',
                       alignContent: 'center',
                       justifyContent: 'center',}}/>

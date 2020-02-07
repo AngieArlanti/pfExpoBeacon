@@ -7,7 +7,7 @@ import {createStackNavigator} from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import SearchScreen from './searchScreen';
 import ToursScreen from './toursScreen';
-import AvoidRows from './avoidRows';
+import TourDetailScreen from './tourDetailScreen';
 import ProfileScreen from './profileScreen';
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -175,7 +175,7 @@ const SearchNavigator = createStackNavigator({
 
 const ToursNavigator = createStackNavigator({
   ToursScreen : ToursScreen,
-  AvoidRows : AvoidRows,
+  TourDetailScreen : TourDetailScreen,
   StandInfo: {screen: StandInfo},
 },
 {
