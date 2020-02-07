@@ -16,7 +16,7 @@ class TourCategoryButton extends Component {
           <TouchableNativeFeedback
           onPress={() => this.props.navigation.navigate('TourDetailScreen')}
           background={TouchableNativeFeedback.SelectableBackground()}>
-            <View style={{flex:1, height: 140, borderWidth: 0.5, borderRadius: 6,borderColor: '#dddddd', backgroundColor: '#ffffff', shadowColor: '#000', shadowOffset: { width: 0, height: 2 } , shadowOpacity: 0.8, shadowRadius: 2 }}>
+            <View style={{flex:1, height: 160, borderWidth: 0.5, borderRadius: 6,borderColor: '#dddddd', backgroundColor: '#ffffff', shadowColor: '#000', shadowOffset: { width: 0, height: 2 } , shadowOpacity: 0.8, shadowRadius: 2 }}>
                 <View style={{ flex: 2 }}>
                     <ImageBackground source={this.props.image}
                         style={{ flex: 1, width: null, height: null, resizeMode: 'cover' }}>

@@ -6,7 +6,7 @@ import { colors, Icon } from 'react-native-elements';
 import TourDetailScreen from './tourDetailScreen';
 import TourCategoryButton from './components/TourCategoryButton'
 
-const HEADER_MAX_HEIGHT = 300;
+const HEADER_MAX_HEIGHT = 180;
 const HEADER_MIN_HEIGHT = 25;
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
@@ -72,38 +72,11 @@ export default class ToursScreen extends React.Component {
                    )}
              >
                <View style={styles.scrollViewContent}>
-                <View style={{paddingBottom : 30}}>
+                <View>
                 <TourCategoryButton title="Evitar filas" image={require('./assets/images/tours-esquivando-filas.jpg')} navigation={this.props.navigation}/>
-                <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate('TourDetailScreen')}>
-                  <Icon color="white" name={"mood"} size={30} style={{alignSelf: 'center',
-                      alignContent: 'center',
-                      justifyContent: 'center',}}/>
-                  <Text style={styles.buttonText}>Evita filas</Text>
-                </TouchableOpacity>
-                </View>
-                <View style={{paddingBottom : 30}}>
-                <TouchableOpacity style={styles.button}>
-                  <Icon color="white" name={"thumb-up"} size={30} style={{alignSelf: 'center',
-                      alignContent: 'center',
-                      justifyContent: 'center',}}/>
-                  <Text style={styles.buttonText}>Recorridos Populares</Text>
-                </TouchableOpacity>
-                </View>
-                <View style={{paddingBottom : 30}}>
-                <TouchableOpacity style={styles.button}>
-                  <Icon color="white" name={"alarm"} size={30} style={{alignSelf: 'center',
-                      alignContent: 'center',
-                      justifyContent: 'center',}}/>
-                  <Text style={styles.buttonText}>Tengo 1 Hora</Text>
-                </TouchableOpacity>
-                </View>
-                <View style={{paddingBottom : 30}}>
-                <TouchableOpacity style={styles.button}>
-                  <Icon color="white" name={"alarm"} size={30} style={{alignSelf: 'center',
-                      alignContent: 'center',
-                      justifyContent: 'center',}}/>
-                  <Text style={styles.buttonText}>Tengo 2 Hora</Text>
-                </TouchableOpacity>
+                <TourCategoryButton title="Recorridos populares" image={require('./assets/images/tours-populares.jpg')} navigation={this.props.navigation}/>
+                <TourCategoryButton title="Recorridos de 1 hora" image={require('./assets/images/tours-tiempo.jpg')} navigation={this.props.navigation}/>
+                <TourCategoryButton title="Recorridos de 2 horas" image={require('./assets/images/tours-tiempo.jpg')} navigation={this.props.navigation}/>
                 </View>
                 </View>
                </ScrollView>
@@ -145,7 +118,7 @@ const styles = StyleSheet.create({
         resizeMode: 'cover',
     },
     scrollViewContent: {
-      marginTop: HEADER_MAX_HEIGHT + 30,
+      marginTop: HEADER_MAX_HEIGHT,
     },
     button : {
       backgroundColor:'#00558B',
