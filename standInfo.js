@@ -108,7 +108,7 @@ export default class StandInfo extends React.Component {
              {(this.state.data !== null && this.state.data !== undefined) &&
              <View style={styles.lineStyle}>
                <Text style={styles.subTitle}>Horarios Populares</Text>
-               <Text style={styles.text}>Visitas basadas en el historico del stand</Text>
+               <Text style={styles.text}>Basado en el historico de visitas en este stand</Text>
                <BarChart
                 data={this.state.data}
                 width={screenWidth}
