@@ -17,8 +17,8 @@ export default class ToursStandListView extends React.Component {
 }
   keyExtractor = (item, index) => index.toString()
 
-  renderTourRow= ({ item }) => (
-    <TourRow item={item} navigation={this.props.navigation}/>
+  renderTourRow= ({ item,index }) => (
+    <TourRow item={item} navigation={this.props.navigation} stepNumberInTour={index}/>
   )
 
   render () {

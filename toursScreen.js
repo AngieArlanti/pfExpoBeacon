@@ -73,10 +73,10 @@ export default class ToursScreen extends React.Component {
              >
                <View style={styles.scrollViewContent}>
                 <View>
-                <TourCategoryButton title="Evitar filas" image={require('./assets/images/tours-esquivando-filas.jpg')} navigation={this.props.navigation}/>
-                <TourCategoryButton title="Recorridos populares" image={require('./assets/images/tours-populares.jpg')} navigation={this.props.navigation}/>
-                <TourCategoryButton title="Recorridos de 1 hora" image={require('./assets/images/tours-tiempo.jpg')} navigation={this.props.navigation}/>
-                <TourCategoryButton title="Recorridos de 2 horas" image={require('./assets/images/tours-tiempo.jpg')} navigation={this.props.navigation}/>
+                <TourCategoryButton title="Evitar filas" image={require('./assets/images/tours-esquivando-filas.jpg')} navigation={this.props.navigation} uri="/tour/no_lines"/>
+                <TourCategoryButton title="Recorridos populares" image={require('./assets/images/tours-populares.jpg')} navigation={this.props.navigation} uri="/tour/top_three"/>
+                <TourCategoryButton title="Recorridos de 1 hora" image={require('./assets/images/tours-tiempo.jpg')} navigation={this.props.navigation} uri="/tour/time_limited?time_limit=1"/>
+                <TourCategoryButton title="Recorridos de 2 horas" image={require('./assets/images/tours-tiempo.jpg')} navigation={this.props.navigation} uri="/tour/time_limited?time_limit=2"/>
                 </View>
                 </View>
                </ScrollView>

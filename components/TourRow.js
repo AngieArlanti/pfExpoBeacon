@@ -8,25 +8,51 @@ import {
     Image,
     ImageBackground
 } from "react-native";
-import {Icon,Rating} from 'react-native-elements';
+import {Icon} from 'react-native-elements';
 
 class TourRow extends Component {
     render() {
         return (
+          <View style={styles.container}>
           <TouchableNativeFeedback
           onPress={() => this.props.navigation.navigate('StandInfo', {item : this.props.item })}
           background={TouchableNativeFeedback.SelectableBackground()}>
-            <View style={{flex:1, height: 140, borderWidth: 0.5, borderRadius: 6,borderColor: '#dddddd', backgroundColor: '#ffffff', shadowColor: '#000', shadowOffset: { width: 0, height: 2 } , shadowOpacity: 0.8, shadowRadius: 2 }}>
-                <View style={{ flex: 2 }}>
-                    <ImageBackground source={{uri:this.props.item.cover}}
-                        style={{ flex: 1, width: null, height: null, resizeMode: 'cover' }}>
-                        <View style={styles.bubble}>
-                          <Text style={[styles.standIdLabel]}>{this.props.item.stand_number+100}</Text>
+            <View style={{flex:1, flexDirection: 'row', backgroundColor: '#ffffff', shadowColor: '#000', shadowOpacity: 0.8, shadowRadius: 2 }}>
+              <View style={{flex:1,margin: 16, width: 102}}>
+                    <View style={styles.coverImageContainer}>
+                        <Image style={styles.coverImageRound} source={{uri:this.props.item.cover}}/>
+                        <View style={styles.badge}>
+                          <Text style={styles.badgeText}>{this.props.stepNumberInTour+1}</Text>
                         </View>
-                    </ImageBackground>
+                        <View
+                          style = {{
+                            height: 200,
+                            width: 0.8,
+                            backgroundColor: '#202020',
+                            alignSelf: 'center',
+                            alignContent: 'center',
+                            justifyContent: 'center',
+                            position:'absolute',
+                            right:51,
+                            zIndex:-10,
+                            top:0,
+                          }}
+                        />
+                    </View>
+                </View>
+                <View style={{flex:3,alignItems: 'stretch',marginVertical: 16,marginRight: 16}}>
+                    <View style={{flex:1,flexDirection: 'row'}}>
+                      <Text style={styles.titleText}>{this.props.item.title}</Text>
+                      <Icon color="black" name={"chevron-right"} size={12} style={{flex:1,alignSelf: 'flex-end',
+                      alignContent: 'center',
+                      justifyContent: 'center',marginRight: 16}}/>
+                    </View>
+                    <Text style={styles.averageTimeText}>Average time in stand</Text>
+                    <Text style={styles.descriptionText}>{this.props.item.short_description}</Text>
                 </View>
             </View>
           </TouchableNativeFeedback>
+          </View>
         );
     }
 }
@@ -34,66 +60,64 @@ export default TourRow;
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center'
+        flex: 1
     },
     titleText: {
-      fontSize: 16,
+      fontSize: 18,
       color: '#000000',
-      flex:1,
+      fontWeight: '600',
+      flex:4,
+      alignSelf: 'flex-start'
+    },
+    averageTimeText:{
+      fontSize: 12,
+      color: '#000000'
     },
     descriptionText: {
-      fontSize: 10,
-      color: '#000000',
-    },
-    bubble: {
-      flex: 0,
-      flexDirection: 'row',
-      alignSelf: 'flex-end',
-      backgroundColor: '#A9A9A9',
-      padding: 2,
-      borderRadius: 3,
-      borderColor: '#A9A9A9',
-      borderWidth: 0.5,
-    },
-    distanceText: {
+      paddingTop: 10,
       fontSize: 12,
-      color: '#000000',
-      flex:1,
+      color: '#000000'
     },
-    nextEventText: {
+    coverImageContainer:{
+      width:80,
+      height:80,
+      position: 'absolute',
+      zIndex: -11,
+    },
+    coverImageRound: {
+        borderWidth:0.4,
+        borderColor:'rgba(220,220,220,0.2)',
+        width:58,
+        height:58,
+        borderRadius:29,
+        alignItems:'center',
+        flexDirection: 'column',
+        justifyContent:'flex-start',
+        position: 'absolute',
+        zIndex: 1,
+    },
+    badge: {
+        width:22,
+        height:22,
+        borderRadius:11,
+        right: 10,
+        top:2,
+        alignSelf: 'flex-end',
+        justifyContent: 'flex-end',
+        position: 'absolute',
+        backgroundColor: '#00558B',
+        borderColor: '#ffffff',
+        borderWidth: 1,
+        color: '#ffffff',
+        flex:1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        position: 'absolute',
+        zIndex: 2,
+
+    },
+    badgeText:{
       fontSize: 12,
-      color: '#000000',
-      flex:1,
-    },
-    standIdLabel: {
-      color: '#FFFFFF',
-      fontSize: 13,
-    },
-    directionsButton:{
-      backgroundColor:'#00558B',
-      flex: 0,
-      flexDirection: 'row',
-      borderRadius: 6,
-      padding: 6,
-      alignSelf: 'flex-start',
-      alignContent: 'center',
-      justifyContent: 'center',
-    },
-    directionsButtonLabel: {
-      color: '#FFFFFF',
-      fontSize: 12,
-      paddingLeft:8,
-      alignContent: 'center',
-      justifyContent: 'center',
-    },
-    feedbackViewContainer: {
-      flex: 1,
-      flexDirection: 'row',
-      alignSelf: 'flex-start',
-      flexGrow: 1,
-      justifyContent:'center',
-      alignItems: 'center'
+      color:'#ffffff',
     },
 });

@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
       flex: 1,
     },
     tourView: {
-      flex: 3,
+      flex: 2,
     },
     header: {
         position: 'absolute',
