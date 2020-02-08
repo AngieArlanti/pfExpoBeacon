@@ -2,22 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, View, Text } from 'react-native';
 
-const propTypes = {
-  standId: PropTypes.number.isRequired,
-  fontSize: PropTypes.number,
-};
-
-const defaultProps = {
-  fontSize: 13,
-};
 
 class TourMarker extends React.Component {
   render() {
-    const { fontSize, standId } = this.props;
+    const standOrder = this.props.order;
     return (
       <View style={styles.container}>
-        <View style={styles.bubble}>
-          <Text style={[styles.standIdLabel, { fontSize }]}>{standId}</Text>
+        <View style={styles.circle}>
+          <Text style={styles.tourOrderLabel}>{standOrder}</Text>
         </View>
       </View>
     );
@@ -25,28 +17,29 @@ class TourMarker extends React.Component {
 }
 
 TourMarker.propTypes = propTypes;
-TourMarker.defaultProps = defaultProps;
 
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
-    alignSelf: 'flex-start',
+    alignSelf: 'center',
     zIndex: 9,
     position: 'absolute',
   },
-  bubble: {
-    flex: 0,
+  circle: {
+    flex: 1,
     flexDirection: 'row',
     alignSelf: 'flex-start',
-    backgroundColor: '#00558B',
-    padding: 2,
-    borderRadius: 3,
-    borderColor: '#004572',
-    borderWidth: 0.5,
+    backgroundColor: '#FFFFFF',
+    borderColor:'#00558B',
+    padding:1,
+    width: 14,
+    height: 14,
+    borderRadius: 7,
+    borderWidth: 1.25,
   },
-  standIdLabel: {
-    color: '#FFFFFF',
-    fontSize: 13,
+  tourOrderLabel: {
+    color: '#00558B',
+    fontSize: 12,
   },
 });
 

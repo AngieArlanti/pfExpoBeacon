@@ -20,17 +20,18 @@ export default class ToursScreen extends React.Component {
 
   // Lifecycle events
   componentDidMount(){
+    this.props.uri();
     this.getSuggestedCongestionTour();
   }
 
     getSuggestedCongestionTour(){
-        return fetch('http://10.0.2.2:8080/stands/list')
+      console.log(this.props.uri);
+        return fetch('http://10.0.2.2:8080/tour/no_lines')
           .then((response) => response.json())
           .then((responseJson) => {
-            console.log(JSON.stringify(responseJson));
             this.setState({
               isLoading: false,
-              dataSource: responseJson,
+              dataSource: responseJson.tour,
             }, function(){
             });
           })
