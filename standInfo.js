@@ -3,16 +3,32 @@ import { StyleSheet, Text, View, StatusBar, ScrollView } from 'react-native';
 import { SliderBox } from 'react-native-image-slider-box';
 import { Rating, AirbnbRating } from 'react-native-elements';
 import { getUniqueId } from 'react-native-device-info';
+import { BarChart } from "react-native-chart-kit";
+import { Dimensions } from "react-native";
+
+const screenWidth = Dimensions.get("window").width;
+const chartConfig = {
+  backgroundGradientFrom: "#255EB3",
+  backgroundGradientFromOpacity: 0,
+  backgroundGradientTo: "#255EB3",
+  backgroundGradientToOpacity: 0,
+  color: () => `rgb(37, 94, 179)`,
+  strokeWidth: 2, // optional, default 3
+  barPercentage: 0.5,
+};
 
 export default class StandInfo extends React.Component {
 
   constructor(props) {
     super(props);
+    this.state = { dataSource:[{}]};
+    this.getStandHistogram();
     standId = this.props.navigation.state.params.item.id;
+    
   }
 
   ratingCompleted(rating) {
-    fetch('http://192.168.0.174:8080/stand_ranking', {
+    fetch('http://10.0.2.2:8080/stand_ranking', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -24,10 +40,39 @@ export default class StandInfo extends React.Component {
         ranking: rating,
       }),
     });
-    console.log(rating);
   }
 
+  getStandHistogram(){
+    return fetch('http://10.0.2.2:8080/stats/stand_histogram?stand_id='+this.props.navigation.state.params.item.id)
+    .then((response) => response.json())
+    .then((responseJson) => {
+      this.setState({
+        isLoading: false,
+        dataSource: responseJson,
+      }, function(){
+        const dataChart = {
+          labels : [],
+          datasets : [{
+            data : []
+          }]
+        };
+        let l = this.state.dataSource.map(e => e.from.substring(0,5))
+        let d = this.state.dataSource.map(e => e.visits)
+        dataChart.labels = l;
+        dataChart.datasets[0].data = d;
+        this.setState({data : dataChart});
+      });
+
+    })
+    .catch((error) =>{
+      console.error(error);
+    });
+  }
+
+
+
   render() {
+    console.log(this.state.data);
     return (
       <View style={styles.container}>
          <StatusBar hidden = {false} backgroundColor = '#609bd1' translucent = {true}/>
@@ -50,7 +95,7 @@ export default class StandInfo extends React.Component {
                 <Text style={styles.text}>{this.props.navigation.state.params.item.description}</Text>
             </View>
             
-            <View style={styles.lineStyle} >
+            <View style={styles.lineStyle}>
                 <Text style={styles.subTitle}>Calificanos, que te pareció?</Text>
                 <AirbnbRating
                   count={5}
@@ -60,6 +105,23 @@ export default class StandInfo extends React.Component {
                   onFinishRating={this.ratingCompleted}
                 />
              </View>
+             {(this.state.data !== null && this.state.data !== undefined) &&
+             <View style={styles.lineStyle}>
+               <Text style={styles.subTitle}>Horarios Populares</Text>
+               <Text style={styles.text}>Visitas basadas en el historico del stand</Text>
+               <BarChart
+                data={this.state.data}
+                width={screenWidth}
+                height={160}
+                chartConfig={chartConfig}
+                withHorizontalLabels={false}
+                withInnerLines={false}
+                strokeWidth={10}
+                style={{
+                  marginHorizontal: -35,
+                }}
+              />
+             </View>}
             </ScrollView>
         </View>
       </View>
@@ -72,7 +134,7 @@ const styles = StyleSheet.create({
    flex: 1,
   },
   item: {
-    padding: 10,
+    padding: 16,
     fontSize: 18,
     height: 44,
   },
@@ -83,14 +145,12 @@ const styles = StyleSheet.create({
   text: {
     alignItems: "center",
     justifyContent: "center",
-    padding: 10,
+    padding: 16,
   },
   title: {
     fontSize: 24,
     color: 'black',
-    padding : 10,
-    paddingTop: 10,
-    paddingBottom: 0,
+    padding : 16,
   },
   align : {
     flexDirection: 'row',
@@ -115,9 +175,7 @@ const styles = StyleSheet.create({
   sameLineComponents : {
     flex: 1, 
     flexDirection: 'row',
-    padding : 10,
-    paddingTop : 0,
-    paddingBottom : 0,
+    paddingLeft : 16,
   },
   rating : {
     paddingTop : 5,

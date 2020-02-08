@@ -63,7 +63,7 @@ export default class SearchScreen extends React.Component {
   // REEMPLAZAR POR 10.0.2.2 SI CORREN EN EMULADOR ANDROID
   // Services TODO: Modularize
   getAllStands(){
-    return fetch('http://192.168.0.174:8080/stands/list')
+    return fetch('http://10.0.2.2:8080/stands/list')
     .then((response) => response.json())
     .then((responseJson) => {
       var markerElementMap = responseJson.map(function(responseJson,index) {
@@ -93,7 +93,7 @@ export default class SearchScreen extends React.Component {
     this.setState({ region });
   }
   getOrderedStands(){
-    return fetch('http://192.168.0.174:8080/stands?id='+this.state.data[0].macAddress)
+    return fetch('http://10.0.2.2:8080/stands?id='+this.state.data[0].macAddress)
     .then((response) => response.json())
     .then((responseJson) => {
       this.setState({
@@ -159,7 +159,7 @@ get mapType() {
 }
 
 saveDeviceProximity(standId){
-  fetch('http://192.168.0.174:8080/device_proximity', {
+  fetch('http://10.0.2.2:8080/device_proximity', {
     method: 'POST',
     headers: {
       Accept: 'application/json',
