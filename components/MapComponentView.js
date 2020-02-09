@@ -26,6 +26,9 @@ const LONGITUDE = -58.4015757;
 const LATITUDE_DELTA = 0.000001;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 const SPACE = 0.0000001;
+const POLYLINE_DEFAULT_STROKE_WIDTH = 2;
+const POLYLINE_TOUR_DEFAULT_STROKE_WIDTH = 4;
+
 
 
 /**
@@ -45,9 +48,11 @@ export default class MapComponentView extends React.Component {
       this.state = { isDataAvailable: false};
       this.state = { data: [{}]};
       this.state = { standsDataSource:[{}]};
-      this.state.markerElements =[];
+      this.state.markerElements = [];
       this.state.locationMarker =[];
       this.state.polyline =[];
+      this.state.polylineStrokeWidth=POLYLINE_DEFAULT_STROKE_WIDTH;
+      this.state.standsDataSource= [];
       this.state = {
         coordinate: new AnimatedRegion({
           latitude: LATITUDE,
@@ -56,6 +61,9 @@ export default class MapComponentView extends React.Component {
       };
     }
 
+    componentDidMount() {
+      this.setState({ standsDataSource : this.props.stands });
+    }
     componentWillUnmount() {
       if( this.startSubscription !==undefined && this.stopSubscription!==undefined){
         this.startSubscription.remove();
@@ -63,34 +71,18 @@ export default class MapComponentView extends React.Component {
       }
     }
 
-    componentDidUpdate(prevProps) {
-      // Uso tipico (no olvides de comparar los props):
-      if (this.props.stands !==undefined && prevProps.stands !==undefined && this.props.stands.length !== prevProps.stands.length) {
-        var markerElementMap = this.props.stands.map(function(responseJson,index) {
-          return {
-            id: responseJson.id,
-            stand_number: responseJson.stand_number,
-            stand_index: index,
-            latlng: {
-              latitude: responseJson.latitude,
-              longitude: responseJson.longitude
-            }
-          }
-        });
-        this.setState({
-          standsDataSource: this.props.stands,
-          markerElements:markerElementMap,
-        }, function(){
-        });
-      }
-    }
-
     onRegionChange(region) {
       this.setState({ region });
     }
+    get mapType() {
+      // MapKit does not support 'none' as a base map
+      return this.props.provider === PROVIDER_DEFAULT
+      ? MAP_TYPES.STANDARD
+      : MAP_TYPES.NONE;
+    }
+
 
     //Beacons
-
     suscribeForEvents() {
       this.startSubscription = DeviceEventEmitter.addListener(BeaconManager.EVENT_BEACONS_RANGED, (data) => {
         //TODO abrir pantalla con los beacons listados.
@@ -129,13 +121,6 @@ export default class MapComponentView extends React.Component {
 
     }
   })
-  }
-
-  get mapType() {
-    // MapKit does not support 'none' as a base map
-    return this.props.provider === PROVIDER_DEFAULT
-    ? MAP_TYPES.STANDARD
-    : MAP_TYPES.NONE;
   }
 
   saveDeviceProximity(standId){
@@ -180,13 +165,18 @@ export default class MapComponentView extends React.Component {
     }
   }
 
+   /* BUTTON HANDLERS:
+      - onGpsButtonPress
+      - onDirectionsButtonPress
+   */
+
   //Rendering and Screen UI events handlers
   onRangeButtonPress = e =>{
     this.startRangingBeacons();
     this.setState({ isLoading: true});
   }
 
-  //Rendering and Screen UI events handrlers
+  //Method executed when pressing location button
   onGpsButtonPress = e =>{
     console.log("GPS button pressed");
     this.locateGuy(true);
@@ -195,9 +185,12 @@ export default class MapComponentView extends React.Component {
   //Rendering and Screen UI events handrlers
   onDirectionsButtonPress = e =>{
     this.locateGuy(true);
-    this.showRouteTour(this.props.stands);
   }
 
+  /* LOCATION AND ROUTE RENDERING:
+     - onGpsButtonPress
+     - onDirectionsButtonPress
+  */
   locateGuy(renderPath) {
     var fakeLocation =  [{
       id: "ldksfjdslkf",
@@ -230,29 +223,70 @@ export default class MapComponentView extends React.Component {
         longitude: location.center.longitude
       }});
       if (stand !== undefined && location !== undefined) {
-        this.showRouteTour(stand, location[0]);
+        this.showRouteToStand(stand, location[0]);
       }
     }
   }
 
-  showRouteTour(stands,currentLocation){
-    let pois=stands.map(function(stand) {
+/*Creates a polyline datasource with all the stands. Assumes stands are ordered
+* @param stand: Destination stand
+* @param currentLocation: user location in this format
+    {
+      latitude: someLatitude,
+      longitude: someLongitude
+    }
+*/
+  showRouteToStand(stands,currentLocation){
+    let routePolylineDatasource=stands.map(function(stand) {
       return {
         latitude: stand.latitude,
         longitude: stand.longitude
       }
     });
-    pois.unshift(currentLocation);
-    console.log(pois);
+    routePolylineDatasource.unshift(currentLocation);
     this.setState({
-      polyline:pois,
+      polyline:routePolylineDatasource,
     }, function(){
     });
   }
 
+
+  /*Creates a polyline datasource with all the stands. Assumes stands are ordered*/
+  showTourRoute(){
+    let standsPolylineDatasource=stands.map(function(stand) {
+      return {
+        latitude: stand.latitude,
+        longitude: stand.longitude
+      }
+    });
+    this.setState({
+      polyline:standsPolylineDatasource,
+      polylineStrokeWidth:POLYLINE_TOUR_DEFAULT_STROKE_WIDTH,
+    }, function(){
+    });
+  }
+
+  /* MAP BEHAVIOUR */
+
+
+  /* Rendering */
+
   render () {
-    if(this.state.markerElements === undefined){
-      this.state.markerElements = [];
+    if(this.state.locationMarker === undefined){
+      this.state.locationMarker = [];
+    }
+    if(this.state.markerElements === undefined && this.props.stands !==undefined && this.props.stands.length>0){
+      this.state.markerElements = this.props.stands.map(function(responseJson,index) {
+        return {
+          id: responseJson.id,
+          stand_number: responseJson.stand_number,
+          stand_index: index,
+          latlng: {
+            latitude: responseJson.latitude,
+            longitude: responseJson.longitude
+          }
+        }
+      });
     }
     if(this.state.locationMarker === undefined){
       this.state.locationMarker = [];
@@ -260,6 +294,8 @@ export default class MapComponentView extends React.Component {
     if(this.state.polyline === undefined){
       this.state.polyline = [];
     }
+
+
   return (
     <View style={styles.container}>
       <MapView
@@ -290,6 +326,22 @@ export default class MapComponentView extends React.Component {
           );
         })
       }
+      {/*
+        this.props.stands !== undefined && this.props.stands.map((stand,index) => {
+          return (
+            <Marker
+            key={stand.id}
+            onPress={() => this.setState({ markerSelected:index})}
+            coordinate= {{latitude:stand.latitude,longitude:stand.longitude}}
+            style={styles.standMarkerStyle}
+            calloutAnchor={{ x: 0, y: 0 }}
+            anchor={{ x: 0.5, y: 0.5 }}
+            >
+            <StandMarker standId={stand.stand_number+100}/>
+            </Marker>
+          );
+        }))*/
+      }
       {
         this.state.locationMarker.map(loc=>{
           return (
@@ -307,21 +359,21 @@ export default class MapComponentView extends React.Component {
       }
       <Polyline
       coordinates={this.state.polyline}
-      strokeColor="green"
-      strokeWidth={3}
+      strokeColor="#609bd1"
+      strokeWidth={this.state.polylineStrokeWidth}
       />
       </MapView>
 
       <View style={styles.bottom}>
       <TouchableOpacity style={styles.gpsButton} onPress={this.onGpsButtonPress}>
-      <Icon name={"gps-fixed"}  size={20} color="black" />
+        <Icon name={"gps-fixed"}  size={20} color="black" />
       </TouchableOpacity>
-        <HorizontalCardGallery
-          style={styles.cardGallery}
-          stands={this.state.standsDataSource}
-          indexSelected={this.state.markerSelected}
-          navigation={this.props.navigation}
-        />
+      <HorizontalCardGallery
+        style={styles.cardGallery}
+        stands={this.state.standsDataSource}
+        indexSelected={this.state.markerSelected}
+        navigation={this.props.navigation}
+      />
       </View>
     </View>
 

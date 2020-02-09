@@ -51,7 +51,10 @@ render() {
   return (
     <View style={styles.container}>
       <StatusBar style={styles.container} hidden={false} backgroundColor="#609bd1" translucent={true}/>
-      <MapComponentView style={styles.container} stands={this.state.standsDataSource} mapType={"STANDARD"} navigation={this.props.navigation} />
+      {
+        (this.state.standsDataSource.length!==1) && <MapComponentView style={styles.container} stands={this.state.standsDataSource} mapType={"STANDARD"} navigation={this.props.navigation} />
+      }
+
     </View>
   );
 }

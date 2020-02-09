@@ -20,13 +20,11 @@ export default class ToursScreen extends React.Component {
 
   // Lifecycle events
   componentDidMount(){
-    this.props.uri();
     this.getSuggestedCongestionTour();
   }
 
     getSuggestedCongestionTour(){
-      console.log(this.props.uri);
-        return fetch('http://10.0.2.2:8080/tour/no_lines')
+        return fetch('http://10.0.2.2:8080'+this.props.navigation.state.params.uri)
           .then((response) => response.json())
           .then((responseJson) => {
             this.setState({
@@ -60,7 +58,9 @@ export default class ToursScreen extends React.Component {
         return(
             <View style={styles.container}>
             <StatusBar hidden = {false} backgroundColor = "rgba(0,0,0,0)" translucent = {true}/>
-            <MapComponentView style={styles.mapView} stands={this.state.dataSource} mapType={"TOUR"} navigation={this.props.navigation} />
+            {(this.state.dataSource !== null && this.state.dataSource !== undefined) &&
+              <MapComponentView style={styles.mapView} stands={this.state.dataSource} mapType={"STANDARD"} navigation={this.props.navigation} />
+            }
             <View style={styles.tourView}>
               <ScrollView
                  style={styles.container}
