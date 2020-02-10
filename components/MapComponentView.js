@@ -12,6 +12,7 @@ import MapView, {
   Polyline,
 } from 'react-native-maps';
 import StandMarker from './StandMarker';
+import TourMarker from './TourMarker';
 import LocationMarker from './LocationMarker';
 import HorizontalCardGallery from './HorizontalCardGallery';
 import StyleCommons from '../assets/styles/StyleCommons';
@@ -320,7 +321,7 @@ export default class MapComponentView extends React.Component {
             calloutAnchor={{ x: 0, y: 0 }}
             anchor={{ x: 0.5, y: 0.5 }}
             >
-            <StandMarker standId={marker.stand_number+100}/>
+            {(this.state.mapProps !==undefined && this.state.mapProps.showOrderMarker)?<TourMarker order={marker.stand_index+1}/>:<StandMarker standId={marker.stand_number+100}/>}
             </Marker>
           );
         })

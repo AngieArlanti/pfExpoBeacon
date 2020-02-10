@@ -16,12 +16,10 @@ class TourMarker extends React.Component {
   }
 }
 
-TourMarker.propTypes = propTypes;
-
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
-    alignSelf: 'center',
+    alignSelf: 'flex-start',
     zIndex: 9,
     position: 'absolute',
   },
@@ -32,14 +30,18 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     borderColor:'#00558B',
     padding:1,
-    width: 14,
-    height: 14,
-    borderRadius: 7,
-    borderWidth: 1.25,
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    borderWidth: 1.75,
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute',
   },
   tourOrderLabel: {
     color: '#00558B',
-    fontSize: 12,
+    fontSize: 11,
+    fontWeight: 'bold',
   },
 });
 
