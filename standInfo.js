@@ -5,6 +5,7 @@ import { Rating, AirbnbRating } from 'react-native-elements';
 import { getUniqueId } from 'react-native-device-info';
 import { BarChart } from "react-native-chart-kit";
 import { Dimensions } from "react-native";
+import ImageLayout from "react-native-image-layout";
 
 const screenWidth = Dimensions.get("window").width;
 const chartConfig = {
@@ -71,15 +72,21 @@ export default class StandInfo extends React.Component {
   }
 
 
-
   render() {
-    console.log(this.state.data);
     return (
       <View style={styles.container}>
          <StatusBar hidden = {false} backgroundColor = '#609bd1' translucent = {true}/>
          <View style={styles.top, styles.lineStyle} >
-           <ScrollView>
-           <SliderBox images={this.props.navigation.state.params.item.pictures} sliderBoxHeight={500} sliderBoxwidth={null}/>
+           <ScrollView style={padding=10}>
+             <ImageLayout
+              sensitivePageScroll={true}
+              images={this.props.navigation.state.params.item.pictures.map(function(picture) {
+                return {
+                  uri : picture
+                }
+              })}
+              enableModal={true}
+            />
             <View style={styles.lineStyle} >
                 <Text style={styles.title}>{this.props.navigation.state.params.item.title}</Text>
                 <View style = {styles.sameLineComponents}>
@@ -141,6 +148,7 @@ const styles = StyleSheet.create({
   top: {
     flex: 1,
     marginTop:23,
+    paddingTop: 200,
   },
   text: {
     alignItems: "center",
