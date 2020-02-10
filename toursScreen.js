@@ -16,25 +16,6 @@ export default class ToursScreen extends React.Component {
             scrollY: new Animated.Value(0),
           };
     }
-  // Lifecycle events
-  componentDidMount(){
-    this.getSuggestedCongestionTour();
-  }
-
-    getSuggestedCongestionTour(){
-        return fetch('http://10.0.2.2:8080/stands/suggested_tour')
-          .then((response) => response.json())
-          .then((responseJson) => {
-            this.setState({
-              isLoading: false,
-              dataSource: responseJson,
-            }, function(){
-            });
-          })
-          .catch((error) =>{
-            console.error(error);
-          });
-      }
     render() {
         const headerHeight = this.state.scrollY.interpolate({
             inputRange: [0, HEADER_SCROLL_DISTANCE],
