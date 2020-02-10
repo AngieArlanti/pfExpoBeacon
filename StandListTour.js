@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import { FlatList, StyleSheet, View,ActivityIndicator, Text} from 'react-native';
 import { ListItem } from 'react-native-elements'
-
+import {HEADER_MAX_HEIGHT} from './assets/constants/constants';
 /**
 * @param props properties needed to render StandList:
 * - stands: array of stands' data.
 */
-
-const HEADER_MAX_HEIGHT = 300;
 
 export default class StandList extends React.Component {
   constructor(props){
@@ -31,7 +29,7 @@ export default class StandList extends React.Component {
   )
 
   render () {
-    
+
   if(this.props.isLoadingList){
       return(
         <View style={{flex: 1, padding: 20}}>
@@ -40,7 +38,7 @@ export default class StandList extends React.Component {
       )
     }
   return (
-    
+
       <View style={styles.scrollViewContent}>
         <Text style={styles.title}>Evitá las filas</Text>
         <Text style={styles.text}>Chequeá la disponibilidad de los Stands en tiempo real, evitando la congestion de gente</Text>
@@ -50,7 +48,7 @@ export default class StandList extends React.Component {
       renderItem={({item, index}) => this.renderItem(item, index+1)}
     />
     </View>
-    
+
   )
   }
 }

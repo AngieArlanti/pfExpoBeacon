@@ -8,7 +8,7 @@ import {Rating} from 'react-native-elements';
 * - stands: array of stands' data.
 */
 
-const HEADER_MAX_HEIGHT = 300;
+const HEADER_MAX_HEIGHT = 180;
 
 export default class StandList extends React.Component {
   constructor(props){
@@ -45,7 +45,7 @@ export default class StandList extends React.Component {
   )
 
   render () {
-    
+
   if(this.props.isLoadingList){
       return(
         <View style={{flex: 1, padding: 20}}>
@@ -54,7 +54,7 @@ export default class StandList extends React.Component {
       )
     }
   return (
-    
+
       <View style={styles.scrollViewContent}>
     <FlatList
       keyExtractor={this.keyExtractor}
@@ -62,7 +62,7 @@ export default class StandList extends React.Component {
       renderItem={this.renderItem}
     />
     </View>
-    
+
   )
   }
 }
@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
     marginTop: HEADER_MAX_HEIGHT,
   },
   sameLineComponents : {
-    flex: 1, 
+    flex: 1,
     flexDirection: 'row',
     paddingTop : 0,
     paddingBottom : 0,
@@ -122,5 +122,5 @@ const styles = StyleSheet.create({
   },
   alignRanking: {
     paddingTop: 5,
-  }, 
+  },
 })
