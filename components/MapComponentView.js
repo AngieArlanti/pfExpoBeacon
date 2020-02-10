@@ -16,18 +16,10 @@ import LocationMarker from './LocationMarker';
 import HorizontalCardGallery from './HorizontalCardGallery';
 import StyleCommons from '../assets/styles/StyleCommons';
 import { getUniqueId } from 'react-native-device-info';
-import * as Constants from '../assets/constants/constants'
+import {ASPECT_RATIO,LATITUDE,LONGITUDE, LATITUDE_DELTA,LONGITUDE_DELTA,SPACE,POLYLINE_DEFAULT_STROKE_WIDTH,POLYLINE_TOUR_DEFAULT_STROKE_WIDTH,DEVICE_PROXIMITY_SERVICE_URL} from '../assets/constants/constants'
 
 var BeaconManager = require('NativeModules').BeaconManager;
 const { width, height } = Dimensions.get('window');
-const ASPECT_RATIO = width / height;
-const LATITUDE = -34.6403339;
-const LONGITUDE = -58.4015757;
-const LATITUDE_DELTA = 0.000001;
-const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
-const SPACE = 0.0000001;
-const POLYLINE_DEFAULT_STROKE_WIDTH = 2;
-const POLYLINE_TOUR_DEFAULT_STROKE_WIDTH = 4;
 
 
 
@@ -124,7 +116,7 @@ export default class MapComponentView extends React.Component {
   }
 
   saveDeviceProximity(standId){
-    fetch('http://10.0.2.2:8080/device_proximity', {
+    fetch(DEVICE_PROXIMITY_SERVICE_URL, {
       method: 'POST',
       headers: {
         Accept: 'application/json',

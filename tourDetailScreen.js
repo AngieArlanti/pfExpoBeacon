@@ -2,11 +2,8 @@ import React, {Component} from 'react';
 import {View, StyleSheet, StatusBar, ScrollView, Animated, Text} from 'react-native';
 import ToursStandListView from './components/ToursStandListView';
 import MapComponentView from './components/MapComponentView';
+import {HEADER_MAX_HEIGHT,HEADER_MIN_HEIGHT,HEADER_SCROLL_DISTANCE,BASE_PATH} from './assets/constants/constants';
 
-
-const HEADER_MAX_HEIGHT = 300;
-const HEADER_MIN_HEIGHT = 25;
-const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
 export default class ToursScreen extends React.Component {
 
@@ -24,7 +21,7 @@ export default class ToursScreen extends React.Component {
   }
 
     getSuggestedCongestionTour(){
-        return fetch('http://10.0.2.2:8080'+this.props.navigation.state.params.uri)
+        return fetch(BASE_PATH+this.props.navigation.state.params.uri)
           .then((response) => response.json())
           .then((responseJson) => {
             this.setState({

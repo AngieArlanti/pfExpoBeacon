@@ -5,10 +5,7 @@ import { Card, CardItem, Button } from 'native-base';
 import { colors, Icon } from 'react-native-elements';
 import TourDetailScreen from './tourDetailScreen';
 import TourCategoryButton from './components/TourCategoryButton'
-
-const HEADER_MAX_HEIGHT = 180;
-const HEADER_MIN_HEIGHT = 25;
-const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
+import {HEADER_MAX_HEIGHT,HEADER_MIN_HEIGHT,HEADER_SCROLL_DISTANCE} from './assets/constants/constants';
 
 export default class ToursScreen extends React.Component {
 
@@ -18,26 +15,6 @@ export default class ToursScreen extends React.Component {
         this.state = {
             scrollY: new Animated.Value(0),
           };
-    }
-
-  // Lifecycle events
-  componentDidMount(){
-    this.getSuggestedCongestionTour();
-  }
-
-    getSuggestedCongestionTour(){
-        return fetch('http://10.0.2.2:8080/stands/suggested_tour')
-          .then((response) => response.json())
-          .then((responseJson) => {
-            this.setState({
-              isLoading: false,
-              dataSource: responseJson,
-            }, function(){
-            });
-          })
-          .catch((error) =>{
-            console.error(error);
-          });
     }
 
     render() {

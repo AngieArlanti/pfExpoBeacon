@@ -3,6 +3,7 @@ import {View, Text, StyleSheet,ScrollView, Dimensions, TouchableOpacity,StatusBa
 import StandList from './standList';
 import * as Constants from './assets/constants/constants'
 import MapComponentView from './components/MapComponentView';
+import {STAND_LIST_SERVICE_URL} from './assets/constants/constants';
 
 
 export default class SearchScreen extends React.Component {
@@ -27,12 +28,9 @@ export default class SearchScreen extends React.Component {
     });
   }
 
-  // TODO Eliminar cuando conectemos con server real.
-  // REEMPLACEN POR SU IP SI CORREN EN ANDROID FISICO, LA PUEDEN OBTENER CON: ifconfig | grep "inet " | grep -v 127.0.0.1
-  // REEMPLAZAR POR 10.0.2.2 SI CORREN EN EMULADOR ANDROID
   // Services TODO: Modularize
   getAllStands(){
-    return fetch('http://10.0.2.2:8080/stands/list')
+    return fetch(STAND_LIST_SERVICE_URL)
     .then((response) => response.json())
     .then((responseJson) => {
       this.setState({
