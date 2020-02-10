@@ -3,6 +3,7 @@ package com.pfexpobeacon;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.horcrux.svg.SvgPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.swmansion.reanimated.ReanimatedPackage;
@@ -28,6 +29,7 @@ public class MainApplication extends Application implements ReactApplication {
         protected List<ReactPackage> getPackages() {
             return Arrays.asList(
                 new MainReactPackage(),
+            new SvgPackage(),
                 new RNDeviceInfo(),
                 new VectorIconsPackage(),
                 new ReanimatedPackage(),

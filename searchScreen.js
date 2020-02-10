@@ -43,7 +43,6 @@ export default class SearchScreen extends React.Component {
       console.error(error);
     });
   }
-
 render() {
 
   return (
