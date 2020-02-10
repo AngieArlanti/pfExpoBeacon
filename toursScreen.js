@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
-import {View, StyleSheet, StatusBar, ScrollView, Animated, Text} from 'react-native';
+import {View, StyleSheet, StatusBar, ScrollView, Animated, Text, TouchableOpacity} from 'react-native';
 import StandListTour from './StandListTour';
-
-const HEADER_MAX_HEIGHT = 300;
-const HEADER_MIN_HEIGHT = 25;
-const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
+import { Card, CardItem, Button } from 'native-base';
+import { colors, Icon } from 'react-native-elements';
+import TourDetailScreen from './tourDetailScreen';
+import TourCategoryButton from './components/TourCategoryButton'
+import {HEADER_MAX_HEIGHT,HEADER_MIN_HEIGHT,HEADER_SCROLL_DISTANCE} from './assets/constants/constants';
 
 export default class ToursScreen extends React.Component {
 
@@ -15,7 +16,6 @@ export default class ToursScreen extends React.Component {
             scrollY: new Animated.Value(0),
           };
     }
-
   // Lifecycle events
   componentDidMount(){
     this.getSuggestedCongestionTour();
@@ -35,7 +35,6 @@ export default class ToursScreen extends React.Component {
             console.error(error);
           });
       }
-
     render() {
         const headerHeight = this.state.scrollY.interpolate({
             inputRange: [0, HEADER_SCROLL_DISTANCE],
@@ -67,8 +66,14 @@ export default class ToursScreen extends React.Component {
                    [{nativeEvent: {contentOffset: {y: this.state.scrollY}}}]
                    )}
              >
-               {(this.state.dataSource !== null && this.state.dataSource !== undefined) &&
-               <StandListTour stands={this.state.dataSource} navigation={this.props.navigation} isLoadingList={this.state.isLoading}/>}
+               <View style={styles.scrollViewContent}>
+                <View>
+                <TourCategoryButton title="Evitar filas" image={require('./assets/images/tours-esquivando-filas.jpg')} navigation={this.props.navigation} uri="/tour/no_lines"/>
+                <TourCategoryButton title="Recorridos populares" image={require('./assets/images/tours-populares.jpg')} navigation={this.props.navigation} uri="/tour/top_three"/>
+                <TourCategoryButton title="Recorridos de 1 hora" image={require('./assets/images/tours-tiempo.jpg')} navigation={this.props.navigation} uri="/tour/time_limited?time_limit=1"/>
+                <TourCategoryButton title="Recorridos de 2 horas" image={require('./assets/images/tours-tiempo.jpg')} navigation={this.props.navigation} uri="/tour/time_limited?time_limit=2"/>
+                </View>
+                </View>
                </ScrollView>
 
            </View>
@@ -107,4 +112,24 @@ const styles = StyleSheet.create({
         height: HEADER_MAX_HEIGHT,
         resizeMode: 'cover',
     },
+    scrollViewContent: {
+      marginTop: HEADER_MAX_HEIGHT,
+    },
+    button : {
+      backgroundColor:'#00558B',
+      flex: 0,
+      flexDirection: 'row',
+      borderRadius: 6,
+      padding: 6,
+      alignSelf: 'center',
+      alignContent: 'center',
+      justifyContent: 'center',
+    },
+    buttonText : {
+      color: '#FFFFFF',
+      fontSize: 20,
+      paddingLeft: 15,
+      alignContent: 'center',
+      justifyContent: 'center',
+    }
 });

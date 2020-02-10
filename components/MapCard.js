@@ -27,16 +27,16 @@ class MapCard extends Component {
                 </View>
                 <View style={{ flex: 2, paddingHorizontal: 16, paddingVertical: 8}}>
                     <Text style={styles.titleText}>{this.props.item.title}</Text>
-                    <View style={styles.feedbackViewContainer}>
-                      <Text style={styles.descriptionText}>{this.props.item.ranking_average.ranking.toFixed(1)}</Text>
-                      <Rating
-                        style={{paddingLeft: 8}}
-                        imageSize={12}
-                        readonly
-                        startingValue={this.props.item.ranking_average.ranking}
-                      />
-                      <Text style={styles.titleText}>({this.props.item.ranking_average.cant_rates})</Text>
-                    </View>
+                      <View style={styles.feedbackViewContainer}>
+                        <Text style={styles.descriptionText}>{this.props.item.ranking_average.ranking.toFixed(1)}</Text>
+                        <Rating
+                          style={{paddingLeft: 8}}
+                          imageSize={12}
+                          readonly
+                          startingValue={this.props.item.ranking_average.ranking}
+                        />
+                        <Text style={styles.descriptionText}>({this.props.item.ranking_average.cant_rates})</Text>
+                      </View>
                     <TouchableOpacity style={styles.directionsButton}>
                       <Icon color="white" name={"directions"} size={14} style={{alignSelf: 'center',
                       alignContent: 'center',

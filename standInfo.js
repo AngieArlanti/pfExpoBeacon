@@ -16,6 +16,7 @@ const chartConfig = {
   strokeWidth: 2, // optional, default 3
   barPercentage: 0.5,
 };
+import {STAND_RANKING_SERVICE_URL} from './assets/constants/constants';
 
 export default class StandInfo extends React.Component {
 
@@ -28,7 +29,7 @@ export default class StandInfo extends React.Component {
   }
 
   ratingCompleted(rating) {
-    fetch('http://10.0.2.2:8080/stand_ranking', {
+    fetch(STAND_RANKING_SERVICE_URL, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -94,8 +95,7 @@ export default class StandInfo extends React.Component {
                 </View>
                 <Text style={styles.text}>{this.props.navigation.state.params.item.description}</Text>
             </View>
-            
-            <View style={styles.lineStyle}>
+            <View style={styles.lineStyle} >
                 <Text style={styles.subTitle}>Calificanos, que te pareció?</Text>
                 <AirbnbRating
                   count={5}
@@ -173,7 +173,7 @@ const styles = StyleSheet.create({
     fontWeight : 'bold',
   },
   sameLineComponents : {
-    flex: 1, 
+    flex: 1,
     flexDirection: 'row',
     paddingLeft : 16,
   },
