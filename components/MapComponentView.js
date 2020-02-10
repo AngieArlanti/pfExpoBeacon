@@ -60,6 +60,9 @@ export default class MapComponentView extends React.Component {
         if(config.showPath && !config.showUserLocation){
           this.showTourRoute();
         }
+        if(config.showPath && config.showUserLocation){
+          this.locateGuy(true);
+        }
       }
       this.setState({ standsDataSource : this.props.stands,
                       mapProps:mapProperties[this.props.mapType]});
@@ -178,8 +181,17 @@ export default class MapComponentView extends React.Component {
 
   //Method executed when pressing location button
   onGpsButtonPress = e =>{
-    console.log("GPS button pressed");
-    this.locateGuy(true);
+    var fakeLocation =  [{
+      id: "ldksfjdslkf",
+      center: {
+        latitude: -34.6403200,
+        longitude: -58.401555,
+      },
+      radius: 1,
+    }];
+    this.setState({
+      locationMarker:fakeLocation,
+    });
   }
 
   //Rendering and Screen UI events handrlers
