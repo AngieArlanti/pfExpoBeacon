@@ -33,9 +33,25 @@ export const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 export const SPACE = 0.0000001;
 export const POLYLINE_DEFAULT_STROKE_WIDTH = 2;
 export const POLYLINE_TOUR_DEFAULT_STROKE_WIDTH = 4;
-
-
-// export const MAP_COMPONENT_VIEW_TYPES: {
-//   TOUR: MapComponentViewTypes;
-//   STANDARD: MapComponentViewTypes;
-// }
+export const MAP_COMPONENT_VIEW_TYPES = {
+    TOUR: 'TOUR',
+    ROUTE: 'ROUTE',
+    DEFAULT: 'DEFAULT'
+}
+export const  mapProperties= {
+    [MAP_COMPONENT_VIEW_TYPES.TOUR] : {
+      'showGallery': false,
+   	  'showPath': true,
+   	  'showUserLocation':false,
+      'showOrderMarker':true, },
+    [MAP_COMPONENT_VIEW_TYPES.ROUTE]:{
+      'showGallery': false,
+   	  'showPath': true,
+   	  'showUserLocation':true,
+      'showOrderMarker':false, },
+    [MAP_COMPONENT_VIEW_TYPES.DEFAULT] : {
+      'showGallery': true,
+   	  'showPath': false,
+   	  'showUserLocation':false,
+      'showOrderMarker':false, }
+};

@@ -16,7 +16,7 @@ import LocationMarker from './LocationMarker';
 import HorizontalCardGallery from './HorizontalCardGallery';
 import StyleCommons from '../assets/styles/StyleCommons';
 import { getUniqueId } from 'react-native-device-info';
-import {ASPECT_RATIO,LATITUDE,LONGITUDE, LATITUDE_DELTA,LONGITUDE_DELTA,SPACE,POLYLINE_DEFAULT_STROKE_WIDTH,POLYLINE_TOUR_DEFAULT_STROKE_WIDTH,DEVICE_PROXIMITY_SERVICE_URL} from '../assets/constants/constants'
+import {ASPECT_RATIO,LATITUDE,LONGITUDE, LATITUDE_DELTA,LONGITUDE_DELTA,SPACE,POLYLINE_DEFAULT_STROKE_WIDTH,POLYLINE_TOUR_DEFAULT_STROKE_WIDTH,DEVICE_PROXIMITY_SERVICE_UR,MAP_COMPONENT_VIEW_TYPES,mapProperties} from '../assets/constants/constants'
 
 var BeaconManager = require('NativeModules').BeaconManager;
 const { width, height } = Dimensions.get('window');
@@ -54,7 +54,14 @@ export default class MapComponentView extends React.Component {
     }
 
     componentDidMount() {
-      this.setState({ standsDataSource : this.props.stands });
+      if(this.props.mapType!==undefined){
+        let config =mapProperties[this.props.mapType];
+        if(config.showPath && !config.showUserLocation){
+          this.showTourRoute();
+        }
+      }
+      this.setState({ standsDataSource : this.props.stands,
+                      mapProps:mapProperties[this.props.mapType]});
     }
     componentWillUnmount() {
       if( this.startSubscription !==undefined && this.stopSubscription!==undefined){
@@ -245,7 +252,7 @@ export default class MapComponentView extends React.Component {
 
   /*Creates a polyline datasource with all the stands. Assumes stands are ordered*/
   showTourRoute(){
-    let standsPolylineDatasource=stands.map(function(stand) {
+    let standsPolylineDatasource=this.props.stands.map(function(stand) {
       return {
         latitude: stand.latitude,
         longitude: stand.longitude
@@ -349,10 +356,11 @@ export default class MapComponentView extends React.Component {
           );
         })
       }
+
       <Polyline
-      coordinates={this.state.polyline}
-      strokeColor="#609bd1"
-      strokeWidth={this.state.polylineStrokeWidth}
+        coordinates={this.state.polyline}
+        strokeColor="#609bd1"
+        strokeWidth={this.state.polylineStrokeWidth}
       />
       </MapView>
 
@@ -360,12 +368,14 @@ export default class MapComponentView extends React.Component {
       <TouchableOpacity style={styles.gpsButton} onPress={this.onGpsButtonPress}>
         <Icon name={"gps-fixed"}  size={20} color="black" />
       </TouchableOpacity>
-      <HorizontalCardGallery
-        style={styles.cardGallery}
-        stands={this.state.standsDataSource}
-        indexSelected={this.state.markerSelected}
-        navigation={this.props.navigation}
-      />
+      {(this.state.mapProps !==undefined && this.state.mapProps.showGallery) &&
+        <HorizontalCardGallery
+          style={styles.cardGallery}
+          stands={this.state.standsDataSource}
+          indexSelected={this.state.markerSelected}
+          navigation={this.props.navigation}
+        />
+      }
       </View>
     </View>
 

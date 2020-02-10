@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {View, StyleSheet, StatusBar, ScrollView, Animated, Text} from 'react-native';
 import ToursStandListView from './components/ToursStandListView';
 import MapComponentView from './components/MapComponentView';
-import {HEADER_MAX_HEIGHT,HEADER_MIN_HEIGHT,HEADER_SCROLL_DISTANCE,BASE_PATH} from './assets/constants/constants';
+import {HEADER_MAX_HEIGHT,HEADER_MIN_HEIGHT,HEADER_SCROLL_DISTANCE,BASE_PATH,MAP_COMPONENT_VIEW_TYPES} from './assets/constants/constants';
 
 
 export default class ToursScreen extends React.Component {
@@ -56,7 +56,7 @@ export default class ToursScreen extends React.Component {
             <View style={styles.container}>
             <StatusBar hidden = {false} backgroundColor = "rgba(0,0,0,0)" translucent = {true}/>
             {(this.state.dataSource !== null && this.state.dataSource !== undefined) &&
-              <MapComponentView style={styles.mapView} stands={this.state.dataSource} mapType={"STANDARD"} navigation={this.props.navigation} />
+              <MapComponentView style={styles.mapView} stands={this.state.dataSource} mapType={MAP_COMPONENT_VIEW_TYPES.TOUR} navigation={this.props.navigation} />
             }
             <View style={styles.tourView}>
               <ScrollView

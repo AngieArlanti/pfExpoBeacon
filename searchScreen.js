@@ -3,7 +3,7 @@ import {View, Text, StyleSheet,ScrollView, Dimensions, TouchableOpacity,StatusBa
 import StandList from './standList';
 import * as Constants from './assets/constants/constants'
 import MapComponentView from './components/MapComponentView';
-import {STAND_LIST_SERVICE_URL} from './assets/constants/constants';
+import {STAND_LIST_SERVICE_URL,MAP_COMPONENT_VIEW_TYPES} from './assets/constants/constants';
 
 
 export default class SearchScreen extends React.Component {
@@ -50,7 +50,7 @@ render() {
     <View style={styles.container}>
       <StatusBar style={styles.container} hidden={false} backgroundColor="#609bd1" translucent={true}/>
       {
-        (this.state.standsDataSource.length!==1) && <MapComponentView style={styles.container} stands={this.state.standsDataSource} mapType={"STANDARD"} navigation={this.props.navigation} />
+        (this.state.standsDataSource.length!==1) && <MapComponentView style={styles.container} stands={this.state.standsDataSource} mapType={MAP_COMPONENT_VIEW_TYPES.DEFAULT} navigation={this.props.navigation} />
       }
 
     </View>
