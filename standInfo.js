@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, StatusBar, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, StatusBar, ScrollView, Dimensions, Image, FlatList } from 'react-native';
 import { SliderBox } from 'react-native-image-slider-box';
 import { Rating, AirbnbRating } from 'react-native-elements';
 import { getUniqueId } from 'react-native-device-info';
+import ImageZoom from 'react-native-image-pan-zoom';
+import Carousel from 'react-native-snap-carousel';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import ImageCarousel from 'react-native-image-page';
 
 export default class StandInfo extends React.Component {
 
@@ -12,7 +16,7 @@ export default class StandInfo extends React.Component {
   }
 
   ratingCompleted(rating) {
-    fetch('http://192.168.0.174:8080/stand_ranking', {
+    fetch('http://10.0.2.2:8080/stand_ranking', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -27,13 +31,24 @@ export default class StandInfo extends React.Component {
     console.log(rating);
   }
 
+
   render() {
     return (
       <View style={styles.container}>
          <StatusBar hidden = {false} backgroundColor = '#609bd1' translucent = {true}/>
          <View style={styles.top, styles.lineStyle} >
            <ScrollView>
-           <SliderBox images={this.props.navigation.state.params.item.pictures} sliderBoxHeight={500} sliderBoxwidth={null}/>
+           {/*<SliderBox images={this.props.navigation.state.params.item.pictures} sliderBoxHeight={500} sliderBoxwidth={null}/>*/}
+           <View>
+           <ImageCarousel
+          height={200}
+          delay={2000}
+          indicatorSize={10}
+          indicatorOffset={-20}
+          indicatorColor="red"
+          images={this.props.navigation.state.params.item.pictures}
+          />
+          </View>
             <View style={styles.lineStyle} >
                 <Text style={styles.title}>{this.props.navigation.state.params.item.title}</Text>
                 <View style = {styles.sameLineComponents}>
@@ -97,7 +112,7 @@ const styles = StyleSheet.create({
     justifyContent:'center',
   },
   image: {
-    height: 1000,
+    height: 100,
     width: null,
     flex: 1,
   },
