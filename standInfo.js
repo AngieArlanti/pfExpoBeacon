@@ -5,7 +5,7 @@ import { Rating, AirbnbRating } from 'react-native-elements';
 import { getUniqueId } from 'react-native-device-info';
 import { BarChart } from "react-native-chart-kit";
 import { Dimensions } from "react-native";
-import ImageLayout from "react-native-image-layout";
+import SmartGallery from "react-native-smart-gallery";
 
 const screenWidth = Dimensions.get("window").width;
 const chartConfig = {
@@ -18,6 +18,7 @@ const chartConfig = {
   barPercentage: 0.5,
 };
 import {STAND_RANKING_SERVICE_URL} from './assets/constants/constants';
+import {STAND_HISTOGRAM_SERVICE_URL} from './assets/constants/constants';
 
 export default class StandInfo extends React.Component {
 
@@ -45,7 +46,7 @@ export default class StandInfo extends React.Component {
   }
 
   getStandHistogram(){
-    return fetch('http://10.0.2.2:8080/stats/stand_histogram?stand_id='+this.props.navigation.state.params.item.id)
+    return fetch(STAND_HISTOGRAM_SERVICE_URL+this.props.navigation.state.params.item.id)
     .then((response) => response.json())
     .then((responseJson) => {
       this.setState({
@@ -71,22 +72,36 @@ export default class StandInfo extends React.Component {
     });
   }
 
+  smartGallery() {
+    console.log(this.props.navigation.state.params.item.pictures)
+    return (
+      <SmartGallery
+        images={this.props.navigation.state.params.item.pictures.map(function(picture) {
+          return {
+            uri : picture
+          }
+        })}
+        loadMinimal={true}
+        loadMinimalSize={2}
+        // Turning this off will make it feel faster
+        // and prevent the scroller to slow down
+        // on fast swipes.
+        sensitiveScroll={false}
+         />
+    )
+  }
+
+  
+
 
   render() {
     return (
       <View style={styles.container}>
          <StatusBar hidden = {false} backgroundColor = '#609bd1' translucent = {true}/>
          <View style={styles.top, styles.lineStyle} >
-           <ScrollView style={padding=10}>
-             <ImageLayout
-              sensitivePageScroll={true}
-              images={this.props.navigation.state.params.item.pictures.map(function(picture) {
-                return {
-                  uri : picture
-                }
-              })}
-              enableModal={true}
-            />
+           <ScrollView>
+            <SliderBox images={this.props.navigation.state.params.item.pictures} sliderBoxHeight={500} sliderBoxwidth={null}
+              onCurrentImagePressed={() => this.props.navigation.navigate('ImageGalleryScreen', {pictures : this.props.navigation.state.params.item.pictures})}/>
             <View style={styles.lineStyle} >
                 <Text style={styles.title}>{this.props.navigation.state.params.item.title}</Text>
                 <View style = {styles.sameLineComponents}>
@@ -148,7 +163,6 @@ const styles = StyleSheet.create({
   top: {
     flex: 1,
     marginTop:23,
-    paddingTop: 200,
   },
   text: {
     alignItems: "center",
