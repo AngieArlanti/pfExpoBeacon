@@ -8,6 +8,7 @@ import { createBottomTabNavigator } from 'react-navigation-tabs';
 import SearchScreen from './searchScreen';
 import ToursScreen from './toursScreen';
 import TourDetailScreen from './tourDetailScreen';
+import StandTourDetailsSwipeScreen from './screens/StandTourDetailsSwipeScreen'
 import ProfileScreen from './profileScreen';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {HEADER_MAX_HEIGHT,HEADER_MIN_HEIGHT,HEADER_SCROLL_DISTANCE,STAND_LIST_SERVICE_URL} from './assets/constants/constants';
@@ -171,6 +172,7 @@ const ToursNavigator = createStackNavigator({
   ToursScreen : ToursScreen,
   TourDetailScreen : TourDetailScreen,
   StandInfo: {screen: StandInfo},
+  StandTourDetailsSwipeScreen:StandTourDetailsSwipeScreen,
 },
 {
     defaultNavigationOptions: {

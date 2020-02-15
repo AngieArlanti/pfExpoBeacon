@@ -55,3 +55,10 @@ export const  mapProperties= {
    	  'showUserLocation':false,
       'showOrderMarker':false, }
 };
+
+export const STAND_TOUR_DETAIL_TYPES = {
+    MAP_DETAIL: 'MAP_DETAIL',
+    TINDER_DETAIL: 'TINDER_DETAIL'
+}
+
+const DEFAULT_MAP_MARKERS_PADDING = { top: 20, right: 40, bottom: 180, left: 40 };

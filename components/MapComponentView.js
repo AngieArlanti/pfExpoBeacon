@@ -17,7 +17,7 @@ import LocationMarker from './LocationMarker';
 import HorizontalCardGallery from './HorizontalCardGallery';
 import StyleCommons from '../assets/styles/StyleCommons';
 import { getUniqueId } from 'react-native-device-info';
-import {ASPECT_RATIO,LATITUDE,LONGITUDE, LATITUDE_DELTA,LONGITUDE_DELTA,SPACE,POLYLINE_DEFAULT_STROKE_WIDTH,POLYLINE_TOUR_DEFAULT_STROKE_WIDTH,DEVICE_PROXIMITY_SERVICE_UR,MAP_COMPONENT_VIEW_TYPES,mapProperties} from '../assets/constants/constants'
+import {DEFAULT_MAP_MARKERS_PADDING,ASPECT_RATIO,LATITUDE,LONGITUDE, LATITUDE_DELTA,LONGITUDE_DELTA,SPACE,POLYLINE_DEFAULT_STROKE_WIDTH,POLYLINE_TOUR_DEFAULT_STROKE_WIDTH,DEVICE_PROXIMITY_SERVICE_UR,MAP_COMPONENT_VIEW_TYPES,mapProperties} from '../assets/constants/constants'
 
 var BeaconManager = require('NativeModules').BeaconManager;
 const { width, height } = Dimensions.get('window');
@@ -46,12 +46,14 @@ export default class MapComponentView extends React.Component {
       this.state.polyline =[];
       this.state.polylineStrokeWidth=POLYLINE_DEFAULT_STROKE_WIDTH;
       this.state.standsDataSource= [];
+      this.state.markersFitted=false;
       this.state = {
         coordinate: new AnimatedRegion({
           latitude: LATITUDE,
           longitude: LONGITUDE,
         }),
       };
+      this.map=null;
     }
 
     componentDidMount() {
@@ -192,6 +194,7 @@ export default class MapComponentView extends React.Component {
     this.setState({
       locationMarker:fakeLocation,
     });
+    this.fitAllMarkers();
   }
 
   //Rendering and Screen UI events handrlers
@@ -279,7 +282,16 @@ export default class MapComponentView extends React.Component {
   }
 
   /* MAP BEHAVIOUR */
-
+  fitAllMarkers() {
+    if(this.map!==null){
+      let coordinates = this.state.markerElements.map(marker => marker.latlng);
+      this.map.fitToCoordinates(coordinates, {
+        edgePadding: DEFAULT_MAP_MARKERS_PADDING,
+        animated: true,
+      });
+      this.state.markersFitted=true;
+    }
+  }
 
   /* Rendering */
 
@@ -318,9 +330,13 @@ export default class MapComponentView extends React.Component {
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA,
       }}
-      minZoomLevel={17}
+      minZoomLevel={16}
       maxZoomLevel={22}
       rotateEnabled={false}
+      ref={ref => {
+            this.map = ref;
+          }}
+      onMapReady={() => this.fitAllMarkers()}
       >
       {
         this.state.markerElements.map(marker => {
