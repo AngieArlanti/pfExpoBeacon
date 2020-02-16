@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, StatusBar, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, StatusBar, ScrollView} from 'react-native';
 import { SliderBox } from 'react-native-image-slider-box';
 import { Rating, AirbnbRating } from 'react-native-elements';
 import { getUniqueId } from 'react-native-device-info';
@@ -71,28 +71,6 @@ export default class StandInfo extends React.Component {
       console.error(error);
     });
   }
-
-  smartGallery() {
-    console.log(this.props.navigation.state.params.item.pictures)
-    return (
-      <SmartGallery
-        images={this.props.navigation.state.params.item.pictures.map(function(picture) {
-          return {
-            uri : picture
-          }
-        })}
-        loadMinimal={true}
-        loadMinimalSize={2}
-        // Turning this off will make it feel faster
-        // and prevent the scroller to slow down
-        // on fast swipes.
-        sensitiveScroll={false}
-         />
-    )
-  }
-
-  
-
 
   render() {
     return (

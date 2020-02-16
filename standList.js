@@ -18,11 +18,11 @@ export default class StandList extends React.Component {
   keyExtractor = (item, index) => index.toString()
 
   renderItem = ({ item }) => (
-    <Card style={{borderRadius: 100}}>
+    <Card>
       <CardItem bordered cardBody button onPress= {() => this.props.navigation.navigate('StandInfo', {item : item })}>
         <Image source={{ uri :  item.cover }} style={styles.image} />
       </CardItem>
-      <CardItem bordered>
+      <CardItem bordered button onPress= {() => this.props.navigation.navigate('StandInfo', {item : item })}>
         <Body>
           <Text style={styles.dataTitle}>{item.title}</Text>
           <View style={[styles.sameLineComponents, styles.alignRanking]}>
