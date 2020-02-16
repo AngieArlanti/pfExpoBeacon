@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     right: 0,
-    backgroundColor: '#609bd1',
+    backgroundColor: '#3d7ab3',
     overflow: 'hidden',
   },
   bar: {

@@ -28,6 +28,12 @@ export default class StandInfo extends React.Component {
     
   }
 
+  componentDidMount() {
+    this._subscribe = this.props.navigation.addListener('didFocus', () => {
+      StatusBar.setHidden(false);
+    });
+ }
+
   ratingCompleted(rating) {
     fetch(STAND_RANKING_SERVICE_URL, {
       method: 'POST',
@@ -73,7 +79,7 @@ export default class StandInfo extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-         <StatusBar hidden = {false} backgroundColor = '#609bd1' translucent = {true}/>
+         <StatusBar hidden = {false} backgroundColor = '#3d7ab3' translucent = {true}/>
          <View style={styles.top, styles.lineStyle} >
            <ScrollView>
             <SliderBox images={this.props.navigation.state.params.item.pictures} sliderBoxHeight={500} sliderBoxwidth={null}
