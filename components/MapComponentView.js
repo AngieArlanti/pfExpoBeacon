@@ -10,7 +10,9 @@ import MapView, {
   Marker,
   AnimatedRegion,
   Polyline,
+  Callout,
 } from 'react-native-maps';
+import MarkerSelectedCallout from './MarkerSelectedCallout';
 import StandMarker from './StandMarker';
 import TourMarker from './TourMarker';
 import LocationMarker from './LocationMarker';
@@ -54,6 +56,7 @@ export default class MapComponentView extends React.Component {
         }),
       };
       this.map=null;
+      this.markerSelected =null;
     }
 
     componentDidMount() {
@@ -289,7 +292,6 @@ export default class MapComponentView extends React.Component {
         edgePadding: DEFAULT_MAP_MARKERS_PADDING,
         animated: true,
       });
-      this.state.markersFitted=true;
     }
   }
 
@@ -349,26 +351,10 @@ export default class MapComponentView extends React.Component {
             calloutAnchor={{ x: 0, y: 0 }}
             anchor={{ x: 0.5, y: 0.5 }}
             >
-            {(this.state.mapProps !==undefined && this.state.mapProps.showOrderMarker)?<TourMarker order={marker.stand_index+1}/>:<StandMarker standId={marker.stand_number+100}/>}
+            {(this.state.mapProps !==undefined && this.state.mapProps.showOrderMarker)?<TourMarker order={marker.stand_index+1}/>:<StandMarker standId={marker.stand_number+100} selected={this.state.markerSelected===marker.stand_index}/>}
             </Marker>
           );
         })
-      }
-      {/*
-        this.props.stands !== undefined && this.props.stands.map((stand,index) => {
-          return (
-            <Marker
-            key={stand.id}
-            onPress={() => this.setState({ markerSelected:index})}
-            coordinate= {{latitude:stand.latitude,longitude:stand.longitude}}
-            style={styles.standMarkerStyle}
-            calloutAnchor={{ x: 0, y: 0 }}
-            anchor={{ x: 0.5, y: 0.5 }}
-            >
-            <StandMarker standId={stand.stand_number+100}/>
-            </Marker>
-          );
-        }))*/
       }
       {
         this.state.locationMarker.map(loc=>{

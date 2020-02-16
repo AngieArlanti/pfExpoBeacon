@@ -16,7 +16,7 @@ const chartConfig = {
   strokeWidth: 2, // optional, default 3
   barPercentage: 0.5,
 };
-import {STAND_RANKING_SERVICE_URL} from './assets/constants/constants';
+import {STAND_RANKING_SERVICE_URL,STAND_HISTOGRAM_SERVICE_URL} from './assets/constants/constants';
 
 export default class StandInfo extends React.Component {
 
@@ -25,7 +25,7 @@ export default class StandInfo extends React.Component {
     this.state = { dataSource:[{}]};
     this.getStandHistogram();
     standId = this.props.navigation.state.params.item.id;
-    
+
   }
 
   ratingCompleted(rating) {
@@ -44,7 +44,7 @@ export default class StandInfo extends React.Component {
   }
 
   getStandHistogram(){
-    return fetch('http://10.0.2.2:8080/stats/stand_histogram?stand_id='+this.props.navigation.state.params.item.id)
+    return fetch(STAND_HISTOGRAM_SERVICE_URL+this.props.navigation.state.params.item.id)
     .then((response) => response.json())
     .then((responseJson) => {
       this.setState({
