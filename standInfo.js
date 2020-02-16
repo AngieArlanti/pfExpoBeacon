@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, StatusBar, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, StatusBar, ScrollView} from 'react-native';
 import { SliderBox } from 'react-native-image-slider-box';
 import { Rating, AirbnbRating } from 'react-native-elements';
 import { getUniqueId } from 'react-native-device-info';
@@ -16,7 +16,7 @@ const chartConfig = {
   strokeWidth: 2, // optional, default 3
   barPercentage: 0.5,
 };
-import {STAND_RANKING_SERVICE_URL,STAND_HISTOGRAM_SERVICE_URL} from './assets/constants/constants';
+import {STAND_RANKING_SERVICE_URL, STAND_HISTOGRAM_SERVICE_URL} from './assets/constants/constants';
 
 export default class StandInfo extends React.Component {
 
@@ -70,16 +70,14 @@ export default class StandInfo extends React.Component {
     });
   }
 
-
-
   render() {
-    console.log(this.state.data);
     return (
       <View style={styles.container}>
          <StatusBar hidden = {false} backgroundColor = '#609bd1' translucent = {true}/>
          <View style={styles.top, styles.lineStyle} >
            <ScrollView>
-           <SliderBox images={this.props.navigation.state.params.item.pictures} sliderBoxHeight={500} sliderBoxwidth={null}/>
+            <SliderBox images={this.props.navigation.state.params.item.pictures} sliderBoxHeight={500} sliderBoxwidth={null}
+              onCurrentImagePressed={() => this.props.navigation.navigate('ImageGalleryScreen', {pictures : this.props.navigation.state.params.item.pictures})}/>
             <View style={styles.lineStyle} >
                 <Text style={styles.title}>{this.props.navigation.state.params.item.title}</Text>
                 <View style = {styles.sameLineComponents}>
