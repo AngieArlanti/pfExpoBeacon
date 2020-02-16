@@ -34,8 +34,8 @@ export default class ImageGalleryScreen extends React.Component {
                     // on fast swipes.
                     sensitiveScroll={false}
                 />
-                <TouchableOpacity style={{flex:1,alignSelf:'flex-start',top: 26,left:8,position: 'absolute'}} onPress={()=>this.props.navigation.goBack()}>
-                    <Icon color="white" name={"close"} size={20}/>
+                <TouchableOpacity style={{flex:1,alignSelf:'flex-start',top: 24,left:16,position: 'absolute'}} onPress={()=>this.props.navigation.goBack()}>
+                    <Icon color="white" name={"close"} size={24}/>
                 </TouchableOpacity>
             </View>
         )
