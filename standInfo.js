@@ -5,7 +5,6 @@ import { Rating, AirbnbRating } from 'react-native-elements';
 import { getUniqueId } from 'react-native-device-info';
 import { BarChart } from "react-native-chart-kit";
 import { Dimensions } from "react-native";
-import SmartGallery from "react-native-smart-gallery";
 
 const screenWidth = Dimensions.get("window").width;
 const chartConfig = {
@@ -17,8 +16,7 @@ const chartConfig = {
   strokeWidth: 2, // optional, default 3
   barPercentage: 0.5,
 };
-import {STAND_RANKING_SERVICE_URL} from './assets/constants/constants';
-import {STAND_HISTOGRAM_SERVICE_URL} from './assets/constants/constants';
+import {STAND_RANKING_SERVICE_URL, STAND_HISTOGRAM_SERVICE_URL} from './assets/constants/constants';
 
 export default class StandInfo extends React.Component {
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FlatList, StyleSheet, Text, View,Image,ActivityIndicator, StatusBar} from 'react-native';
+import { FlatList, StyleSheet, Text, View,Image,ActivityIndicator, StatusBar, TouchableOpacity} from 'react-native';
 import { Card, CardItem, Thumbnail, Body, Left, Right, Button, Icon } from 'native-base';
 import {Rating} from 'react-native-elements';
 
@@ -18,30 +18,32 @@ export default class StandList extends React.Component {
   keyExtractor = (item, index) => index.toString()
 
   renderItem = ({ item }) => (
-    <Card>
-      <CardItem bordered cardBody button onPress= {() => this.props.navigation.navigate('StandInfo', {item : item })}>
-        <Image source={{ uri :  item.cover }} style={styles.image} />
-      </CardItem>
-      <CardItem bordered button onPress= {() => this.props.navigation.navigate('StandInfo', {item : item })}>
-        <Body>
-          <Text style={styles.dataTitle}>{item.title}</Text>
-          <View style={[styles.sameLineComponents, styles.alignRanking]}>
-            <Text>{item.ranking_average.ranking.toFixed(1)}</Text>
-            <Rating
-              type = 'star'
-              imageSize={15}
-              readonly
-              startingValue={item.ranking_average.ranking}
-              style = {styles.rating}
-            />
-            <Text>({item.ranking_average.cant_rates})</Text>
-          </View>
-          <Text>
-            {item.short_description}
-          </Text>
-        </Body>
-      </CardItem>
-    </Card>
+    <TouchableOpacity onPress= {() => this.props.navigation.navigate('StandInfo', {item : item })}>
+      <Card>
+        <CardItem bordered cardBody>
+          <Image source={{ uri :  item.cover }} style={styles.image} />
+        </CardItem>
+        <CardItem bordered>
+          <Body>
+            <Text style={styles.dataTitle}>{item.title}</Text>
+            <View style={[styles.sameLineComponents, styles.alignRanking]}>
+              <Text>{item.ranking_average.ranking.toFixed(1)}</Text>
+              <Rating
+                type = 'star'
+                imageSize={15}
+                readonly
+                startingValue={item.ranking_average.ranking}
+                style = {styles.rating}
+              />
+              <Text>({item.ranking_average.cant_rates})</Text>
+            </View>
+            <Text>
+              {item.short_description}
+            </Text>
+          </Body>
+        </CardItem>
+      </Card>
+    </TouchableOpacity>
   )
 
   render () {
