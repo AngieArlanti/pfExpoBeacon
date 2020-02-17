@@ -13,6 +13,7 @@ import DirectionsScreen from './screens/DirectionsScreen'
 import ProfileScreen from './profileScreen';
 import ImageGalleryScreen from './imageGalleryScreen';
 import Icon from 'react-native-vector-icons/Ionicons';
+import Orientation from 'react-native-orientation-locker';
 import {HEADER_MAX_HEIGHT,HEADER_MIN_HEIGHT,HEADER_SCROLL_DISTANCE,STAND_LIST_SERVICE_URL} from './assets/constants/constants';
 
 class App extends Component {
@@ -24,6 +25,7 @@ constructor(props) {
   this.state = {
     scrollY: new Animated.Value(0),
   };
+  Orientation.lockToPortrait(); 
 }
 
 // Lifecycle events
@@ -31,6 +33,9 @@ componentDidMount(){
   //Refresh standList
   this._subscribe = this.props.navigation.addListener('didFocus', () => {
     this.getAllStands();
+  });
+  this._subscribe = this.props.navigation.addListener('didFocus', () => {
+    Orientation.lockToPortrait();
   });
 }
 
@@ -124,7 +129,7 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     right: 0,
-    backgroundColor: '#609bd1',
+    backgroundColor: '#3d7ab3',
     overflow: 'hidden',
   },
   bar: {
