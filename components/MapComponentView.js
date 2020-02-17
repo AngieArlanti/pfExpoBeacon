@@ -16,9 +16,8 @@ import TourMarker from './TourMarker';
 import LocationMarker from './LocationMarker';
 import HorizontalCardGallery from './HorizontalCardGallery';
 import StyleCommons from '../assets/styles/StyleCommons';
-import { getUniqueId } from 'react-native-device-info';
+import {saveDeviceProximity} from '../services/deviceProximityClient';
 import {ASPECT_RATIO,LATITUDE,LONGITUDE, LATITUDE_DELTA,LONGITUDE_DELTA,SPACE,POLYLINE_DEFAULT_STROKE_WIDTH,POLYLINE_TOUR_DEFAULT_STROKE_WIDTH,DEVICE_PROXIMITY_SERVICE_UR,MAP_COMPONENT_VIEW_TYPES,mapProperties} from '../assets/constants/constants'
-
 var BeaconManager = require('NativeModules').BeaconManager;
 const { width, height } = Dimensions.get('window');
 
@@ -114,8 +113,7 @@ export default class MapComponentView extends React.Component {
     if(data.beacons){
       this.stopRangingBeacons();
       console.log(data);
-      ToastAndroid.show("Beacons: " + data.beacons[0].macAddress, ToastAndroid.SHORT);
-      this.saveDeviceProximity(data.beacons[0].macAddress);
+      saveDeviceProximity(data.beacons);
       this.setState({
         isDataAvailable: true,
         data: data.beacons
@@ -124,20 +122,6 @@ export default class MapComponentView extends React.Component {
 
     }
   })
-  }
-
-  saveDeviceProximity(standId){
-    fetch(DEVICE_PROXIMITY_SERVICE_URL, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        device_id: getUniqueId(),
-        immediate_stand_id: standId,
-      }),
-    });
   }
 
   unsuscribeForEvents() {
@@ -181,6 +165,7 @@ export default class MapComponentView extends React.Component {
 
   //Method executed when pressing location button
   onGpsButtonPress = e =>{
+    this.startRangingBeacons();
     var fakeLocation =  [{
       id: "ldksfjdslkf",
       center: {
