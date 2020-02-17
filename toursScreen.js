@@ -51,8 +51,6 @@ export default class ToursScreen extends React.Component {
                 <View>
                 <TourCategoryButton title="Evitar filas" image={require('./assets/images/tours-esquivando-filas.jpg')} navigation={this.props.navigation} uri="/tour/no_lines" detailType={STAND_TOUR_DETAIL_TYPES.TINDER_DETAIL}/>
                 <TourCategoryButton title="Recorridos populares" image={require('./assets/images/tours-populares.jpg')} navigation={this.props.navigation} uri="/tour/top_three" detailType={STAND_TOUR_DETAIL_TYPES.MAP_DETAIL}/>
-                <TourCategoryButton title="Recorridos de 1 hora" image={require('./assets/images/tours-tiempo.jpg')} navigation={this.props.navigation} uri="/tour/time_limited?time_limit=1" detailType={STAND_TOUR_DETAIL_TYPES.MAP_DETAIL}/>
-                <TourCategoryButton title="Recorridos de 2 horas" image={require('./assets/images/tours-tiempo.jpg')} navigation={this.props.navigation} uri="/tour/time_limited?time_limit=2" detailType={STAND_TOUR_DETAIL_TYPES.MAP_DETAIL}/>
                 </View>
                 </View>
                </ScrollView>
