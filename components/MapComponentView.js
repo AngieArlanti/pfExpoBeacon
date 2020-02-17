@@ -64,11 +64,13 @@ export default class MapComponentView extends React.Component {
     componentDidMount() {
 
       if(this.props.mapType!==undefined){
+        console.log(mapProperties[this.props.mapType]);
         let config =mapProperties[this.props.mapType];
         if(config.showPath && !config.showUserLocation){
           this.showTourRoute();
         }
         if(config.showPath && config.showUserLocation){
+          console.log("componentDidMount");
           this.locateGuy(true);
         }
       }
