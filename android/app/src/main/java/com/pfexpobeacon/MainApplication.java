@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.facebook.react.ReactApplication;
 import org.wonday.orientation.OrientationPackage;
+import net.no_mad.tts.TextToSpeechPackage;
 import com.horcrux.svg.SvgPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.oblador.vectoricons.VectorIconsPackage;
@@ -31,6 +32,7 @@ public class MainApplication extends Application implements ReactApplication {
             return Arrays.asList(
                 new MainReactPackage(),
             new OrientationPackage(),
+            new TextToSpeechPackage(),
             new SvgPackage(),
                 new RNDeviceInfo(),
                 new VectorIconsPackage(),

@@ -10,15 +10,17 @@ import MapView, {
   Marker,
   AnimatedRegion,
   Polyline,
+  Callout,
+  Heatmap,
 } from 'react-native-maps';
+import MarkerSelectedCallout from './MarkerSelectedCallout';
 import StandMarker from './StandMarker';
 import TourMarker from './TourMarker';
 import LocationMarker from './LocationMarker';
 import HorizontalCardGallery from './HorizontalCardGallery';
 import StyleCommons from '../assets/styles/StyleCommons';
-import { getUniqueId } from 'react-native-device-info';
-import {ASPECT_RATIO,LATITUDE,LONGITUDE, LATITUDE_DELTA,LONGITUDE_DELTA,SPACE,POLYLINE_DEFAULT_STROKE_WIDTH,POLYLINE_TOUR_DEFAULT_STROKE_WIDTH,DEVICE_PROXIMITY_SERVICE_UR,MAP_COMPONENT_VIEW_TYPES,mapProperties} from '../assets/constants/constants'
-
+import {HITS,DEFAULT_MAP_MARKERS_PADDING,ASPECT_RATIO,LATITUDE,LONGITUDE, LATITUDE_DELTA,LONGITUDE_DELTA,SPACE,POLYLINE_DEFAULT_STROKE_WIDTH,POLYLINE_TOUR_DEFAULT_STROKE_WIDTH,DEVICE_PROXIMITY_SERVICE_UR,MAP_COMPONENT_VIEW_TYPES,mapProperties} from '../assets/constants/constants'
+import {saveDeviceProximity} from '../services/deviceProximityClient';
 var BeaconManager = require('NativeModules').BeaconManager;
 const { width, height } = Dimensions.get('window');
 
@@ -46,21 +48,29 @@ export default class MapComponentView extends React.Component {
       this.state.polyline =[];
       this.state.polylineStrokeWidth=POLYLINE_DEFAULT_STROKE_WIDTH;
       this.state.standsDataSource= [];
+      this.state.markersFitted=false;
       this.state = {
         coordinate: new AnimatedRegion({
           latitude: LATITUDE,
           longitude: LONGITUDE,
         }),
       };
+      this.state.showHeatMap = false;
+      this.map=null;
+      this.markerSelected = null;
+      this.state.heatmapWeightedLatLngs = HITS;
     }
 
     componentDidMount() {
+
       if(this.props.mapType!==undefined){
+        console.log(mapProperties[this.props.mapType]);
         let config =mapProperties[this.props.mapType];
         if(config.showPath && !config.showUserLocation){
           this.showTourRoute();
         }
         if(config.showPath && config.showUserLocation){
+          console.log("componentDidMount");
           this.locateGuy(true);
         }
       }
@@ -114,8 +124,7 @@ export default class MapComponentView extends React.Component {
     if(data.beacons){
       this.stopRangingBeacons();
       console.log(data);
-      ToastAndroid.show("Beacons: " + data.beacons[0].macAddress, ToastAndroid.SHORT);
-      this.saveDeviceProximity(data.beacons[0].macAddress);
+      saveDeviceProximity(data.beacons);
       this.setState({
         isDataAvailable: true,
         data: data.beacons
@@ -124,20 +133,6 @@ export default class MapComponentView extends React.Component {
 
     }
   })
-  }
-
-  saveDeviceProximity(standId){
-    fetch(DEVICE_PROXIMITY_SERVICE_URL, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        device_id: getUniqueId(),
-        immediate_stand_id: standId,
-      }),
-    });
   }
 
   unsuscribeForEvents() {
@@ -171,6 +166,8 @@ export default class MapComponentView extends React.Component {
    /* BUTTON HANDLERS:
       - onGpsButtonPress
       - onDirectionsButtonPress
+      - onLayersButtonPressed
+      - onCloseButtonPress
    */
 
   //Rendering and Screen UI events handlers
@@ -181,6 +178,7 @@ export default class MapComponentView extends React.Component {
 
   //Method executed when pressing location button
   onGpsButtonPress = e =>{
+    this.startRangingBeacons();
     var fakeLocation =  [{
       id: "ldksfjdslkf",
       center: {
@@ -192,17 +190,32 @@ export default class MapComponentView extends React.Component {
     this.setState({
       locationMarker:fakeLocation,
     });
+    this.fitAllMarkers();
   }
 
-  //Rendering and Screen UI events handrlers
+  //
   onDirectionsButtonPress = e =>{
-    this.locateGuy(true);
+    this.locateGuy(false);
+  }
+
+  //Display heatmap TODO:Should fetch data from service
+  onLayersButtonPressed = e =>{
+    this.setState({
+      showHeatMap:true,
+    });
+  }
+
+  // On tours tinder screen appears on Route map type to close the full screen map
+  onCloseButtonPress(navigation){
+   navigation.goBack(null);
   }
 
   /* LOCATION AND ROUTE RENDERING:
      - onGpsButtonPress
      - onDirectionsButtonPress
   */
+
+  // Locates position of the user and according to bool:renderPath renders (or not) the path to the stands TODO:Proper calculation of location
   locateGuy(renderPath) {
     var fakeLocation =  [{
       id: "ldksfjdslkf",
@@ -212,22 +225,19 @@ export default class MapComponentView extends React.Component {
       },
       radius: 1,
     }];
-    console.log({renderPath});
     this.setState({
       locationMarker:fakeLocation,
     }, function(renderPath){
-      console.log(renderPath);
       if({renderPath}){
         this.fillPolylineDataSource();
       }
 
     });
   }
-
+  // Polyline needs a datasource to be built, that datasource is an array of lat,long.
   fillPolylineDataSource(){
     let stand = [];
-    stand.push(this.props.stands[7]);
-    console.log("fillPolylineDataSource");
+    stand.push(this.props.stands[0]);
 
     if (this.state.locationMarker!== undefined && this.state.locationMarker.length > 0){
       let location=this.state.locationMarker.map(function(location){return {
@@ -279,7 +289,46 @@ export default class MapComponentView extends React.Component {
   }
 
   /* MAP BEHAVIOUR */
+  fitAllMarkers() {
+    if(this.map!==null){
+      let coordinates = this.state.markerElements.map(marker => marker.latlng);
+      if(this.state.locationMarker !== undefined && this.state.locationMarker.length > 0){
+        coordinates.push(this.state.locationMarker[0].center);
+        this.map.fitToCoordinates(coordinates, {
+          edgePadding: DEFAULT_MAP_MARKERS_PADDING,
+          animated: true,
+        });
+        this.animateCamera();
+      }else{
+        this.map.fitToCoordinates(coordinates, {
+          edgePadding: DEFAULT_MAP_MARKERS_PADDING,
+          animated: true,
+        });
+      }
+    }
+  }
 
+  /* CAMERA MANAGEMENT */
+
+  async setCamera() {
+  const camera = await this.map.getCamera();
+  // Note that we do not have to pass a full camera object to setCamera().
+  // Similar to setState(), we can pass only the properties you like to change.
+  this.map.setCamera({
+    heading: camera.heading + 10,
+  });
+}
+
+animateCamera() {
+  let lat1 =this.state.locationMarker[0].center.latitude;
+  let lat2 =this.state.standsDataSource[0].latitude;
+  let dLon = (this.state.standsDataSource[0].longitude-this.state.locationMarker[0].center.longitude);
+  let y = Math.sin(dLon) * Math.cos(this.state.standsDataSource[0].latitude);
+  let x = Math.cos(lat1)*Math.sin(lat2) - Math.sin(lat1)*Math.cos(lat2)*Math.cos(dLon);
+  let brng =Math.atan2(y, x)* (180/Math.PI);
+  brng = (360 - ((brng + 360) % 360));
+  this.map.animateCamera({ center:this.state.locationMarker[0].center,pitch:90,heading:brng,zoom:22 });
+}
 
   /* Rendering */
 
@@ -318,10 +367,30 @@ export default class MapComponentView extends React.Component {
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA,
       }}
-      minZoomLevel={17}
+      minZoomLevel={16}
       maxZoomLevel={22}
       rotateEnabled={false}
+      toolbarEnabled={false}
+      showCompass={false}
+      ref={ref => {
+            this.map = ref;
+          }}
+      onMapReady={() => this.fitAllMarkers()}
+      initialCamera={{
+            center: {
+              latitude: LATITUDE,
+              longitude: LONGITUDE,
+            },
+            pitch: 45,
+            heading: 90,
+            altitude: 1000,
+            zoom: 10,
+          }}
       >
+      {
+        (this.state.heatmapWeightedLatLngs !== undefined && this.state.showHeatMap) &&
+        <Heatmap points={this.state.heatmapWeightedLatLngs} radius={10} />
+      }
       {
         this.state.markerElements.map(marker => {
           return (
@@ -333,26 +402,10 @@ export default class MapComponentView extends React.Component {
             calloutAnchor={{ x: 0, y: 0 }}
             anchor={{ x: 0.5, y: 0.5 }}
             >
-            {(this.state.mapProps !==undefined && this.state.mapProps.showOrderMarker)?<TourMarker order={marker.stand_index+1}/>:<StandMarker standId={marker.stand_number+100}/>}
+            {(this.state.mapProps !==undefined && this.state.mapProps.showOrderMarker)?<TourMarker order={marker.stand_index+1}/>:<StandMarker standId={marker.stand_number+100} selected={this.state.markerSelected===marker.stand_index}/>}
             </Marker>
           );
         })
-      }
-      {/*
-        this.props.stands !== undefined && this.props.stands.map((stand,index) => {
-          return (
-            <Marker
-            key={stand.id}
-            onPress={() => this.setState({ markerSelected:index})}
-            coordinate= {{latitude:stand.latitude,longitude:stand.longitude}}
-            style={styles.standMarkerStyle}
-            calloutAnchor={{ x: 0, y: 0 }}
-            anchor={{ x: 0.5, y: 0.5 }}
-            >
-            <StandMarker standId={stand.stand_number+100}/>
-            </Marker>
-          );
-        }))*/
       }
       {
         this.state.locationMarker.map(loc=>{
@@ -376,19 +429,43 @@ export default class MapComponentView extends React.Component {
         strokeWidth={this.state.polylineStrokeWidth}
       />
       </MapView>
-
-      <View style={styles.bottom}>
-      <TouchableOpacity style={styles.gpsButton} onPress={this.onGpsButtonPress}>
-        <Icon name={"gps-fixed"}  size={20} color="black" />
-      </TouchableOpacity>
-      {(this.state.mapProps !==undefined && this.state.mapProps.showGallery) &&
-        <HorizontalCardGallery
-          style={styles.cardGallery}
-          stands={this.state.standsDataSource}
-          indexSelected={this.state.markerSelected}
-          navigation={this.props.navigation}
-        />
+      {(this.state.mapProps !==undefined && this.state.mapProps.showCloseButton) &&
+        <TouchableOpacity style={{flex:1,alignSelf:'flex-start',top: 16,left:16,position: 'absolute'}} onPress={() =>this.onCloseButtonPress(this.props.navigation)}>
+          <Icon color="black" name={"close"} size={24}/>
+        </TouchableOpacity>
       }
+      {(this.state.mapProps !==undefined && this.state.mapProps.showDestinationHeader) &&
+        <View style={{flex:1,alignSelf:'flex-start',top:48,left:16,right: 8,borderRadius: 6,position: 'absolute',flexDirection: 'row', backgroundColor: 'green',padding: 16,justifyContent:'center'}}>
+          <View style={{flex:1,flexDirection: 'column',alignContent: 'center'}}>
+            <Icon color="white" name={"arrow-upward"} size={24}/>
+            <View style={{flex:1,marginTop: 8,flexDirection: 'row',alignContent: 'flex-end',justifyContent: 'center'}}>
+              <Text style={{fontSize: 20,color: '#FFFFFF'}}>50</Text><Text style={{fontSize: 16,color: '#FFFFFF',alignSelf: 'flex-end'}}> m</Text>
+            </View>
+          </View>
+          <View style={{flex:4,alignSelf: 'center'}}>
+            <Text style={styles.directionsHeaderLabel}>Este es un texto de prueba</Text>
+          </View>
+        </View>
+      }
+      <View style={styles.bottom}>
+        {(this.state.mapProps !==undefined && this.state.mapProps.showHeatMapButton) &&
+          <TouchableOpacity style={styles.layersButton} onPress={this.onLayersButtonPressed}>
+            <Icon name={"layers"}  size={20} color="black" />
+          </TouchableOpacity>
+        }
+        {(this.state.mapProps !==undefined && this.state.mapProps.showGPSButton) &&
+          <TouchableOpacity style={styles.gpsButton} onPress={this.onGpsButtonPress}>
+            <Icon name={"gps-fixed"}  size={20} color="black" />
+          </TouchableOpacity>
+        }
+        {(this.state.mapProps !==undefined && this.state.mapProps.showGallery) &&
+          <HorizontalCardGallery
+            style={styles.cardGallery}
+            stands={this.state.standsDataSource}
+            indexSelected={this.state.markerSelected}
+            navigation={this.props.navigation}
+          />
+        }
       </View>
     </View>
 
@@ -441,6 +518,19 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     marginRight: 8,
   },
+  layersButton: {
+    borderWidth:1,
+    borderColor:'rgba(0,0,0,0.2)',
+    alignItems:'center',
+    justifyContent:'center',
+    width:40,
+    height:40,
+    backgroundColor:'#fff',
+    borderRadius:50,
+    alignSelf: 'flex-end',
+    marginBottom: 16,
+    marginRight: 8,
+  },
   standMarkerStyle:{
     position: 'absolute',
     zIndex: 0,
@@ -448,5 +538,9 @@ const styles = StyleSheet.create({
   locationMarkerStyle:{
     position: 'absolute',
     zIndex: 1,
-  }
+  },
+  directionsHeaderLabel: {
+    color: '#FFFFFF',
+    fontSize: 24,
+  },
 });

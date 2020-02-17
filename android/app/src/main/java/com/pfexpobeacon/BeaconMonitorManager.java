@@ -155,6 +155,11 @@ public class BeaconMonitorManager extends ReactContextBaseJavaModule implements 
         beaconManager.setBackgroundMode(false);
         beaconManager.setForegroundBetweenScanPeriod(DEFAULT_FOREGROUND_SCAN_PERIOD);
 
+        //This property tells the library to treat two beacons as distinct if
+        //they have different bluetooth mac addresses but the same identifiers.
+        //Otherwise, if beacons have the same UUID only one beacon will be recognized by default.
+        Beacon.setHardwareEqualityEnforced(true);
+
         try {
             //Region(UniqueId, UUID, major, minor)
             beaconRegion =
