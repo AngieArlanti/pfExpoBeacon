@@ -16,13 +16,12 @@ class TourCategoryButton extends Component {
         super(props);
     }
     onPress = () => {
-      let destination = this.props.detailType==="MAP_DETAIL"? "TourDetailScreen" : "StandTourDetailsSwipeScreen";
+      let destination = "TourDetailScreen";
       this.props.navigation.navigate(destination, {
-         uri:this.props.uri
+         stands:this.props.stands
       });
     }
     render() {
-        console.log(this.props);
         let properties = this.props;
         return (
           <TouchableNativeFeedback
