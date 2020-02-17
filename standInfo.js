@@ -81,8 +81,6 @@ export default class StandInfo extends React.Component {
   }
 
   render() {
-    console.log("StandInfo.js")
-    console.log(Orientation.isLocked())
     return (
       <View style={styles.container}>
          <StatusBar hidden = {false} backgroundColor = '#3d7ab3' translucent = {true}/>

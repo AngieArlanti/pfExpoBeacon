@@ -18,8 +18,6 @@ export default class ImageGalleryScreen extends React.Component {
     }
 
     render() {
-        console.log("ImageGallery.js")
-        console.log(Orientation.isLocked())
         return (
             <View style={StyleCommons.container}>
                 <SmartGallery

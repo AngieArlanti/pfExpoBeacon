@@ -56,8 +56,6 @@ getAllStands(){
 }
 
 render() {
-  console.log("App.js")
-  console.log(Orientation.isLocked())
   const headerHeight = this.state.scrollY.interpolate({
     inputRange: [0, HEADER_SCROLL_DISTANCE],
     outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
