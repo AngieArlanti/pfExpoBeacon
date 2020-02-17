@@ -47,7 +47,7 @@ class TourRow extends Component {
                       alignContent: 'center',
                       justifyContent: 'center',marginRight: 16}}/>
                     </View>
-                    <Text style={styles.averageTimeText}>Average time in stand</Text>
+                    <Text style={styles.averageTimeText}>La gente suele pasar {this.props.item.average_time} minutos aquí.</Text>
                     <Text style={styles.descriptionText}>{this.props.item.short_description}</Text>
                 </View>
             </View>
@@ -71,7 +71,8 @@ const styles = StyleSheet.create({
     },
     averageTimeText:{
       fontSize: 12,
-      color: '#000000'
+      fontWeight: '600',
+      color: '#828282'
     },
     descriptionText: {
       paddingTop: 10,

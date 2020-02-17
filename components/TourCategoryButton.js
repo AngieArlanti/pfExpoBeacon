@@ -9,12 +9,24 @@ import {
     ImageBackground
 } from "react-native";
 import {Icon,Rating} from 'react-native-elements';
+import{STAND_TOUR_DETAIL_TYPES} from '../assets/constants/constants';
 
 class TourCategoryButton extends Component {
+    constructor(props){
+        super(props);
+    }
+    onPress = () => {
+      let destination = this.props.detailType==="MAP_DETAIL"? "TourDetailScreen" : "StandTourDetailsSwipeScreen";
+      this.props.navigation.navigate(destination, {
+         uri:this.props.uri
+      });
+    }
     render() {
+        console.log(this.props);
+        let properties = this.props;
         return (
           <TouchableNativeFeedback
-          onPress={() => this.props.navigation.navigate('TourDetailScreen',{uri:this.props.uri})}
+          onPress={() => this.onPress()}
           background={TouchableNativeFeedback.SelectableBackground()}>
             <View style={{flex:1, height: 160, borderWidth: 0.5, borderRadius: 6,borderColor: '#dddddd', backgroundColor: '#ffffff', shadowColor: '#000', shadowOffset: { width: 0, height: 2 } , shadowOpacity: 0.8, shadowRadius: 2 }}>
                 <View style={{ flex: 2 }}>

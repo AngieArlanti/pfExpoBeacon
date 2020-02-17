@@ -25,7 +25,7 @@ export default class StandInfo extends React.Component {
     this.state = { dataSource:[{}]};
     this.getStandHistogram();
     standId = this.props.navigation.state.params.item.id;
-    
+
   }
 
   ratingCompleted(rating) {
