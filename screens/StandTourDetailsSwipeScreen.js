@@ -3,7 +3,7 @@ import {View, Text, StyleSheet,ScrollView, Dimensions, TouchableOpacity,StatusBa
 ImageBackground} from 'react-native';
 import {Icon} from 'react-native-elements';
 import * as Constants from '../assets/constants/constants'
-import MapComponentView from '../components/MapComponentView';
+import DirectionsScreen from './DirectionsScreen';
 import {STAND_LIST_SERVICE_URL,MAP_COMPONENT_VIEW_TYPES} from '../assets/constants/constants';
 import Tts from 'react-native-tts';
 
@@ -86,7 +86,8 @@ render() {
                           <Icon reverse color='rgba(0,0,0,0.7)' name={"replay-10"} size={28}/>
                         </TouchableOpacity>
                       </View>
-                      <TouchableOpacity style={styles.directionsButton}>
+                      <TouchableOpacity style={styles.directionsButton} onPress= {() => this.props.navigation.navigate('DirectionsScreen', {
+                        target_stand:this.state.standsDataSource[0]})}>
                         <Icon color="white" name={"directions"} size={14}/>
                         <Text style={styles.directionsButtonLabel}>Indicaciones</Text>
                       </TouchableOpacity>

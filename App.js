@@ -9,6 +9,7 @@ import SearchScreen from './searchScreen';
 import ToursScreen from './toursScreen';
 import TourDetailScreen from './tourDetailScreen';
 import StandTourDetailsSwipeScreen from './screens/StandTourDetailsSwipeScreen'
+import DirectionsScreen from './screens/DirectionsScreen'
 import ProfileScreen from './profileScreen';
 import ImageGalleryScreen from './imageGalleryScreen';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -206,6 +207,7 @@ const ToursNavigator = createStackNavigator({
   TourDetailScreen : TourDetailScreen,
   StandInfo: {screen: StandInfo},
   StandTourDetailsSwipeScreen:StandTourDetailsSwipeScreen,
+  DirectionsScreen:DirectionsScreen,
   ImageGalleryScreen: ImageGalleryScreen,
 },
 {
