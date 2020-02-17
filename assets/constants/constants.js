@@ -16,10 +16,12 @@ export const BASE_PATH ='http://10.0.2.2:8080';
 * ------------- SERVICES CONSTANS------------------
 * -------------------------------------------------
 */
-export const DEVICE_PROXIMITY_SERVICE_URL =BASE_PATH+'/device_proximity';
-export const STAND_LIST_SERVICE_URL =BASE_PATH+'/stands/list';
-export const STAND_RANKING_SERVICE_URL =BASE_PATH+'/stand_ranking';
-export const STAND_HISTOGRAM_SERVICE_URL = BASE_PATH+'/stats/stand_histogram?stand_id='
+export const DEVICE_PROXIMITY_SERVICE_URL =BASE_PATH + '/device_proximity';
+export const STAND_LIST_SERVICE_URL =BASE_PATH + '/stands/list';
+export const STAND_RANKING_SERVICE_URL =BASE_PATH + '/stand_ranking';
+export const STAND_HISTOGRAM_SERVICE_URL = BASE_PATH + '/stats/stand_histogram?stand_id='
+export const TOURS_NO_LINES_SERVICE_URL = BASE_PATH + '/tour/no_lines';
+export const TOURS_TOP_THREE_SERVICE_URL = BASE_PATH + '/tour/top_three';
 
 /* ------------------------------------------------
 * ----------- MAP COMPONENT CONSTANTS -------------
