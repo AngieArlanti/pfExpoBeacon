@@ -5,6 +5,7 @@ import { Rating, AirbnbRating } from 'react-native-elements';
 import { getUniqueId } from 'react-native-device-info';
 import { BarChart } from "react-native-chart-kit";
 import { Dimensions } from "react-native";
+import Orientation from 'react-native-orientation-locker';
 
 const screenWidth = Dimensions.get("window").width;
 const chartConfig = {
@@ -25,12 +26,15 @@ export default class StandInfo extends React.Component {
     this.state = { dataSource:[{}]};
     this.getStandHistogram();
     standId = this.props.navigation.state.params.item.id;
-    
+    Orientation.lockToPortrait();
   }
 
   componentDidMount() {
     this._subscribe = this.props.navigation.addListener('didFocus', () => {
       StatusBar.setHidden(false);
+    });
+    this._subscribe = this.props.navigation.addListener('didFocus', () => {
+      Orientation.lockToPortrait();
     });
  }
 
@@ -77,13 +81,15 @@ export default class StandInfo extends React.Component {
   }
 
   render() {
+    console.log("StandInfo.js")
+    console.log(Orientation.isLocked())
     return (
       <View style={styles.container}>
          <StatusBar hidden = {false} backgroundColor = '#3d7ab3' translucent = {true}/>
          <View style={styles.top, styles.lineStyle} >
            <ScrollView>
             <SliderBox images={this.props.navigation.state.params.item.pictures} sliderBoxHeight={500} sliderBoxwidth={null}
-              onCurrentImagePressed={() => this.props.navigation.navigate('ImageGalleryScreen', {pictures : this.props.navigation.state.params.item.pictures})}/>
+              onCurrentImagePressed={(index) => this.props.navigation.navigate('ImageGalleryScreen', {pictures : this.props.navigation.state.params.item.pictures, index : index})}/>
             <View style={styles.lineStyle} >
                 <Text style={styles.title}>{this.props.navigation.state.params.item.title}</Text>
                 <View style = {styles.sameLineComponents}>

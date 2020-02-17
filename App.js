@@ -11,6 +11,7 @@ import TourDetailScreen from './tourDetailScreen';
 import ProfileScreen from './profileScreen';
 import ImageGalleryScreen from './imageGalleryScreen';
 import Icon from 'react-native-vector-icons/Ionicons';
+import Orientation from 'react-native-orientation-locker';
 import {HEADER_MAX_HEIGHT,HEADER_MIN_HEIGHT,HEADER_SCROLL_DISTANCE,STAND_LIST_SERVICE_URL} from './assets/constants/constants';
 
 class App extends Component {
@@ -22,6 +23,7 @@ constructor(props) {
   this.state = {
     scrollY: new Animated.Value(0),
   };
+  Orientation.lockToPortrait(); 
 }
 
 // Lifecycle events
@@ -29,6 +31,9 @@ componentDidMount(){
   //Refresh standList
   this._subscribe = this.props.navigation.addListener('didFocus', () => {
     this.getAllStands();
+  });
+  this._subscribe = this.props.navigation.addListener('didFocus', () => {
+    Orientation.lockToPortrait();
   });
 }
 
@@ -49,6 +54,8 @@ getAllStands(){
 }
 
 render() {
+  console.log("App.js")
+  console.log(Orientation.isLocked())
   const headerHeight = this.state.scrollY.interpolate({
     inputRange: [0, HEADER_SCROLL_DISTANCE],
     outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
