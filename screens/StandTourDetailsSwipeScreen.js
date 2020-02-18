@@ -81,7 +81,6 @@ export default class StandTourDetailsSwipeScreen extends React.Component {
 
   onPlayButtonPress(stand){
     Tts.engines().then(engines => console.log(stand));
-
     Tts.getInitStatus().then(() => {
     Tts.setDefaultLanguage('es-AR');
     Tts.setDefaultRate(0.5);
