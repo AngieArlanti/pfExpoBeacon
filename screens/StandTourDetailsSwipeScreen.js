@@ -1,13 +1,9 @@
-import React, {Component} from 'react';
-import {View, Text, StyleSheet,ScrollView, Dimensions, TouchableOpacity,StatusBar,
+import React from 'react';
+import {View, Text, StyleSheet, TouchableOpacity,StatusBar,
 ImageBackground} from 'react-native';
 import {Icon} from 'react-native-elements';
-import * as Constants from '../assets/constants/constants'
-import DirectionsScreen from './DirectionsScreen';
-import {STAND_LIST_SERVICE_URL,MAP_COMPONENT_VIEW_TYPES} from '../assets/constants/constants';
 import Tts from 'react-native-tts';
-//import {getNoLinesTour} from '../services/toursClient';
-import {TOURS_NO_LINES_SERVICE_URL, TOURS_TOP_THREE_SERVICE_URL} from '../assets/constants/constants';
+import {TOURS_NO_LINES_SERVICE_URL} from '../assets/constants/constants';
 
 
 export default class StandTourDetailsSwipeScreen extends React.Component {
@@ -31,7 +27,9 @@ export default class StandTourDetailsSwipeScreen extends React.Component {
 
   //////////////////
   //TODO TOUR SERVICES - Modularize
-  
+  //import {getNoLinesTour} from '../services/toursClient';
+  //////////////////
+
   getNoLinesTour(){
     return fetch(TOURS_NO_LINES_SERVICE_URL)
     .then((response) => response.json())
@@ -77,6 +75,7 @@ export default class StandTourDetailsSwipeScreen extends React.Component {
     });
   }
 
+  //////////////////
   //////////////////
 
   onPlayButtonPress(stand){

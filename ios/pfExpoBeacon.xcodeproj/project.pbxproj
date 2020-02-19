@@ -65,12 +65,10 @@
 		B8CA5368872C4E548217415B /* libRNDeviceInfo-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A09291677AC74B9FB0A363DE /* libRNDeviceInfo-tvOS.a */; };
 		BB044F8B27364E8B9EA6689C /* libRNSVG.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FA8ECD7D33D14709A3610748 /* libRNSVG.a */; };
 		501430AF45C646659F97C3AC /* libRNSVG-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 191ACC6A43F54B5991E59AF5 /* libRNSVG-tvOS.a */; };
-<<<<<<< HEAD
 		82443C2ECAD243B8825FD7FD /* libRCTOrientation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 13A48576595A4ABF84D23E3F /* libRCTOrientation.a */; };
 		B399819D8203481B8D8E03A2 /* libRCTOrientation-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 38AE68E598224EC8810EB346 /* libRCTOrientation-tvOS.a */; };
-=======
 		A42F76AE6E124999BBC80A05 /* libTextToSpeech.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 292864A8460B48C29B5F2DD7 /* libTextToSpeech.a */; };
->>>>>>> master
+
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -433,12 +431,9 @@
 				AC5153E2C4D447AE90B30771 /* libRNVectorIcons.a in Frameworks */,
 				1AD1FE004AC54BAFB0164A7B /* libRNDeviceInfo.a in Frameworks */,
 				BB044F8B27364E8B9EA6689C /* libRNSVG.a in Frameworks */,
-<<<<<<< HEAD
 				82443C2ECAD243B8825FD7FD /* libRCTOrientation.a in Frameworks */,
 				B399819D8203481B8D8E03A2 /* libRCTOrientation-tvOS.a in Frameworks */,
-=======
 				A42F76AE6E124999BBC80A05 /* libTextToSpeech.a in Frameworks */,
->>>>>>> master
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -636,11 +631,8 @@
 				EDB4BA52B9E246FDAAF6497E /* RNVectorIcons.xcodeproj */,
 				54B6164C63924102861E38D7 /* RNDeviceInfo.xcodeproj */,
 				83881F6457864601A8AEB14E /* RNSVG.xcodeproj */,
-<<<<<<< HEAD
 				1AFFDEFAFB2B4A43ACE6F7C4 /* RCTOrientation.xcodeproj */,
-=======
 				9A5A8D9800D54032A8E31873 /* TextToSpeech.xcodeproj */,
->>>>>>> master
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1312,10 +1304,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-<<<<<<< HEAD
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-=======
->>>>>>> master
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1324,11 +1313,8 @@
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-device-info/ios/RNDeviceInfo",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
-<<<<<<< HEAD
 					"$(SRCROOT)/../node_modules/react-native-orientation-locker/iOS/RCTOrientation",
-=======
 					"$(SRCROOT)/../node_modules/react-native-tts/ios/TextToSpeech",
->>>>>>> master
 				);
 			};
 			name = Debug;
@@ -1362,10 +1348,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-<<<<<<< HEAD
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-=======
->>>>>>> master
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1374,11 +1357,8 @@
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-device-info/ios/RNDeviceInfo",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
-<<<<<<< HEAD
 					"$(SRCROOT)/../node_modules/react-native-orientation-locker/iOS/RCTOrientation",
-=======
 					"$(SRCROOT)/../node_modules/react-native-tts/ios/TextToSpeech",
->>>>>>> master
 				);
 			};
 			name = Release;
@@ -1407,11 +1387,8 @@
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-device-info/ios/RNDeviceInfo",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
-<<<<<<< HEAD
 					"$(SRCROOT)/../node_modules/react-native-orientation-locker/iOS/RCTOrientation",
-=======
 					"$(SRCROOT)/../node_modules/react-native-tts/ios/TextToSpeech",
->>>>>>> master
 				);
 			};
 			name = Debug;
@@ -1439,11 +1416,8 @@
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-device-info/ios/RNDeviceInfo",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
-<<<<<<< HEAD
 					"$(SRCROOT)/../node_modules/react-native-orientation-locker/iOS/RCTOrientation",
-=======
 					"$(SRCROOT)/../node_modules/react-native-tts/ios/TextToSpeech",
->>>>>>> master
 				);
 			};
 			name = Release;
@@ -1484,10 +1458,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-<<<<<<< HEAD
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-=======
->>>>>>> master
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1496,11 +1467,8 @@
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-device-info/ios/RNDeviceInfo",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
-<<<<<<< HEAD
 					"$(SRCROOT)/../node_modules/react-native-orientation-locker/iOS/RCTOrientation",
-=======
 					"$(SRCROOT)/../node_modules/react-native-tts/ios/TextToSpeech",
->>>>>>> master
 				);
 			};
 			name = Debug;
@@ -1541,10 +1509,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-<<<<<<< HEAD
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-=======
->>>>>>> master
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1553,11 +1518,8 @@
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-device-info/ios/RNDeviceInfo",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
-<<<<<<< HEAD
 					"$(SRCROOT)/../node_modules/react-native-orientation-locker/iOS/RCTOrientation",
-=======
 					"$(SRCROOT)/../node_modules/react-native-tts/ios/TextToSpeech",
->>>>>>> master
 				);
 			};
 			name = Release;
@@ -1597,10 +1559,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-<<<<<<< HEAD
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-=======
->>>>>>> master
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1609,11 +1568,8 @@
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-device-info/ios/RNDeviceInfo",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
-<<<<<<< HEAD
 					"$(SRCROOT)/../node_modules/react-native-orientation-locker/iOS/RCTOrientation",
-=======
 					"$(SRCROOT)/../node_modules/react-native-tts/ios/TextToSpeech",
->>>>>>> master
 				);
 			};
 			name = Debug;
@@ -1653,10 +1609,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-<<<<<<< HEAD
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-=======
->>>>>>> master
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1665,11 +1618,8 @@
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-device-info/ios/RNDeviceInfo",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
-<<<<<<< HEAD
 					"$(SRCROOT)/../node_modules/react-native-orientation-locker/iOS/RCTOrientation",
-=======
 					"$(SRCROOT)/../node_modules/react-native-tts/ios/TextToSpeech",
->>>>>>> master
 				);
 			};
 			name = Release;

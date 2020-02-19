@@ -2,27 +2,22 @@ import React, { Component } from "react";
 import {
     View,
     TouchableNativeFeedback,
-    TouchableOpacity,
     Text,
     StyleSheet,
-    Image,
     ImageBackground
 } from "react-native";
-import {Icon,Rating} from 'react-native-elements';
-import{STAND_TOUR_DETAIL_TYPES} from '../assets/constants/constants';
 
 class TourCategoryButton extends Component {
     constructor(props){
         super(props);
     }
     onPress = () => {
-      let destination = this.props.detailType==="MAP_DETAIL"? "TourDetailScreen" : "StandTourDetailsSwipeScreen";
+      let destination = "TourDetailScreen";
       this.props.navigation.navigate(destination, {
-         uri:this.props.uri
+         stands:this.props.stands
       });
     }
     render() {
-        console.log(this.props);
         let properties = this.props;
         return (
           <TouchableNativeFeedback
