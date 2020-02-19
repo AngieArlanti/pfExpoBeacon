@@ -1,12 +1,7 @@
-import React, {Component} from 'react';
-import {View, StyleSheet, StatusBar, ScrollView, Animated, Text, TouchableOpacity} from 'react-native';
-import StandListTour from '../StandListTour';
-import { Card, CardItem, Button } from 'native-base';
-import { colors, Icon } from 'react-native-elements';
-import TourDetailScreen from '../tourDetailScreen';
+import React from 'react';
+import {View, StyleSheet, StatusBar, ScrollView, Animated} from 'react-native';
 import TourCategoryButton from '../components/TourCategoryButton'
-import TourPreviewRow from '../components/TourPreviewRow'
-import {BASE_PATH,HEADER_MAX_HEIGHT,HEADER_MIN_HEIGHT,HEADER_SCROLL_DISTANCE,STAND_TOUR_DETAIL_TYPES} from '../assets/constants/constants';
+import {TOURS_TOP_THREE_SERVICE_URL,HEADER_MAX_HEIGHT,HEADER_MIN_HEIGHT,HEADER_SCROLL_DISTANCE,STAND_TOUR_DETAIL_TYPES} from '../assets/constants/constants';
 
 export default class ToursIntermediateScreen extends React.Component {
 
@@ -22,8 +17,13 @@ export default class ToursIntermediateScreen extends React.Component {
       this.getTopPopularTours();
     }
 
+  //////////////////
+  //TODO TOUR SERVICES - USE IMPORT
+  //import {getNoLinesTour} from '../services/toursClient';
+  //////////////////
+
     getTopPopularTours(){
-        return fetch(BASE_PATH+this.props.navigation.state.params.uri)
+        return fetch(TOURS_TOP_THREE_SERVICE_URL)
           .then((response) => response.json())
           .then((responseJson) => {
               this.setState({
@@ -36,6 +36,9 @@ export default class ToursIntermediateScreen extends React.Component {
               console.error(error);
             });
     }
+    
+  //////////////////
+  //////////////////
 
     render() {
         const headerHeight = this.state.scrollY.interpolate({

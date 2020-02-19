@@ -6,6 +6,7 @@ import * as Constants from '../assets/constants/constants'
 import DirectionsScreen from './DirectionsScreen';
 import {STAND_LIST_SERVICE_URL,MAP_COMPONENT_VIEW_TYPES} from '../assets/constants/constants';
 import Tts from 'react-native-tts';
+import {TOURS_NO_LINES_SERVICE_URL} from '../assets/constants/constants';
 
 
 export default class StandTourDetailsSwipeScreen extends React.Component {
@@ -23,25 +24,36 @@ export default class StandTourDetailsSwipeScreen extends React.Component {
   componentDidMount(){
     StatusBar.setHidden(true);
     this._subscribe = this.props.navigation.addListener('didFocus', () => {
-      this.getAllStands();
+      this.getNoLinesTour();
     });
   }
 
-  // Services TODO: Modularize
-  getAllStands(){
-    return fetch(STAND_LIST_SERVICE_URL)
+  //////////////////
+  //TODO TOUR SERVICES - USE IMPORT
+  //import {getNoLinesTour} from '../services/toursClient';
+  //////////////////
+  
+  getNoLinesTour(){
+    return fetch(TOURS_NO_LINES_SERVICE_URL)
     .then((response) => response.json())
     .then((responseJson) => {
-      this.setState({
-        isLoading: false,
-        standsDataSource: responseJson,
-      }, function(){
-      });
+      this.onTourFetched(responseJson.tour);
     })
     .catch((error) =>{
       console.error(error);
     });
   }
+
+  onTourFetched(data) {
+    this.setState({
+      isLoading: false,
+      standsDataSource: data,
+    }, function(){
+    });
+  }
+
+  //////////////////
+  //////////////////
 
   onPlayButtonPress(stand){
     Tts.engines().then(engines => console.log(stand));
@@ -63,7 +75,7 @@ render() {
     <View style={styles.container}>
       <StatusBar style={styles.container} hidden={false} backgroundColor="#609bd1" translucent={true}/>
       {
-        (this.state.standsDataSource.length!==1) &&
+        (this.state.standsDataSource !== undefined && this.state.standsDataSource.length!==1) &&
             <ImageBackground source={{uri:this.state.standsDataSource[Math.floor(Math.random() * this.state.standsDataSource.length)].cover}}
                 style={{ flex: 1, resizeMode: 'cover'}}>
                 <View style={styles.overlay}>

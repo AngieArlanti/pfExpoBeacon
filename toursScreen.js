@@ -50,7 +50,7 @@ export default class ToursScreen extends React.Component {
              >
                <View style={styles.scrollViewContent}>
                 <View>
-                <TourPreviewRow title="Lo mejor para ver ahora" description="Una experiencia personalizada para visitar la muestra" navigation={this.props.navigation} uri="" nextScreen="StandTourDetailsSwipeScreen"/>
+                <TourPreviewRow title="Lo mejor para ver ahora" description="Visitá los mejores stands de la expo evitando filas" navigation={this.props.navigation} uri="" nextScreen="StandTourDetailsSwipeScreen"/>
                 <TourPreviewRow title="Tours populares" description="Recorre los tours más visitados de la expo" navigation={this.props.navigation} uri="/tour/top_three" nextScreen="ToursIntermediateScreen"/>
                 </View>
                 </View>
