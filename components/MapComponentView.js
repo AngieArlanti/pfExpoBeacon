@@ -123,7 +123,6 @@ export default class MapComponentView extends React.Component {
     */
     if(data.beacons){
       this.stopRangingBeacons();
-      console.log(data);
       saveDeviceProximity(data.beacons);
       this.setState({
         isDataAvailable: true,
