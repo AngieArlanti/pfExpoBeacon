@@ -655,6 +655,13 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
+"@egjs/hammerjs@^2.0.17":
+  version "2.0.17"
+  resolved "https://registry.yarnpkg.com/@egjs/hammerjs/-/hammerjs-2.0.17.tgz#5dc02af75a6a06e4c2db0202cae38c9263895124"
+  integrity sha512-XQsZgjm2EcVUiZQf11UBJQfmZeEmOW8DpI1gsFeln6w0ae0ii4dMQEQ0kjl6DspdWX1aGY1/loyXnP0JS06e/A==
+  dependencies:
+    "@types/hammerjs" "^2.0.36"
+
 "@hapi/address@2.x.x":
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/@hapi/address/-/address-2.1.2.tgz#1c794cd6dbf2354d1eb1ef10e0303f573e1c7222"
@@ -907,6 +914,11 @@
   resolved "https://registry.yarnpkg.com/@react-native-community/geolocation/-/geolocation-2.0.2.tgz#ba8b40f560ead8d014740d1cdea970b33f19312e"
   integrity sha512-tTNXRCgnhJBu79mulQwzabXRpDqfh/uaDqfHVpvF0nX4NTpolpy6mvTRiFg7eWFPGRArsnZz1EYp6rHfJWGgEA==
 
+"@react-native-community/viewpager@*":
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/@react-native-community/viewpager/-/viewpager-3.3.0.tgz#e613747a43a31a6f3278f817ba96fdaaa7941f23"
+  integrity sha512-tyzh79l4t/hxiyS9QD3LRmWMs8KVkZzjrkQ8U8+8To1wmvVCBtp8BenvNsDLTBO7CpO/YmiThpmIdEZMr1WuVw==
+
 "@react-navigation/core@^3.5.1":
   version "3.5.1"
   resolved "https://registry.yarnpkg.com/@react-navigation/core/-/core-3.5.1.tgz#7a2339fca3496979305fb3a8ab88c2ca8d8c214d"
@@ -958,6 +970,11 @@
   integrity sha512-XYVgHF2sQ0YblLRMLNPB3CkFMewzFmlDsH/TneZFHUXDlABQgh88uOxuez7ZcXxayLFrqLwtDH1t+FmlFwNZxw==
   dependencies:
     "@babel/types" "^7.3.0"
+
+"@types/hammerjs@^2.0.36":
+  version "2.0.36"
+  resolved "https://registry.yarnpkg.com/@types/hammerjs/-/hammerjs-2.0.36.tgz#17ce0a235e9ffbcdcdf5095646b374c2bf615a4c"
+  integrity sha512-7TUK/k2/QGpEAv/BCwSHlYu3NXZhQ9ZwBYpzr9tjlPIL2C5BeGhH3DmVavRx3ZNyELX5TLC91JTz/cen6AAtIQ==
 
 "@types/istanbul-lib-coverage@^2.0.0":
   version "2.0.0"
@@ -1957,77 +1974,6 @@ csstype@^2.2.0:
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-2.6.8.tgz#0fb6fc2417ffd2816a418c9336da74d7f07db431"
   integrity sha512-msVS9qTuMT5zwAGCVm4mxfrZ18BNc6Csd0oJAtiFMZ1FAx1CCvy2+5MDmYoix63LM/6NDbNtodCiGYGmFgO0dA==
 
-d3-array@^1.2.0:
-  version "1.2.4"
-  resolved "https://registry.yarnpkg.com/d3-array/-/d3-array-1.2.4.tgz#635ce4d5eea759f6f605863dbcfc30edc737f71f"
-  integrity sha512-KHW6M86R+FUPYGb3R5XiYjXPq7VzwxZ22buHhAEVG5ztoEcZZMLov530mmccaqA1GghZArjQV46fuc8kUqhhHw==
-
-d3-collection@1:
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/d3-collection/-/d3-collection-1.0.7.tgz#349bd2aa9977db071091c13144d5e4f16b5b310e"
-  integrity sha512-ii0/r5f4sjKNTfh84Di+DpztYwqKhEyUlKoPrzUFfeSkWxjW49xU2QzO9qrPrNkpdI0XJkfzvmTu8V2Zylln6A==
-
-d3-color@1:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/d3-color/-/d3-color-1.4.0.tgz#89c45a995ed773b13314f06460df26d60ba0ecaf"
-  integrity sha512-TzNPeJy2+iEepfiL92LAAB7fvnp/dV2YwANPVHdDWmYMm23qIJBYww3qT8I8C1wXrmrg4UWs7BKc2tKIgyjzHg==
-
-d3-format@1:
-  version "1.4.3"
-  resolved "https://registry.yarnpkg.com/d3-format/-/d3-format-1.4.3.tgz#4e8eb4dff3fdcb891a8489ec6e698601c41b96f1"
-  integrity sha512-mm/nE2Y9HgGyjP+rKIekeITVgBtX97o1nrvHCWX8F/yBYyevUTvu9vb5pUnKwrcSw7o7GuwMOWjS9gFDs4O+uQ==
-
-d3-interpolate-path@2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/d3-interpolate-path/-/d3-interpolate-path-2.0.0.tgz#cb0327314fedb14e6ea1789ab7e095a16c2f8ab2"
-  integrity sha1-ywMnMU/tsU5uoXiat+CVoWwvirI=
-  dependencies:
-    d3-interpolate "^1.1.1"
-
-d3-interpolate@1, d3-interpolate@^1.1.1:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/d3-interpolate/-/d3-interpolate-1.4.0.tgz#526e79e2d80daa383f9e0c1c1c7dcc0f0583e987"
-  integrity sha512-V9znK0zc3jOPV4VD2zZn0sDhZU3WAE2bmlxdIwwQPPzPjvyLkd8B3JUVdS1IDUFDkWZ72c9qnv1GK2ZagTZ8EA==
-  dependencies:
-    d3-color "1"
-
-d3-path@1:
-  version "1.0.9"
-  resolved "https://registry.yarnpkg.com/d3-path/-/d3-path-1.0.9.tgz#48c050bb1fe8c262493a8caf5524e3e9591701cf"
-  integrity sha512-VLaYcn81dtHVTjEHd8B+pbe9yHWpXKZUC87PzoFmsFrJqgFwDe/qxfp5MlfsfM1V5E/iVt0MmEbWQ7FVIXh/bg==
-
-d3-scale@^1.0.6:
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/d3-scale/-/d3-scale-1.0.7.tgz#fa90324b3ea8a776422bd0472afab0b252a0945d"
-  integrity sha512-KvU92czp2/qse5tUfGms6Kjig0AhHOwkzXG0+PqIJB3ke0WUv088AHMZI0OssO9NCkXt4RP8yju9rpH8aGB7Lw==
-  dependencies:
-    d3-array "^1.2.0"
-    d3-collection "1"
-    d3-color "1"
-    d3-format "1"
-    d3-interpolate "1"
-    d3-time "1"
-    d3-time-format "2"
-
-d3-shape@^1.0.6:
-  version "1.3.7"
-  resolved "https://registry.yarnpkg.com/d3-shape/-/d3-shape-1.3.7.tgz#df63801be07bc986bc54f63789b4fe502992b5d7"
-  integrity sha512-EUkvKjqPFUAZyOlhY5gzCxCeI0Aep04LwIRpsZ/mLFelJiUfnK56jo5JMDSE7yyP2kLSb6LtF+S5chMk7uqPqw==
-  dependencies:
-    d3-path "1"
-
-d3-time-format@2:
-  version "2.2.3"
-  resolved "https://registry.yarnpkg.com/d3-time-format/-/d3-time-format-2.2.3.tgz#0c9a12ee28342b2037e5ea1cf0b9eb4dd75f29cb"
-  integrity sha512-RAHNnD8+XvC4Zc4d2A56Uw0yJoM7bsvOlJR33bclxq399Rak/b9bhvu/InjxdWhPtkgU53JJcleJTGkNRnN6IA==
-  dependencies:
-    d3-time "1"
-
-d3-time@1:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/d3-time/-/d3-time-1.1.0.tgz#b1e19d307dae9c900b7e5b25ffc5dcc249a8a0f1"
-  integrity sha512-Xh0isrZ5rPYYdqhAVk8VLnMEidhz5aP7htAADH6MfzgmmicPkTo8LhkLxci61/lCB7n7UmE3bN0leRt+qvkLxA==
-
 dashdash@^1.12.0:
   version "1.14.1"
   resolved "https://registry.yarnpkg.com/dashdash/-/dashdash-1.14.1.tgz#853cfa0f7cbe2fed5de20326b8dd581035f6e2f0"
@@ -2792,11 +2738,6 @@ growly@^1.3.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/growly/-/growly-1.3.0.tgz#f10748cbe76af964b7c96c93c6bcc28af120c081"
   integrity sha1-8QdIy+dq+WS3yWyTxrzCivEgwIE=
-
-hammerjs@^2.0.8:
-  version "2.0.8"
-  resolved "https://registry.yarnpkg.com/hammerjs/-/hammerjs-2.0.8.tgz#04ef77862cff2bb79d30f7692095930222bf60f1"
-  integrity sha1-BO93hiz/K7edMPdpIJWTAiK/YPE=
 
 handlebars@^4.1.0:
   version "4.1.1"
@@ -5221,6 +5162,14 @@ react-lifecycles-compat@^3.0.4:
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
+react-mixin@^3.0.5:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/react-mixin/-/react-mixin-3.1.1.tgz#68749756bfe32699e561372a4aeecb926db72b7f"
+  integrity sha512-z9fZ0aCRDjlgxLdMeWkJ9TwhmVLhQ09r8RFpin/cEPA2T6jsb7YHNWcIe0Oii+hhJNyMymdy91CSya5mRkuCkg==
+  dependencies:
+    object-assign "^4.0.1"
+    smart-mixin "^2.0.0"
+
 react-native-chart-kit@^4.5.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/react-native-chart-kit/-/react-native-chart-kit-4.5.0.tgz#beac3864011eefdcee4d41c1528e5a76393c31be"
@@ -5229,6 +5178,14 @@ react-native-chart-kit@^4.5.0:
     lodash "^4.17.13"
     paths-js "^0.4.10"
     point-in-polygon "^1.0.1"
+
+react-native-dash@0.0.11:
+  version "0.0.11"
+  resolved "https://registry.yarnpkg.com/react-native-dash/-/react-native-dash-0.0.11.tgz#cf1b0108e4660217cf0300b872231a5cadb9c4a8"
+  integrity sha512-edgspmVtGVYxOhGs8STCj7+VyQYUR1RkiGHkWDGwiQkEEIFrxWLa3D9ZIrLsm3LKU4XGQ2iEqCv9fJQSeTyAJA==
+  dependencies:
+    prop-types "^15.5.10"
+    react-native-measureme "0.0.2"
 
 react-native-device-info@^5.4.4:
   version "5.5.1"
@@ -5250,6 +5207,22 @@ react-native-easy-grid@0.2.2:
   dependencies:
     lodash "^4.17.15"
 
+react-native-easy-guesture-responder@^1.1.2, react-native-easy-guesture-responder@^1.1.3:
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/react-native-easy-guesture-responder/-/react-native-easy-guesture-responder-1.1.3.tgz#0a9c0e8eb68b9b43b4f86e4689786ba7525cc1b9"
+  integrity sha512-/1yHMRcslMWQJc1iRNCSjJ32npPrY3Atme0lzKxmhYJg67E7Douowq2FalGEegdid8yeZVnPKk+BkyIGyx2dCw==
+  dependencies:
+    prop-types "^15.6.2"
+
+react-native-easy-view-transformer@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/react-native-easy-view-transformer/-/react-native-easy-view-transformer-1.2.0.tgz#4281b351c169a38763bdcdf00138cb1f40c69e07"
+  integrity sha512-SawalQrXWQ6M5WOnWhTV8y3cyhRlrTgH2VC2+qPEk7GE10vLkH5/9ncM8lNjHKiXCgWrVk+0DI3pmEouDYd/GQ==
+  dependencies:
+    prop-types "^15.6.2"
+    react-native-easy-guesture-responder "^1.1.2"
+    react-native-scrolling "^1.0.2"
+
 react-native-elements@^1.2.6:
   version "1.2.7"
   resolved "https://registry.yarnpkg.com/react-native-elements/-/react-native-elements-1.2.7.tgz#1eca2db715c41722aeb67aea62bd2a4621adb134"
@@ -5264,15 +5237,34 @@ react-native-elements@^1.2.6:
     react-native-ratings "^6.3.0"
     react-native-status-bar-height "^2.2.0"
 
-react-native-gesture-handler@^1.4.1:
-  version "1.4.1"
-  resolved "https://registry.yarnpkg.com/react-native-gesture-handler/-/react-native-gesture-handler-1.4.1.tgz#c38d9e57637b95e221722a79f2bafac62e3aeb21"
-  integrity sha512-Ffcs+SbEbkGaal0CClYL+v7A9y4OA5G5lW01qrzjxaqASp5C8BfnWSKuqYKE00s6bLwE5L4xnlHkG0yIxAtbrQ==
+react-native-gallery-swiper@^1.25.1:
+  version "1.25.2"
+  resolved "https://registry.yarnpkg.com/react-native-gallery-swiper/-/react-native-gallery-swiper-1.25.2.tgz#9106a3d0581de383f3a9a5f129c7be3a251e1f21"
+  integrity sha512-tf8yXxItpDzP52OaeoN4I2yVRzXWK4vEylf/vIW+sB1E/FiuazRTfS7l7nIR9IC4XMhrXQD15U/cVQuOlHmuGQ==
   dependencies:
-    hammerjs "^2.0.8"
+    prop-types "^15.6.2"
+    react-native-easy-guesture-responder "^1.1.3"
+    react-native-image-transformer "^1.5.1"
+    react-native-page-list "^1.1.2"
+
+react-native-gesture-handler@^1.5.6:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/react-native-gesture-handler/-/react-native-gesture-handler-1.6.0.tgz#e9a4e1d0c7ac21eb0d6b6ec013e73f9c0c33a629"
+  integrity sha512-KulGCWKTxa6xBpPP4LWEPmmLqBqOe2jbtdlILOVF/dR4EgImiaBVrKdOHeRMyMzJOYAWxs5uDZsyA8hgSsm+lw==
+  dependencies:
+    "@egjs/hammerjs" "^2.0.17"
     hoist-non-react-statics "^2.3.1"
     invariant "^2.2.4"
     prop-types "^15.7.2"
+
+react-native-image-gallery@^2.1.5:
+  version "2.1.5"
+  resolved "https://registry.yarnpkg.com/react-native-image-gallery/-/react-native-image-gallery-2.1.5.tgz#f524b92ef7284d30ffbbd63f93019e0647e23229"
+  integrity sha512-xC7nuPu4GUH0da6byofQ10LjtqlKj+VaLc0NHBJmeMHVvdvmRvFEO6UOq0Q0m/ePx3OQiPTNwGbf5BSPJEKa0w==
+  dependencies:
+    prop-types "^15.6.0"
+    react-mixin "^3.0.5"
+    react-timer-mixin "^0.13.3"
 
 react-native-image-header-scroll-view@^0.10.3:
   version "0.10.3"
@@ -5281,12 +5273,30 @@ react-native-image-header-scroll-view@^0.10.3:
   dependencies:
     prop-types "^15.6.0"
 
+react-native-image-layout@^5.9.0:
+  version "5.9.0"
+  resolved "https://registry.yarnpkg.com/react-native-image-layout/-/react-native-image-layout-5.9.0.tgz#27e8af70264469059b79ea38e5991ae10be37342"
+  integrity sha512-YU2TYlCLkFEAcfpmsd8rIYOZEMycYwTHDFI0NSxpqiZ0YU4hObag9J4CLO62kiX5mD/Kmtj/JUBLxCsTCkFFiA==
+  dependencies:
+    prop-types "^15.6.2"
+    react-native-gallery-swiper "^1.25.1"
+    react-native-masonry-list "^2.16.1"
+    react-native-smart-gallery "^1.2.0"
+
 react-native-image-slider-box@^1.0.5:
   version "1.0.12"
   resolved "https://registry.yarnpkg.com/react-native-image-slider-box/-/react-native-image-slider-box-1.0.12.tgz#4abb7b6d26f12859ac059d4fe7555c72a201e23a"
   integrity sha512-Yq7xLmrAxNWjSAZJ78ZQkg13/30UJc17yvBwRFAidGrMaVo2Go9glRdRJ2U212APsQVHskAhSgW6YHinuTLoIA==
   dependencies:
     react-native-snap-carousel "*"
+
+react-native-image-transformer@^1.5.1:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/react-native-image-transformer/-/react-native-image-transformer-1.5.1.tgz#33e7061d4312e79f459529e2bfc10a83dd21adc9"
+  integrity sha512-CNwjnJxf4DUqQu+vWi/a+MA8jgw46ss80UKeSjoHwdzlt9JnGA6z4VABLURTFytN15LaemZomUEwZ81B9I8SuA==
+  dependencies:
+    prop-types "^15.6.2"
+    react-native-easy-view-transformer "^1.2.0"
 
 react-native-iphone-x-helper@^1.0.3:
   version "1.2.1"
@@ -5306,6 +5316,32 @@ react-native-maps@0.26.1:
   resolved "https://registry.yarnpkg.com/react-native-maps/-/react-native-maps-0.26.1.tgz#6ec316259b38d259c8974448d894bd7a23101da4"
   integrity sha512-p4VTB8YB5ZmOmDRCUpoHZkm05amZwhIo04AJMBbB9+JAR2PNNfpo0vceoWX0Mag4wnePkdzPomeWMplr/wimTg==
 
+react-native-masonry-list@^2.16.1:
+  version "2.16.1"
+  resolved "https://registry.yarnpkg.com/react-native-masonry-list/-/react-native-masonry-list-2.16.1.tgz#111513018cb6f0b2a32fe7ca3243ed187dd41734"
+  integrity sha512-zELbfqZgWDkMnDPQep3okZkV3FayO+lWeVGKSYt8emjY7kmyU/ncm5o20lB2OaBmdHQWXDjeK/emzNa4cM9quA==
+  dependencies:
+    prop-types "^15.6.2"
+
+react-native-measureme@0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/react-native-measureme/-/react-native-measureme-0.0.2.tgz#7f54eeb0813d461ef6c49d921e42e253d649c47a"
+  integrity sha512-m7Td7w1pVdIf7a3ejN7K/67AU+TtkZqTt9/ieKamirLRI3fjLToupmOKDtIOU3Y56oKojzTKz1lBbYSPN28HWA==
+
+react-native-orientation-locker@^1.1.8:
+  version "1.1.8"
+  resolved "https://registry.yarnpkg.com/react-native-orientation-locker/-/react-native-orientation-locker-1.1.8.tgz#45d1c9e002496b8d286ec8932d6e3e7d341f9c85"
+  integrity sha512-+Vd7x6O/3zGqYIMXpeDlaw3ma074Dtnocm8ryT9v5SvaiEcWSzII4frPgXaUcc/MiCq4OWZ1JtVoyw75mdomQw==
+
+react-native-page-list@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/react-native-page-list/-/react-native-page-list-1.1.2.tgz#a0bef09cd6722d30efa17bfa8a05d7eb09f0530e"
+  integrity sha512-sFUYpDU1taUUer1d6ZPtC+5pq4C5BJ6CqcZjqCx3D+CPUF87JqAkn1AIaw+txAEMXbPklOElDnYMow6zAIbS6g==
+  dependencies:
+    prop-types "^15.6.2"
+    react-native-easy-guesture-responder "^1.1.2"
+    react-native-scrolling "^1.0.2"
+
 react-native-ratings@^6.3.0:
   version "6.5.0"
   resolved "https://registry.yarnpkg.com/react-native-ratings/-/react-native-ratings-6.5.0.tgz#a1606ccba3c5b54eec8e6cfa4765a45cf0e4ab8d"
@@ -5314,7 +5350,7 @@ react-native-ratings@^6.3.0:
     lodash "^4.17.4"
     prop-types "^15.5.10"
 
-react-native-reanimated@^1.4.0:
+react-native-reanimated@^1.7.0:
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/react-native-reanimated/-/react-native-reanimated-1.7.0.tgz#896db2576552ac59d288a1f6c7f00afc171f240c"
   integrity sha512-FQWSqP605eQVJumuK2HpR+7heF0ZI+qfy4jNguv3Xv8nPFHeIgZaRTXHCEQL2AcuSIj50zy8jGJf5l134QMQWQ==
@@ -5333,6 +5369,40 @@ react-native-safe-area-view@^0.14.1, react-native-safe-area-view@^0.14.6:
   dependencies:
     debounce "^1.2.0"
 
+react-native-screens@^2.0.0-beta.2:
+  version "2.0.0-beta.4"
+  resolved "https://registry.yarnpkg.com/react-native-screens/-/react-native-screens-2.0.0-beta.4.tgz#650e61d238a92b8a173e695124365f7181767870"
+  integrity sha512-wrbhTSNVcgdNcdby3h4CzrYKAA3bf/86UR2vEUIcp8gydzVxi2FQiopBavIrcwFJ9PvwXrERB5rF0VYUkzHpIw==
+  dependencies:
+    debounce "^1.2.0"
+
+react-native-scrolling@^1.0.2:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/react-native-scrolling/-/react-native-scrolling-1.0.3.tgz#ad3e964070d6a8c713f1bd703171ab26d83ab5d5"
+  integrity sha512-V8ORRnRA4sdOREJlDHxnPfM/7IK6rj/HZejgTaym1ACjKr9a3Pej4ZDOQA9qnBgNac8kMVhDup40HgJxYG//EA==
+  dependencies:
+    prop-types "^15.6.2"
+
+react-native-smart-gallery@^1.2.0, react-native-smart-gallery@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/react-native-smart-gallery/-/react-native-smart-gallery-1.2.1.tgz#a66294890dac6a7860f3f9259d97b0ae176725aa"
+  integrity sha512-LKiUtGhTfeGwLQ9xUvsPrk4MgHfzyAUbOYbx1gbAYX7VoDx75Zao/+amuJ0KeYMG1LxY4XJduvpDpYv4oVQPBQ==
+  dependencies:
+    prop-types "^15.6.2"
+    react-native-easy-guesture-responder "^1.1.2"
+    react-native-image-transformer "^1.5.1"
+    react-native-smart-page "^1.1.2"
+
+react-native-smart-page@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/react-native-smart-page/-/react-native-smart-page-1.1.2.tgz#1b01173baaa877d532192ca4b5252df30150b0c3"
+  integrity sha512-VtWz3eN7+8ykC/zVulqr8KWduMivzK9DGDEscicnPf+Ui7vHzyFWtt/DkpTkTS/zK9q6aQiKQNnQofREZj6G2w==
+  dependencies:
+    prop-types "^15.6.2"
+    react-native-easy-guesture-responder "^1.1.2"
+    react-native-scrolling "^1.0.2"
+    react-native-swipe-render "^3.0.2"
+
 react-native-snap-carousel@*, react-native-snap-carousel@^3.8.4:
   version "3.8.4"
   resolved "https://registry.yarnpkg.com/react-native-snap-carousel/-/react-native-snap-carousel-3.8.4.tgz#4c749c6a714d46ed82de527233850cb5da41bc62"
@@ -5346,17 +5416,6 @@ react-native-status-bar-height@^2.2.0:
   resolved "https://registry.yarnpkg.com/react-native-status-bar-height/-/react-native-status-bar-height-2.4.0.tgz#de8cee4bb733a196167210d2d0bc1fa10acba3e3"
   integrity sha512-pWvZFlyIHiuxLugLioq97vXiaGSovFXEyxt76wQtbq0gxv4dGXMPqYow46UmpwOgeJpBhqL1E0EKxnfJRrFz5w==
 
-react-native-svg-charts@^5.3.0:
-  version "5.3.0"
-  resolved "https://registry.yarnpkg.com/react-native-svg-charts/-/react-native-svg-charts-5.3.0.tgz#00ce3a043594e3c5e283f7496a44ab455c834a51"
-  integrity sha512-XxKDqMdOl8EhQGhLAzWtmfhhiTuPeeRrLvLQ5+BzaRoCgdBO1CGGKeLvEor8OU8QUi3IXSdbbTi+fVrFq5hqaQ==
-  dependencies:
-    d3-array "^1.2.0"
-    d3-interpolate-path "2.0.0"
-    d3-scale "^1.0.6"
-    d3-shape "^1.0.6"
-    prop-types "^15.6.0"
-
 react-native-svg@^11.0.1:
   version "11.0.1"
   resolved "https://registry.yarnpkg.com/react-native-svg/-/react-native-svg-11.0.1.tgz#e92e7e9f9cb2604333fd5014fd4edcf62fea6496"
@@ -5364,6 +5423,15 @@ react-native-svg@^11.0.1:
   dependencies:
     css-select "^2.1.0"
     css-tree "^1.0.0-alpha.39"
+
+react-native-swipe-render@^3.0.2:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/react-native-swipe-render/-/react-native-swipe-render-3.1.1.tgz#e6682c7cd06bb52bdcb220de6aa38bdc50bbbc94"
+  integrity sha512-1V5uCPF5wrqItdjaz27pgzkcLH958rmHyVXDkbhnRJaobIKmc/lGi1U1+GyIRxv4TM9k/eltJ1mx8ZCydOB4cg==
+  dependencies:
+    prop-types "^15.6.2"
+  optionalDependencies:
+    "@react-native-community/viewpager" "*"
 
 react-native-tab-view@^2.11.0:
   version "2.13.0"
@@ -5456,7 +5524,7 @@ react-test-renderer@16.8.3:
     react-is "^16.8.3"
     scheduler "^0.13.3"
 
-react-timer-mixin@^0.13.4:
+react-timer-mixin@^0.13.3, react-timer-mixin@^0.13.4:
   version "0.13.4"
   resolved "https://registry.yarnpkg.com/react-timer-mixin/-/react-timer-mixin-0.13.4.tgz#75a00c3c94c13abe29b43d63b4c65a88fc8264d3"
   integrity sha512-4+ow23tp/Tv7hBM5Az5/Be/eKKF7DIvJ09voz5LyHGQaqqz9WV8YMs31eFvcYQs7d451LSg7kDJV70XYN/Ug/Q==
@@ -5957,6 +6025,11 @@ slide@^1.1.5:
   version "1.1.6"
   resolved "https://registry.yarnpkg.com/slide/-/slide-1.1.6.tgz#56eb027d65b4d2dce6cb2e2d32c4d4afc9e1d707"
   integrity sha1-VusCfWW00tzmyy4tMsTUr8nh1wc=
+
+smart-mixin@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/smart-mixin/-/smart-mixin-2.0.0.tgz#a34a1055e32a75b30d2b4e3ca323dc99cb53f437"
+  integrity sha1-o0oQVeMqdbMNK048oyPcmctT9Dc=
 
 snapdragon-node@^2.0.1:
   version "2.1.1"

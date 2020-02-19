@@ -1,14 +1,9 @@
-import React, {Component} from 'react';
-import {View, StyleSheet, StatusBar, ScrollView, Animated, Text, TouchableOpacity} from 'react-native';
-import StandListTour from './StandListTour';
-import { Card, CardItem, Button } from 'native-base';
-import { colors, Icon } from 'react-native-elements';
-import TourDetailScreen from './tourDetailScreen';
-import TourCategoryButton from './components/TourCategoryButton'
-import TourPreviewRow from './components/TourPreviewRow'
-import {HEADER_MAX_HEIGHT,HEADER_MIN_HEIGHT,HEADER_SCROLL_DISTANCE,STAND_TOUR_DETAIL_TYPES} from './assets/constants/constants';
+import React from 'react';
+import {View, StyleSheet, StatusBar, ScrollView, Animated} from 'react-native';
+import TourCategoryButton from '../components/TourCategoryButton'
+import {TOURS_TOP_THREE_SERVICE_URL,HEADER_MAX_HEIGHT,HEADER_MIN_HEIGHT,HEADER_SCROLL_DISTANCE,STAND_TOUR_DETAIL_TYPES} from '../assets/constants/constants';
 
-export default class ToursScreen extends React.Component {
+export default class ToursIntermediateScreen extends React.Component {
 
     constructor(props){
         super(props)
@@ -17,6 +12,34 @@ export default class ToursScreen extends React.Component {
             scrollY: new Animated.Value(0),
           };
     }
+    // Lifecycle events
+    componentDidMount(){
+      this.getTopPopularTours();
+    }
+
+  //////////////////
+  //TODO TOUR SERVICES - USE IMPORT
+  //import {getNoLinesTour} from '../services/toursClient';
+  //////////////////
+
+    getTopPopularTours(){
+        return fetch(TOURS_TOP_THREE_SERVICE_URL)
+          .then((response) => response.json())
+          .then((responseJson) => {
+              this.setState({
+                isLoading: false,
+                dataSource: responseJson,
+              }, function(){
+              });
+            })
+            .catch((error) =>{
+              console.error(error);
+            });
+    }
+    
+  //////////////////
+  //////////////////
+
     render() {
         const headerHeight = this.state.scrollY.interpolate({
             inputRange: [0, HEADER_SCROLL_DISTANCE],
@@ -50,8 +73,15 @@ export default class ToursScreen extends React.Component {
              >
                <View style={styles.scrollViewContent}>
                 <View>
-                <TourPreviewRow title="Lo mejor para ver ahora" description="Visitá los mejores stands de la expo evitando filas" navigation={this.props.navigation} uri="" nextScreen="StandTourDetailsSwipeScreen"/>
-                <TourPreviewRow title="Tours populares" description="Recorre los tours más visitados de la expo" navigation={this.props.navigation} uri="/tour/top_three" nextScreen="ToursIntermediateScreen"/>
+                {(this.state.dataSource!==undefined) &&
+                  <TourCategoryButton title="Tour popular: opción A" image={require('../assets/images/tours-populares.jpg')} navigation={this.props.navigation} stands={this.state.dataSource[0].tour} detailType={STAND_TOUR_DETAIL_TYPES.MAP_DETAIL}/>
+                }
+                {(this.state.dataSource!==undefined) &&
+                  <TourCategoryButton title="Tour popular: opción B" image={require('../assets/images/tours-esquivando-filas.jpg')} navigation={this.props.navigation} uri="/tour/time_limited?time_limit=1" stands={this.state.dataSource[1].tour} detailType={STAND_TOUR_DETAIL_TYPES.MAP_DETAIL}/>
+                }
+                {(this.state.dataSource!==undefined) &&
+                  <TourCategoryButton title="Tour popular: opción C" image={require('../assets/images/tours-tiempo.jpg')} navigation={this.props.navigation} uri="/tour/time_limited?time_limit=2" stands={this.state.dataSource[2].tour}  detailType={STAND_TOUR_DETAIL_TYPES.MAP_DETAIL}/>
+                }
                 </View>
                 </View>
                </ScrollView>
@@ -63,7 +93,7 @@ export default class ToursScreen extends React.Component {
                styles.backgroundImage,
                {opacity: imageOpacity, transform: [{translateY: imageTranslate}]},
              ]}
-             source={require('./itba.jpg')}
+             source={require('../itba.jpg')}
            />
            </Animated.View>
          </View>
