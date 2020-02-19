@@ -1,11 +1,9 @@
-import React, {Component} from 'react';
-import {View, Text, StyleSheet,ScrollView, Dimensions, TouchableOpacity,StatusBar,
+import React from 'react';
+import {View, Text, StyleSheet, TouchableOpacity,StatusBar,
 ImageBackground} from 'react-native';
 import {Icon} from 'react-native-elements';
-import * as Constants from '../assets/constants/constants'
-import DirectionsScreen from './DirectionsScreen';
-import {STAND_LIST_SERVICE_URL,MAP_COMPONENT_VIEW_TYPES} from '../assets/constants/constants';
 import Tts from 'react-native-tts';
+import {TOURS_NO_LINES_SERVICE_URL} from '../assets/constants/constants';
 
 
 export default class StandTourDetailsSwipeScreen extends React.Component {
@@ -23,29 +21,65 @@ export default class StandTourDetailsSwipeScreen extends React.Component {
   componentDidMount(){
     StatusBar.setHidden(true);
     this._subscribe = this.props.navigation.addListener('didFocus', () => {
-      this.getAllStands();
+      this.getNoLinesTour();
     });
   }
 
-  // Services TODO: Modularize
-  getAllStands(){
-    return fetch(STAND_LIST_SERVICE_URL)
+  //////////////////
+  //TODO TOUR SERVICES - Modularize
+  //import {getNoLinesTour} from '../services/toursClient';
+  //////////////////
+
+  getNoLinesTour(){
+    return fetch(TOURS_NO_LINES_SERVICE_URL)
     .then((response) => response.json())
     .then((responseJson) => {
-      this.setState({
-        isLoading: false,
-        standsDataSource: responseJson,
-      }, function(){
-      });
+      this.onTourFetched(responseJson.tour);
     })
     .catch((error) =>{
       console.error(error);
     });
   }
 
+  getNextBestStand(currentStand, pendingStands, callback) {
+    fetch(TOURS_NO_LINES_SERVICE_URL, {
+        method: 'POST',
+        headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+        current_stand: currentStand,
+        pending_stands: pendingStands
+        }),
+    })
+    .then((response) => response.json())
+    .then((responseJson) => {
+      this.setState({
+        isLoading: false,
+        standsDataSource: responseJson.tour,
+      }, function(){
+      });
+      callback(responseJson.tour);
+    })
+    .catch((error) =>{
+      console.error(error);
+    });
+    };
+
+  onTourFetched(data) {
+    this.setState({
+      isLoading: false,
+      standsDataSource: data,
+    }, function(){
+    });
+  }
+
+  //////////////////
+  //////////////////
+
   onPlayButtonPress(stand){
     Tts.engines().then(engines => console.log(stand));
-
     Tts.getInitStatus().then(() => {
     Tts.setDefaultLanguage('es-AR');
     Tts.setDefaultRate(0.5);
@@ -57,14 +91,25 @@ export default class StandTourDetailsSwipeScreen extends React.Component {
    navigation.goBack(null);
   }
 
+  onNextBestStand() {
+    if(this.state.standsDataSource.size !== 1){
+      var pendingStands = [...this.state.standsDataSource];
+      var currentStand = pendingStands.splice(0, 1);
+      this.getNextBestStand(currentStand[0],
+         pendingStands, 
+         (data) => {this.props.navigation.navigate('StandTourDetailsSwipeScreen', {sties : data })});
+    } else {
+      //TODO show finish screen!! Now next button does nothing here.
+    }
+  }
+
 render() {
 
   return (
     <View style={styles.container}>
       <StatusBar style={styles.container} hidden={false} backgroundColor="#609bd1" translucent={true}/>
-      {
-        (this.state.standsDataSource.length!==1) &&
-            <ImageBackground source={{uri:this.state.standsDataSource[Math.floor(Math.random() * this.state.standsDataSource.length)].cover}}
+      {(this.state.standsDataSource !== undefined && this.state.standsDataSource[0] !== undefined) &&
+            <ImageBackground source={{uri:this.state.standsDataSource[0].cover}}
                 style={{ flex: 1, resizeMode: 'cover'}}>
                 <View style={styles.overlay}>
                   <TouchableOpacity style={{flex:1,alignSelf:'flex-start',top: 24,left:16,position: 'absolute'}} onPress={() =>this.onCloseButtonPress(this.props.navigation)}>
@@ -93,7 +138,7 @@ render() {
                       </TouchableOpacity>
                   </View>
                   <View style={styles.container}>
-                    <TouchableOpacity style={styles.nextButton} onPress= {() => this.props.navigation.navigate('StandTourDetailsSwipeScreen', {sties : this.state.standsDataSource })}>
+                    <TouchableOpacity style={styles.nextButton} onPress= {() => this.onNextBestStand()}>
                       <Icon color="white" name={"chevron-right"} size={28}/>
                     </TouchableOpacity>
                   </View>

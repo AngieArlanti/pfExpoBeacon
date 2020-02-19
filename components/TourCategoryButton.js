@@ -2,14 +2,10 @@ import React, { Component } from "react";
 import {
     View,
     TouchableNativeFeedback,
-    TouchableOpacity,
     Text,
     StyleSheet,
-    Image,
     ImageBackground
 } from "react-native";
-import {Icon,Rating} from 'react-native-elements';
-import{STAND_TOUR_DETAIL_TYPES} from '../assets/constants/constants';
 
 class TourCategoryButton extends Component {
     constructor(props){
