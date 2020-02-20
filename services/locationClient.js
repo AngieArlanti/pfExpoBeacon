@@ -1,5 +1,6 @@
 import {DEVICE_PROXIMITY_SERVICE_URL} from '../assets/constants/constants';
 import { getUniqueId } from 'react-native-device-info';
+import {startRangingBeacons} from '../services/beaconManagerClient';
     
     const getNearbyStands = (beacons) => {
         return beacons.map(function(stand){
@@ -24,6 +25,28 @@ import { getUniqueId } from 'react-native-device-info';
     });
     };
 
+    const saveLocation = () => {
+      startRangingBeacons(saveDeviceProximity);
+    };
+
+    const getLocation = () => {
+      //TODO saveLocation should be inside getLocation in backend.
+      saveLocation();
+
+      //TODO call service api call when available.
+      //startRangingBeacons(getLocationApiCall);
+
+      //TODO this is fakeLocation Replace it with service when available.
+      return  [{
+        id: "ldksfjdslkf",
+        center: {
+          latitude: -34.6403200,
+          longitude: -58.401555,
+        },
+        radius: 1,
+      }];
+    };
+
 module.exports = {
-    saveDeviceProximity
+    saveLocation, getLocation
 };

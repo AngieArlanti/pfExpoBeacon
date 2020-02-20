@@ -14,7 +14,7 @@ import TourMarker from './TourMarker';
 import LocationMarker from './LocationMarker';
 import HorizontalCardGallery from './HorizontalCardGallery';
 import {HITS,DEFAULT_MAP_MARKERS_PADDING,LATITUDE,LONGITUDE, LATITUDE_DELTA,LONGITUDE_DELTA,POLYLINE_DEFAULT_STROKE_WIDTH,POLYLINE_TOUR_DEFAULT_STROKE_WIDTH,mapProperties} from '../assets/constants/constants'
-import {startRangingBeacons, stopRangingBeacons} from '../beacons/beaconManagerClient';
+import {getLocation} from '../services/locationClient';
 
 
 /**
@@ -50,9 +50,6 @@ export default class MapComponentView extends React.Component {
       this.map=null;
       this.markerSelected = null;
       this.state.heatmapWeightedLatLngs = HITS;
-
-      this.onStartRangingBeacons = this.onStartRangingBeacons.bind(this);
-      this.onStopRangingBeacons = this.onStopRangingBeacons.bind(this);
     }
 
     componentDidMount() {
@@ -95,40 +92,14 @@ export default class MapComponentView extends React.Component {
       - onCloseButtonPress
    */
 
-   
-  onStopRangingBeacons() {
-    if (this.startSubscription!==undefined){
-      this.startSubscription.remove();
-    }
-  }
-
-  onStartRangingBeacons(stands) {
-    this.setState({
-      isDataAvailable: true,
-      data: stands
-    }, function(){
-    });
-    this.stopSubscription = stopRangingBeacons(this.onStopRangingBeacons);
-  }
-
   //Method executed when pressing location button
   onGpsButtonPress = e =>{
-    this.startSubscription = startRangingBeacons(this.onStartRangingBeacons);
-    var fakeLocation =  [{
-      id: "ldksfjdslkf",
-      center: {
-        latitude: -34.6403200,
-        longitude: -58.401555,
-      },
-      radius: 1,
-    }];
     this.setState({
-      locationMarker:fakeLocation,
+      locationMarker:getLocation(),
     });
     this.fitAllMarkers();
   }
-
-  //
+ 
   onDirectionsButtonPress = e =>{
     this.locateGuy(false);
   }

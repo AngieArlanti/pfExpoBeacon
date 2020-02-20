@@ -12,6 +12,7 @@ export default class ToursScreen extends React.Component {
             scrollY: new Animated.Value(0),
           };
     }
+
     render() {
         const headerHeight = this.state.scrollY.interpolate({
             inputRange: [0, HEADER_SCROLL_DISTANCE],

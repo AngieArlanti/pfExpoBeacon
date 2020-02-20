@@ -6,6 +6,7 @@ import { getUniqueId } from 'react-native-device-info';
 import { BarChart } from "react-native-chart-kit";
 import { Dimensions } from "react-native";
 import Orientation from 'react-native-orientation-locker';
+import {saveLocation} from './services/locationClient';
 
 const screenWidth = Dimensions.get("window").width;
 const chartConfig = {
@@ -27,6 +28,7 @@ export default class StandInfo extends React.Component {
     this.getStandHistogram();
     standId = this.props.navigation.state.params.item.id;
     Orientation.lockToPortrait();
+    saveLocation();
   }
 
   componentDidMount() {
