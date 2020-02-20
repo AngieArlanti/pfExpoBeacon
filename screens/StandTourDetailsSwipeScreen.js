@@ -16,7 +16,6 @@ export default class StandTourDetailsSwipeScreen extends React.Component {
     this.state = { standsDataSource:[{}]};
   }
 
-
   // Lifecycle events
   componentDidMount(){
     StatusBar.setHidden(true);
@@ -77,6 +76,8 @@ export default class StandTourDetailsSwipeScreen extends React.Component {
 
   //////////////////
   //////////////////
+
+  
 
   onPlayButtonPress(stand){
     Tts.engines().then(engines => console.log(stand));

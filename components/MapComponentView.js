@@ -1,29 +1,20 @@
-import React, {Component} from 'react';
-import {View, Text, StyleSheet,ToastAndroid, DeviceEventEmitter,ScrollView, Dimensions, TouchableOpacity,StatusBar} from 'react-native';
-import {Button, Header, Icon} from 'react-native-elements';
-import StandList from '../standList';
+import React from 'react';
+import {View, Text, StyleSheet,ToastAndroid, DeviceEventEmitter, Dimensions, TouchableOpacity} from 'react-native';
+import {Icon} from 'react-native-elements';
 import MapView, {
   MAP_TYPES,
   PROVIDER_DEFAULT,
-  ProviderPropType,
-  UrlTile,
   Marker,
   AnimatedRegion,
   Polyline,
-  Callout,
   Heatmap,
 } from 'react-native-maps';
-import MarkerSelectedCallout from './MarkerSelectedCallout';
 import StandMarker from './StandMarker';
 import TourMarker from './TourMarker';
 import LocationMarker from './LocationMarker';
 import HorizontalCardGallery from './HorizontalCardGallery';
-import StyleCommons from '../assets/styles/StyleCommons';
-import {HITS,DEFAULT_MAP_MARKERS_PADDING,ASPECT_RATIO,LATITUDE,LONGITUDE, LATITUDE_DELTA,LONGITUDE_DELTA,SPACE,POLYLINE_DEFAULT_STROKE_WIDTH,POLYLINE_TOUR_DEFAULT_STROKE_WIDTH,DEVICE_PROXIMITY_SERVICE_UR,MAP_COMPONENT_VIEW_TYPES,mapProperties} from '../assets/constants/constants'
-import {saveDeviceProximity} from '../services/deviceProximityClient';
-var BeaconManager = require('NativeModules').BeaconManager;
-const { width, height } = Dimensions.get('window');
-
+import {HITS,DEFAULT_MAP_MARKERS_PADDING,LATITUDE,LONGITUDE, LATITUDE_DELTA,LONGITUDE_DELTA,POLYLINE_DEFAULT_STROKE_WIDTH,POLYLINE_TOUR_DEFAULT_STROKE_WIDTH,mapProperties} from '../assets/constants/constants'
+import {startRangingBeacons, stopRangingBeacons} from '../beacons/beaconManagerClient';
 
 
 /**
@@ -59,6 +50,9 @@ export default class MapComponentView extends React.Component {
       this.map=null;
       this.markerSelected = null;
       this.state.heatmapWeightedLatLngs = HITS;
+
+      this.onStartRangingBeacons = this.onStartRangingBeacons.bind(this);
+      this.onStopRangingBeacons = this.onStopRangingBeacons.bind(this);
     }
 
     componentDidMount() {
@@ -94,74 +88,6 @@ export default class MapComponentView extends React.Component {
       : MAP_TYPES.NONE;
     }
 
-
-    //Beacons
-    suscribeForEvents() {
-      this.startSubscription = DeviceEventEmitter.addListener(BeaconManager.EVENT_BEACONS_RANGED, (data) => {
-        //TODO abrir pantalla con los beacons listados.
-        //Podes usar este this.state.isDataAvailable y this.state.data para mostrar lista de beacons en el render().
-        /* Vas a recibir esto:
-        "beacons":[
-        {
-        "proximity":"immediate",
-        "distance":0.01009895532367115,
-        "uuid":"2f234454-cf6d-4a0f-adf2-f4911ba9ffa6",
-        "major":0,
-        "minor":1,
-        "rssi":-48,
-        "macAddress":"0C:F3:EE:08:FC:DD"
-      },
-      {
-      "proximity":"immediate",
-      "distance":0.11185681527500883,
-      "uuid":"2f234454-cf6d-4a0f-adf2-f4911ba9ffa6",
-      "major":0,
-      "minor":1,
-      "rssi":-49,
-      "macAddress":"0C:F3:EE:04:19:21"
-    }
-    */
-    if(data.beacons){
-      this.stopRangingBeacons();
-      saveDeviceProximity(data.beacons);
-      this.setState({
-        isDataAvailable: true,
-        data: data.beacons
-      }, function(){
-      });
-
-    }
-  })
-  }
-
-  unsuscribeForEvents() {
-    this.stopSubscription = DeviceEventEmitter.addListener(BeaconManager.EVENT_BEACONS_RANGE_STOPPED, () => {
-      ToastAndroid.show("Beacons range stopped", ToastAndroid.SHORT);
-      if (this.startSubscription!==undefined){
-        this.startSubscription.remove();
-      }
-    })
-  }
-
-  startRangingBeacons() {
-    try {
-      BeaconManager.startRangingBeacons();
-      this.suscribeForEvents();
-    } catch (e) {
-      console.error(e);
-    }
-  }
-
-  stopRangingBeacons() {
-    this.setState({ isLoading: false});
-    try {
-      BeaconManager.stopRangingBeacons();
-      this.unsuscribeForEvents();
-    } catch (e) {
-      console.error(e);
-    }
-  }
-
    /* BUTTON HANDLERS:
       - onGpsButtonPress
       - onDirectionsButtonPress
@@ -169,15 +95,25 @@ export default class MapComponentView extends React.Component {
       - onCloseButtonPress
    */
 
-  //Rendering and Screen UI events handlers
-  onRangeButtonPress = e =>{
-    this.startRangingBeacons();
-    this.setState({ isLoading: true});
+   
+  onStopRangingBeacons() {
+    if (this.startSubscription!==undefined){
+      this.startSubscription.remove();
+    }
+  }
+
+  onStartRangingBeacons(stands) {
+    this.setState({
+      isDataAvailable: true,
+      data: stands
+    }, function(){
+    });
+    this.stopSubscription = stopRangingBeacons(this.onStopRangingBeacons);
   }
 
   //Method executed when pressing location button
   onGpsButtonPress = e =>{
-    this.startRangingBeacons();
+    this.startSubscription = startRangingBeacons(this.onStartRangingBeacons);
     var fakeLocation =  [{
       id: "ldksfjdslkf",
       center: {
@@ -249,14 +185,14 @@ export default class MapComponentView extends React.Component {
     }
   }
 
-/*Creates a polyline datasource with all the stands. Assumes stands are ordered
-* @param stand: Destination stand
-* @param currentLocation: user location in this format
-    {
-      latitude: someLatitude,
-      longitude: someLongitude
-    }
-*/
+  /*Creates a polyline datasource with all the stands. Assumes stands are ordered
+  * @param stand: Destination stand
+  * @param currentLocation: user location in this format
+      {
+        latitude: someLatitude,
+        longitude: someLongitude
+      }
+  */
   showRouteToStand(stands,currentLocation){
     let routePolylineDatasource=stands.map(function(stand) {
       return {
@@ -270,7 +206,6 @@ export default class MapComponentView extends React.Component {
     }, function(){
     });
   }
-
 
   /*Creates a polyline datasource with all the stands. Assumes stands are ordered*/
   showTourRoute(){
