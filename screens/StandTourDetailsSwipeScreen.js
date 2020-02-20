@@ -4,7 +4,7 @@ ImageBackground} from 'react-native';
 import {Icon} from 'react-native-elements';
 import Tts from 'react-native-tts';
 import {TOURS_NO_LINES_SERVICE_URL} from '../assets/constants/constants';
-
+import {saveLocation} from '../services/locationClient';
 
 export default class StandTourDetailsSwipeScreen extends React.Component {
 
@@ -20,6 +20,7 @@ export default class StandTourDetailsSwipeScreen extends React.Component {
   componentDidMount(){
     StatusBar.setHidden(true);
     this._subscribe = this.props.navigation.addListener('didFocus', () => {
+      saveLocation();
       this.getNoLinesTour();
     });
   }
@@ -88,8 +89,6 @@ export default class StandTourDetailsSwipeScreen extends React.Component {
   //////////////////
   //////////////////
 
-  
-
   onPlayButtonPress(stand){
     Tts.engines().then(engines => console.log(stand));
     Tts.getInitStatus().then(() => {
@@ -104,6 +103,7 @@ export default class StandTourDetailsSwipeScreen extends React.Component {
   }
 
   onNextBestStand() {
+    saveLocation();
     if(this.state.standsDataSource.size !== 1){
       var pendingStands = [...this.state.standsDataSource];
       var currentStand = pendingStands.splice(0, 1);

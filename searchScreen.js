@@ -1,10 +1,7 @@
-import React, {Component} from 'react';
-import {View, Text, StyleSheet,ScrollView, Dimensions, TouchableOpacity,StatusBar} from 'react-native';
-import StandList from './standList';
-import * as Constants from './assets/constants/constants'
+import React from 'react';
+import {View, StyleSheet, StatusBar} from 'react-native';
 import MapComponentView from './components/MapComponentView';
 import {STAND_LIST_SERVICE_URL,MAP_COMPONENT_VIEW_TYPES} from './assets/constants/constants';
-
 
 export default class SearchScreen extends React.Component {
 

@@ -14,7 +14,7 @@ import TourMarker from './TourMarker';
 import LocationMarker from './LocationMarker';
 import HorizontalCardGallery from './HorizontalCardGallery';
 import {HITS,DEFAULT_MAP_MARKERS_PADDING,LATITUDE,LONGITUDE, LATITUDE_DELTA,LONGITUDE_DELTA,POLYLINE_DEFAULT_STROKE_WIDTH,POLYLINE_TOUR_DEFAULT_STROKE_WIDTH,mapProperties} from '../assets/constants/constants'
-import {saveLocation} from '../services/locationClient';
+import {getLocation} from '../services/locationClient';
 
 
 /**
@@ -94,17 +94,8 @@ export default class MapComponentView extends React.Component {
 
   //Method executed when pressing location button
   onGpsButtonPress = e =>{
-    saveLocation();
-    var fakeLocation =  [{
-      id: "ldksfjdslkf",
-      center: {
-        latitude: -34.6403200,
-        longitude: -58.401555,
-      },
-      radius: 1,
-    }];
     this.setState({
-      locationMarker:fakeLocation,
+      locationMarker:getLocation(),
     });
     this.fitAllMarkers();
   }

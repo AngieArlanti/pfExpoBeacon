@@ -1,9 +1,8 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {View, StyleSheet, StatusBar, ScrollView, Animated, Text} from 'react-native';
 import ToursStandListView from './components/ToursStandListView';
 import MapComponentView from './components/MapComponentView';
 import {HEADER_MAX_HEIGHT,HEADER_MIN_HEIGHT,HEADER_SCROLL_DISTANCE,BASE_PATH,MAP_COMPONENT_VIEW_TYPES} from './assets/constants/constants';
-
 
 export default class ToursDetailScreen extends React.Component {
 
