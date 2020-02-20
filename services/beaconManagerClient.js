@@ -1,43 +1,57 @@
 var BeaconManager = require('NativeModules').BeaconManager;
-import {saveDeviceProximity} from '../services/deviceProximityClient';
 import {ToastAndroid, DeviceEventEmitter} from 'react-native';
+
+let startSuscription = null;
+let stopSuscription = null;
 
 const startRangingBeacons = (callback) => {
   ToastAndroid.show("Beacons range started", ToastAndroid.SHORT);
     try {
       BeaconManager.startRangingBeacons();
-      return suscribeForEvents(callback);
+      startSuscription = suscribeForEvents(callback);
     } catch (e) {
       console.error(e);
+      removeAllSuscriptions();
     }
   };
 
-const stopRangingBeacons = (callback) => {
+const stopRangingBeacons = () => {
   ToastAndroid.show("Beacons range stopped", ToastAndroid.SHORT);
     try {
       BeaconManager.stopRangingBeacons();
-      return unsuscribeForEvents(callback);
+      stopSuscription = unsuscribeForEvents();
+      removeSuscription(stopSuscription);
     } catch (e) {
-      //TODO this should receive an onFail callback.
       console.error(e);
+      removeAllSuscriptions();
     }
   };
-
   
 const suscribeForEvents = (callback) => {
     return DeviceEventEmitter.addListener(BeaconManager.EVENT_BEACONS_RANGED, (data) => {
       if(data.beacons){
-        saveDeviceProximity(data.beacons);
         callback(data.beacons);
+        stopRangingBeacons();
       }
   })
-}
+};
 
-const unsuscribeForEvents = (callback) => {
+const unsuscribeForEvents = () => {
   return DeviceEventEmitter.addListener(BeaconManager.EVENT_BEACONS_RANGE_STOPPED, () => {
-    callback();
+     removeSuscription(startSubscription);
   })
-}
+};
+
+const removeSuscription = (suscription) => {
+  if (suscription!==undefined || suscription!==null){
+    suscription.remove();
+  }
+};
+
+const removeAllSuscriptions = () => {
+  removeSuscription(startSubscription);
+  removeSuscription(stopSubscription);
+};
 
 module.exports = {
   startRangingBeacons, stopRangingBeacons

@@ -24,6 +24,17 @@ export default class StandTourDetailsSwipeScreen extends React.Component {
     });
   }
 
+  onStopRangingBeacons() {
+    if (this.startSubscription!==undefined){
+      this.startSubscription.remove();
+    }
+  }
+
+  onStartRangingBeacons(stands) {
+    this.stopSubscription = stopRangingBeacons(this.onStopRangingBeacons);
+  }
+
+
   //////////////////
   //TODO TOUR SERVICES - Modularize
   //import {getNoLinesTour} from '../services/toursClient';

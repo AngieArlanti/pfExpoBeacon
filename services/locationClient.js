@@ -1,5 +1,6 @@
 import {DEVICE_PROXIMITY_SERVICE_URL} from '../assets/constants/constants';
 import { getUniqueId } from 'react-native-device-info';
+import {startRangingBeacons} from '../services/beaconManagerClient';
     
     const getNearbyStands = (beacons) => {
         return beacons.map(function(stand){
@@ -24,6 +25,10 @@ import { getUniqueId } from 'react-native-device-info';
     });
     };
 
+    const saveLocation = () => {
+      startRangingBeacons(saveDeviceProximity);
+    };
+
 module.exports = {
-    saveDeviceProximity
+    saveLocation
 };
