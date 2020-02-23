@@ -20,9 +20,7 @@ export default class StandTourDetailsSwipeScreen extends React.Component {
   // Lifecycle events
   componentDidMount(){
     StatusBar.setHidden(true);
-    this._subscribe = this.props.navigation.addListener('didFocus', () => {
-      this.getNoLinesTour();
-    });
+    this.getNoLinesTour();
   }
 
   //////////////////
@@ -104,7 +102,6 @@ export default class StandTourDetailsSwipeScreen extends React.Component {
   }
 
 render() {
-
   return (
     <View style={styles.container}>
       <StatusBar style={styles.container} hidden={false} backgroundColor="#609bd1" translucent={true}/>
@@ -121,14 +118,8 @@ render() {
                         <Text style={styles.directionsLabel}>Camina 25 metros hasta el stand {this.state.standsDataSource[0].stand_number+100}</Text>
                       </View>
                       <View style={{flex:1,flexDirection: 'row',height: 60,marginTop: 32, alignItems: 'center',alignSelf: 'center',position: 'absolute'}}>
-                        <TouchableOpacity style={styles.buttonStyle} onPress={() =>this.onForwardButtonPress}>
-                          <Icon reverse color='rgba(0,0,0,0.7)' name={"forward-10"} size={28}/>
-                        </TouchableOpacity>
                         <TouchableOpacity style={styles.buttonStyle} onPress={() =>this.onPlayButtonPress(this.state.standsDataSource[0])}>
                           <Icon reverse color='rgba(0,0,0,0.7)' name={"play-arrow"} size={52}/>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.buttonStyle} onPress={() =>this.onReplayButtonPress}>
-                          <Icon reverse color='rgba(0,0,0,0.7)' name={"replay-10"} size={28}/>
                         </TouchableOpacity>
                       </View>
                       <TouchableOpacity style={styles.directionsButton} onPress= {() => this.props.navigation.navigate('DirectionsScreen', {
