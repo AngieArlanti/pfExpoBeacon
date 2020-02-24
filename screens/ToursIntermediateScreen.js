@@ -2,6 +2,7 @@ import React from 'react';
 import {View, StyleSheet, StatusBar, ScrollView, Animated} from 'react-native';
 import TourCategoryButton from '../components/TourCategoryButton'
 import {TOURS_TOP_THREE_SERVICE_URL, HEADER_MAX_HEIGHT,HEADER_MIN_HEIGHT,HEADER_SCROLL_DISTANCE,STAND_TOUR_DETAIL_TYPES} from '../assets/constants/constants';
+import {saveLocation} from '../services/locationClient';
 
 export default class ToursIntermediateScreen extends React.Component {
 
@@ -15,6 +16,7 @@ export default class ToursIntermediateScreen extends React.Component {
     // Lifecycle events
     componentDidMount(){
       this.getTopPopularTours();
+      saveLocation();
     }
 
   //////////////////

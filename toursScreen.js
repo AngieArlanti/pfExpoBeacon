@@ -1,12 +1,7 @@
-import React, {Component} from 'react';
-import {View, StyleSheet, StatusBar, ScrollView, Animated, Text, TouchableOpacity} from 'react-native';
-import StandListTour from './StandListTour';
-import { Card, CardItem, Button } from 'native-base';
-import { colors, Icon } from 'react-native-elements';
-import TourDetailScreen from './tourDetailScreen';
-import TourCategoryButton from './components/TourCategoryButton'
+import React from 'react';
+import {View, StyleSheet, StatusBar, ScrollView, Animated} from 'react-native';
 import TourPreviewRow from './components/TourPreviewRow'
-import {HEADER_MAX_HEIGHT,HEADER_MIN_HEIGHT,HEADER_SCROLL_DISTANCE,STAND_TOUR_DETAIL_TYPES} from './assets/constants/constants';
+import {HEADER_MAX_HEIGHT,HEADER_MIN_HEIGHT,HEADER_SCROLL_DISTANCE} from './assets/constants/constants';
 
 export default class ToursScreen extends React.Component {
 
@@ -17,6 +12,7 @@ export default class ToursScreen extends React.Component {
             scrollY: new Animated.Value(0),
           };
     }
+
     render() {
         const headerHeight = this.state.scrollY.interpolate({
             inputRange: [0, HEADER_SCROLL_DISTANCE],

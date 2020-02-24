@@ -4,7 +4,7 @@ ImageBackground} from 'react-native';
 import {Icon} from 'react-native-elements';
 import Tts from 'react-native-tts';
 import {TOURS_NO_LINES_SERVICE_URL} from '../assets/constants/constants';
-
+import {saveLocation} from '../services/locationClient';
 
 export default class StandTourDetailsSwipeScreen extends React.Component {
 
@@ -17,12 +17,25 @@ export default class StandTourDetailsSwipeScreen extends React.Component {
     this.state = { totalStands: 0}
   }
 
-
   // Lifecycle events
   componentDidMount(){
     StatusBar.setHidden(true);
     this.getNoLinesTour();
+    this._subscribe = this.props.navigation.addListener('didFocus', () => {
+      saveLocation();
+    });
   }
+
+  onStopRangingBeacons() {
+    if (this.startSubscription!==undefined){
+      this.startSubscription.remove();
+    }
+  }
+
+  onStartRangingBeacons(stands) {
+    this.stopSubscription = stopRangingBeacons(this.onStopRangingBeacons);
+  }
+
 
   //////////////////
   //TODO TOUR SERVICES - Modularize
@@ -92,6 +105,7 @@ export default class StandTourDetailsSwipeScreen extends React.Component {
   }
 
   onNextBestStand() {
+    saveLocation();
     if(this.state.standsDataSource.size !== 1){
       var pendingStands = [...this.state.standsDataSource];
       var currentStand = pendingStands.splice(0, 1);
