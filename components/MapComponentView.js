@@ -369,7 +369,7 @@ animateCamera() {
         }
         {(this.state.mapProps !==undefined && this.state.mapProps.showHeatMapButton && this.state.layerButtonPressed) &&
           <TouchableOpacity style={styles.layersButton} onPress={this.onLayersButtonPressed}>
-            <Icon name={"layers"}  size={20} color="grey" />
+            <Icon name={"layers-clear"}  size={20} color="black" />
           </TouchableOpacity>
         }
         {(this.state.mapProps !==undefined && this.state.mapProps.showGPSButton) &&
