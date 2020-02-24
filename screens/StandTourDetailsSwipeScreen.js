@@ -105,22 +105,23 @@ export default class StandTourDetailsSwipeScreen extends React.Component {
   }
 
   onNextBestStand() {
-    saveLocation();
-    if(this.state.standsDataSource.size !== 1){
+    if(this.state.standsDataSource.length !== 1){
       var pendingStands = [...this.state.standsDataSource];
       var currentStand = pendingStands.splice(0, 1);
       this.getNextBestStand(currentStand[0],
-         pendingStands, 
+         pendingStands,
          (data) => {this.props.navigation.navigate('StandTourDetailsSwipeScreen', {sties : data })});
-    } else {
+    } else if (this.state.standsDataSource.length === 1) {
       //TODO show finish screen!! Now next button does nothing here.
+      console.log("tuvi");
+      this.props.navigation.navigate('TourFinishedCongratsScreen');
     }
   }
 
 render() {
   return (
     <View style={styles.container}>
-      <StatusBar style={styles.container} hidden={false} backgroundColor="#609bd1" translucent={true}/>
+      <StatusBar style={styles.container} hidden={true} backgroundColor="#609bd1" translucent={true}/>
       {(this.state.standsDataSource !== undefined && this.state.standsDataSource[0] !== undefined) &&
             <ImageBackground source={{uri:this.state.standsDataSource[0].cover}}
                 style={{ flex: 1, resizeMode: 'cover'}}>

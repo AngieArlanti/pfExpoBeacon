@@ -9,6 +9,7 @@ import SearchScreen from './searchScreen';
 import ToursScreen from './toursScreen';
 import TourDetailScreen from './tourDetailScreen';
 import StandTourDetailsSwipeScreen from './screens/StandTourDetailsSwipeScreen'
+import TourFinishedCongratsScreen from './screens/TourFinishedCongratsScreen'
 import ToursIntermediateScreen from './screens/ToursIntermediateScreen'
 import DirectionsScreen from './screens/DirectionsScreen'
 import ProfileScreen from './profileScreen';
@@ -216,6 +217,7 @@ const ToursNavigator = createStackNavigator({
   DirectionsScreen:DirectionsScreen,
   ImageGalleryScreen: ImageGalleryScreen,
   ToursIntermediateScreen:ToursIntermediateScreen,
+  TourFinishedCongratsScreen,TourFinishedCongratsScreen
 },
 {
     defaultNavigationOptions: {
