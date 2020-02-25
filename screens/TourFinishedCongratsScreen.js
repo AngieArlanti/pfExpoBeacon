@@ -66,8 +66,8 @@ const styles = StyleSheet.create({
   directionsButton:{
     backgroundColor:'rgba(0,0,0,0.4)',
     borderRadius: 4,
-    padding: 4,
-    height: 48,
+    padding: 8,
+    height: 40,
     alignSelf:'flex-start',
     alignItems: 'center',
     flexDirection: 'column',
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
   },
   directionsButtonLabel: {
     color: '#FFFFFF',
-    fontSize: 27,
+    fontSize: 24,
     alignSelf: 'center'
   },
   congratsTitle: {

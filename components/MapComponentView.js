@@ -100,7 +100,7 @@ export default class MapComponentView extends React.Component {
     });
     this.fitAllMarkers();
   }
- 
+
   onDirectionsButtonPress = e =>{
     this.locateGuy(false);
   }
@@ -353,11 +353,12 @@ animateCamera() {
           <View style={{flex:1,flexDirection: 'column',alignContent: 'center'}}>
             <Icon color="white" name={"arrow-upward"} size={24}/>
             <View style={{flex:1,marginTop: 8,flexDirection: 'row',alignContent: 'flex-end',justifyContent: 'center'}}>
-              <Text style={{fontSize: 20,color: '#FFFFFF'}}>50</Text><Text style={{fontSize: 16,color: '#FFFFFF',alignSelf: 'flex-end'}}> m</Text>
+              <Text style={{fontSize: 20,color: '#FFFFFF'}}>{this.props.target_distance}</Text>
+              <Text style={{fontSize: 16,color: '#FFFFFF',alignSelf: 'flex-end'}}> m</Text>
             </View>
           </View>
           <View style={{flex:4,alignSelf: 'center'}}>
-            <Text style={styles.directionsHeaderLabel}>Este es un texto de prueba</Text>
+            <Text style={styles.directionsHeaderLabel}>Dirígete hacia {this.props.stands[0].title}</Text>
           </View>
         </View>
       }
