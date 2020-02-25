@@ -50,6 +50,7 @@ export default class MapComponentView extends React.Component {
       this.map=null;
       this.markerSelected = null;
       this.state.heatmapWeightedLatLngs = HITS;
+      this.state.layerButtonPressed = false;
     }
 
     componentDidMount() {
@@ -106,9 +107,17 @@ export default class MapComponentView extends React.Component {
 
   //Display heatmap TODO:Should fetch data from service
   onLayersButtonPressed = e =>{
+    if(!this.state.layerButtonPressed){
     this.setState({
       showHeatMap:true,
+      layerButtonPressed:true,
     });
+    } else {
+      this.setState({
+        showHeatMap:false,
+        layerButtonPressed:false,
+      });
+    }
   }
 
   // On tours tinder screen appears on Route map type to close the full screen map
@@ -353,9 +362,14 @@ animateCamera() {
         </View>
       }
       <View style={styles.bottom}>
-        {(this.state.mapProps !==undefined && this.state.mapProps.showHeatMapButton) &&
+        {(this.state.mapProps !==undefined && this.state.mapProps.showHeatMapButton && !this.state.layerButtonPressed) &&
           <TouchableOpacity style={styles.layersButton} onPress={this.onLayersButtonPressed}>
             <Icon name={"layers"}  size={20} color="black" />
+          </TouchableOpacity>
+        }
+        {(this.state.mapProps !==undefined && this.state.mapProps.showHeatMapButton && this.state.layerButtonPressed) &&
+          <TouchableOpacity style={styles.layersButton} onPress={this.onLayersButtonPressed}>
+            <Icon name={"layers-clear"}  size={20} color="black" />
           </TouchableOpacity>
         }
         {(this.state.mapProps !==undefined && this.state.mapProps.showGPSButton) &&
