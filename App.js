@@ -187,6 +187,7 @@ const SearchNavigator = createStackNavigator({
   SearchScreen : SearchScreen,
   StandInfo: {screen: StandInfo},
   ImageGalleryScreen: ImageGalleryScreen,
+  DirectionsScreen:DirectionsScreen,
   },
   {
   defaultNavigationOptions: {

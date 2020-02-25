@@ -37,7 +37,8 @@ class MapCard extends Component {
                         />
                         <Text style={styles.descriptionText}>({this.props.item.ranking_average.cant_rates})</Text>
                       </View>
-                    <TouchableOpacity style={styles.directionsButton}>
+                    <TouchableOpacity style={styles.directionsButton} onPress={() => this.props.navigation.navigate('DirectionsScreen', {
+                        target_stand:this.props.item})}>
                       <Icon color="white" name={"directions"} size={14} style={{alignSelf: 'center',
                       alignContent: 'center',
                       justifyContent: 'center',}}/>
