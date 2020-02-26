@@ -15,6 +15,7 @@ import LocationMarker from './LocationMarker';
 import HorizontalCardGallery from './HorizontalCardGallery';
 import {HITS,DEFAULT_MAP_MARKERS_PADDING,LATITUDE,LONGITUDE, LATITUDE_DELTA,LONGITUDE_DELTA,POLYLINE_DEFAULT_STROKE_WIDTH,POLYLINE_TOUR_DEFAULT_STROKE_WIDTH,mapProperties} from '../assets/constants/constants'
 import {getLocation} from '../services/locationClient';
+import {getHeatMap} from '../services/heatMapClient';
 
 
 /**
@@ -49,7 +50,7 @@ export default class MapComponentView extends React.Component {
       this.state.showHeatMap = false;
       this.map=null;
       this.markerSelected = null;
-      this.state.heatmapWeightedLatLngs = HITS;
+      this.state.heatmapWeightedLatLngs = [];
       this.state.layerButtonPressed = false;
     }
 
@@ -108,10 +109,17 @@ export default class MapComponentView extends React.Component {
   //Display heatmap TODO:Should fetch data from service
   onLayersButtonPressed = e =>{
     if(!this.state.layerButtonPressed){
-    this.setState({
-      showHeatMap:true,
-      layerButtonPressed:true,
-    });
+      getHeatMap().then(data => {
+        this.setState({
+          showHeatMap:true,
+        layerButtonPressed:true,
+          heatmapWeightedLatLngs: data.map(function(location){return {
+            latitude: location.latitude,
+            longitude: location.longitude,
+            weight:100
+          }})
+        })
+      });
     } else {
       this.setState({
         showHeatMap:false,
@@ -302,7 +310,7 @@ animateCamera() {
           }}
       >
       {
-        (this.state.heatmapWeightedLatLngs !== undefined && this.state.showHeatMap) &&
+        (this.state.heatmapWeightedLatLngs !== undefined && this.state.heatmapWeightedLatLngs.length !== 0 && this.state.showHeatMap) &&
         <Heatmap points={this.state.heatmapWeightedLatLngs} radius={10} />
       }
       {
