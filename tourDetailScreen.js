@@ -8,7 +8,6 @@ export default class ToursDetailScreen extends React.Component {
 
     constructor(props){
         super(props);
-        this.state = { isLoading: true};
         this.state = {
             scrollY: new Animated.Value(0),
           };
