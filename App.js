@@ -18,6 +18,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import Orientation from 'react-native-orientation-locker';
 import {WINDOW_WIDTH,HEADER_MAX_HEIGHT,HEADER_MIN_HEIGHT,HEADER_SCROLL_DISTANCE,STAND_LIST_SERVICE_URL} from './assets/constants/constants';
 import SkeletonContent from "react-native-skeleton-content-nonexpo";
+import Snackbar from 'react-native-snackbar';
 
 class App extends Component {
 
@@ -55,7 +56,15 @@ getAllStands(){
       });
     })
     .catch((error) =>{
-      console.error(error);
+      Snackbar.show({
+        text: '¡Parece que no hay internet!',
+        duration: Snackbar.LENGTH_INDEFINITE,
+        action: {
+          text: 'UNDO',
+          textColor: 'red',
+          onPress: () => { /* Do something. */ },
+        },
+      });
     });
 }
 
