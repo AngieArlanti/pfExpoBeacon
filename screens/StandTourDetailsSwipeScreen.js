@@ -146,11 +146,17 @@ render() {
                         </TouchableOpacity>
                         <Text style={styles.titleLabel}>{this.state.standsDataSource[0].title}</Text>
                       </View>
-                      <TouchableOpacity style={styles.directionsButton} onPress= {() => this.props.navigation.navigate('DirectionsScreen', {
-                        target_stand:this.state.standsDataSource[0]})}>
-                        <Icon color="white" name={"directions"} size={14}/>
-                        <Text style={styles.directionsButtonLabel}>Indicaciones</Text>
-                      </TouchableOpacity>
+                      <View style={{flex:1,marginTop: 300,flexDirection: 'column',alignItems:'center'}}>
+                        <TouchableOpacity style={styles.directionsButton} onPress= {() => this.props.navigation.navigate('DirectionsScreen', {
+                          target_stand:this.state.standsDataSource[0]})}>
+                          <Icon color="white" name={"directions"} size={14}/>
+                          <Text style={styles.directionsButtonLabel}>Indicaciones</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.standDetailButton} onPress= {() => this.props.navigation.navigate('StandInfo', {
+                          item:this.state.standsDataSource[0]})}>
+                          <Text style={styles.standDetailButtonLabel}>Ver stand</Text>
+                        </TouchableOpacity>
+                      </View>
                   </View>
                   <View style={styles.container}>
                     <TouchableOpacity style={styles.nextButton} onPress= {() => this.onNextBestStand()}>
@@ -217,11 +223,27 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     paddingHorizontal: 8,
     height: 32,
-    marginTop: 300,
     alignSelf:'center',
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'center'
+  },
+  standDetailButton:{
+    backgroundColor:'rgba(0,0,0,0.4)',
+    flex: 1,
+    borderRadius: 4,
+    paddingHorizontal: 8,
+    height: 32,
+    marginTop: 16,
+    alignSelf:'center',
+    alignItems: 'center',
+    flexDirection: 'column',
+    justifyContent: 'center'
+  },
+  standDetailButtonLabel: {
+    color: '#FFFFFF',
+    fontSize: 18,
+    alignSelf: 'center'
   },
   directionsButtonLabel: {
     color: '#FFFFFF',
