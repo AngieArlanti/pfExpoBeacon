@@ -24,7 +24,7 @@ class TourPreviewRow extends Component {
     render() {
         let properties = this.props;
         return (
-          <View style={{flex:1,backgroundColor: 'white',height:340}}>
+          <View style={{flex:1,backgroundColor: 'white',height:356}}>
             <View style={{flex:1,flexDirection: 'column'}}>
                 <View style={{flex:1,paddingLeft: 8, paddingTop:16 ,paddingBottom: 8}}>
                   <Text style={styles.title}>{this.props.title}</Text>
@@ -51,7 +51,7 @@ class TourPreviewRow extends Component {
                             </View>
                           </View>
                       </View>
-                      <View style={{flex:1, paddingTop: 8,paddingLeft: 8}}>
+                      <View style={{flex:1, paddingTop: 8,paddingLeft: 8, paddingBottom:8}}>
                         <Text style={styles.tourDescription}>{this.props.description}</Text>
                       </View>
                     </View>

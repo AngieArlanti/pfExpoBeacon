@@ -22,6 +22,7 @@ export const STAND_RANKING_SERVICE_URL =BASE_PATH + '/stand_ranking';
 export const STAND_HISTOGRAM_SERVICE_URL = BASE_PATH + '/stats/stand_histogram?stand_id='
 export const TOURS_NO_LINES_SERVICE_URL = BASE_PATH + '/tour/no_lines';
 export const TOURS_TOP_THREE_SERVICE_URL = BASE_PATH + '/tour/top_three';
+export const HEAT_MAP_SERVICE_URL = BASE_PATH + '/heat_map';
 
 /* ------------------------------------------------
 * ----------- MAP COMPONENT CONSTANTS -------------
