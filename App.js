@@ -16,7 +16,8 @@ import ProfileScreen from './profileScreen';
 import ImageGalleryScreen from './imageGalleryScreen';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Orientation from 'react-native-orientation-locker';
-import {HEADER_MAX_HEIGHT,HEADER_MIN_HEIGHT,HEADER_SCROLL_DISTANCE,STAND_LIST_SERVICE_URL} from './assets/constants/constants';
+import {WINDOW_WIDTH,HEADER_MAX_HEIGHT,HEADER_MIN_HEIGHT,HEADER_SCROLL_DISTANCE,STAND_LIST_SERVICE_URL} from './assets/constants/constants';
+import SkeletonContent from "react-native-skeleton-content-nonexpo";
 
 class App extends Component {
 
@@ -32,6 +33,7 @@ constructor(props) {
 
 // Lifecycle events
 componentDidMount(){
+  this.getAllStands();
   //Refresh standList
   this._subscribe = this.props.navigation.addListener('didFocus', () => {
     this.getAllStands();
@@ -89,7 +91,24 @@ render() {
             )}
       >
         {(this.state.dataSource !== null && this.state.dataSource !== undefined) &&
-        <StandList stands={this.state.dataSource} navigation={this.props.navigation} isLoadingList={this.state.isLoading}/>}
+        <StandList stands={this.state.dataSource} navigation={this.props.navigation} isLoadingList={this.state.isLoading}/>
+        }
+          <View style={{flex:1,marginTop:HEADER_MAX_HEIGHT}}>
+            <SkeletonContent
+              containerStyle={{flex: 1}}
+              isLoading={this.state.isLoading}
+              layout={[
+                        { key:"Picture Mock1", width:450, height: 220, marginBottom:8,marginTop:8},
+                        { key: "TitleMock1", width: 180, height: 24, marginBottom: 8, marginLeft:16 },
+                        { key: "starsMock1", width: 140, height: 18, marginBottom: 6, marginLeft:16 },
+                        { key: "descriptionMock1", width: 320, height: 18, marginBottom: 16, marginLeft:16 },
+                        { key:"PictureMock2", width:450, height: 220, marginBottom:8},
+                        { key: "TitleMock2", width: 180, height: 24, marginBottom: 8, marginLeft:16 },
+                        { key: "starsMock2", width: 140, height: 18, marginBottom: 6, marginLeft:16 },
+                        { key: "descriptionMock2", width: 320, height: 18, marginBottom: 16, marginLeft:16 },
+                      ]}
+            />
+          </View>
         </ScrollView>
 
     </View>

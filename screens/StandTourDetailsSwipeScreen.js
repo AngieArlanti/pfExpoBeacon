@@ -5,6 +5,7 @@ import {Icon} from 'react-native-elements';
 import Tts from 'react-native-tts';
 import {TOURS_NO_LINES_SERVICE_URL} from '../assets/constants/constants';
 import {saveLocation} from '../services/locationClient';
+import SkeletonContent from "react-native-skeleton-content-nonexpo";
 
 export default class StandTourDetailsSwipeScreen extends React.Component {
 
@@ -47,6 +48,10 @@ export default class StandTourDetailsSwipeScreen extends React.Component {
     .then((response) => response.json())
     .then((responseJson) => {
       this.onTourFetched(responseJson.tour);
+      this.setState({
+        isLoading: false,
+      }, function(){
+      });
     })
     .catch((error) =>{
       console.error(error);
@@ -154,6 +159,22 @@ render() {
                   </View>
                 </View>
             </ImageBackground>
+      }
+      {
+        (this.state.isLoading || this.state.isLoading===undefined) &&
+        <View style={styles.overlay}>
+          <SkeletonContent
+            containerStyle={{flex: 1, flexDirection: 'column',alignItems: 'center',justifyContent: 'center'}}
+            isLoading={this.state.isLoading}
+            layout={[
+                    { key: "playButton",position:'absolute',width:120, height: 120, borderRadius:60,alignItems: 'center',alignSelf: 'center'},
+                    { key: "directionAsset",height: 72,width: 64,marginBottom:40},
+                    { key: "indicationText",height: 28,width: 260,marginBottom:240},
+                    { key: "button1",height: 28,width: 96,marginTop:32},
+                    { key: "button2",height: 28,width: 96,marginTop:32},
+                    ]}
+          />
+        </View>
       }
     </View>
   );
