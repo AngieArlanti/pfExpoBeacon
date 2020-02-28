@@ -13,9 +13,8 @@ import StandMarker from './StandMarker';
 import TourMarker from './TourMarker';
 import LocationMarker from './LocationMarker';
 import HorizontalCardGallery from './HorizontalCardGallery';
-import {HITS,DEFAULT_MAP_MARKERS_PADDING,LATITUDE,LONGITUDE, LATITUDE_DELTA,LONGITUDE_DELTA,POLYLINE_DEFAULT_STROKE_WIDTH,POLYLINE_TOUR_DEFAULT_STROKE_WIDTH,mapProperties} from '../assets/constants/constants'
+import {HITS,DEFAULT_MAP_MARKERS_PADDING,LATITUDE,LONGITUDE, LATITUDE_DELTA,LONGITUDE_DELTA,POLYLINE_DEFAULT_STROKE_WIDTH,POLYLINE_TOUR_DEFAULT_STROKE_WIDTH,mapProperties, HEAT_MAP_SERVICE_URL} from '../assets/constants/constants'
 import {getLocation} from '../services/locationClient';
-import {getHeatMap} from '../services/heatMapClient';
 
 
 /**
@@ -106,20 +105,32 @@ export default class MapComponentView extends React.Component {
     this.locateGuy(false);
   }
 
-  //Display heatmap TODO:Should fetch data from service
-  onLayersButtonPressed = e =>{
-    if(!this.state.layerButtonPressed){
-      getHeatMap().then(data => {
+  getHeatMap() {
+    return fetch(HEAT_MAP_SERVICE_URL)
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson)
         this.setState({
-          showHeatMap:true,
-        layerButtonPressed:true,
-          heatmapWeightedLatLngs: data.map(function(location){return {
+          heatmapWeightedLatLngs: responseJson.map(function(location){return {
             latitude: location.latitude,
             longitude: location.longitude,
             weight:100
           }})
         })
+      })
+      .catch((error) =>{
+        console.error(error);
       });
+  };
+
+  //Display heatmap TODO:Should fetch data from service
+  onLayersButtonPressed = e =>{
+    if(!this.state.layerButtonPressed){
+      this.getHeatMap()
+        this.setState({
+          showHeatMap:true,
+        layerButtonPressed:true,
+        })
     } else {
       this.setState({
         showHeatMap:false,
