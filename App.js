@@ -73,7 +73,7 @@ getAllStands(){
         showNoInternet = false;
         this.showSnackbar();
       }
-      
+
       this.setState({
         isLoading: false,
         showNoInternet: showNoInternet,

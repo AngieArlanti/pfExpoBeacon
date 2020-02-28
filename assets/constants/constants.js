@@ -7,10 +7,7 @@ import {Dimensions} from 'react-native';
 export const HEADER_MAX_HEIGHT = 180;
 export const HEADER_MIN_HEIGHT = 25;
 export const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
-// TODO Eliminar cuando conectemos con server real.
-// REEMPLACEN POR SU IP SI CORREN EN ANDROID FISICO, LA PUEDEN OBTENER CON: ifconfig | grep "inet " | grep -v 127.0.0.1
-// REEMPLAZAR POR 10.0.2.2 SI CORREN EN EMULADOR ANDROID
-export const BASE_PATH ='http://192.168.0.124:8080';
+export const BASE_PATH ='http://pfexpobeacon.it.itba.edu.ar/api/itbaexpobeacon';
 
 /* ------------------------------------------------
 * ------------- SERVICES CONSTANS------------------
