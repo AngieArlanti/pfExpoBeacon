@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, View, StatusBar, Animated, ScrollView} from 'react-native';
+import {StyleSheet, View, StatusBar, Animated, ScrollView, Text, Dimensions} from 'react-native';
 import StandList from './standList';
 import StandInfo from './standInfo';
 import {createAppContainer, createSwitchNavigator} from 'react-navigation';
@@ -19,16 +19,21 @@ import Orientation from 'react-native-orientation-locker';
 import {WINDOW_WIDTH,HEADER_MAX_HEIGHT,HEADER_MIN_HEIGHT,HEADER_SCROLL_DISTANCE,STAND_LIST_SERVICE_URL} from './assets/constants/constants';
 import SkeletonContent from "react-native-skeleton-content-nonexpo";
 import Snackbar from 'react-native-snackbar';
+import NoInternetView from './components/NoInternetView'
+
+const { width, height } = Dimensions.get('window');
 
 class App extends Component {
 
 constructor(props) {
   super(props);
   this.state = { isLoading: true};
+  this.state = { showNoInternet: false};
   this.state = { isDataAvailable: false};
   this.state = {
     scrollY: new Animated.Value(0),
   };
+  this.onRetryPress = this.getAllStands.bind(this);
   Orientation.lockToPortrait();
 }
 
@@ -36,36 +41,58 @@ constructor(props) {
 componentDidMount(){
   this.getAllStands();
   //Refresh standList
-  this._subscribe = this.props.navigation.addListener('didFocus', () => {
+  this._subscribe = this.props.navigation.addListener('willFocus', () => {
     this.getAllStands();
-  });
-  this._subscribe = this.props.navigation.addListener('didFocus', () => {
     Orientation.lockToPortrait();
   });
 }
 
 // Services TODO: Modularize
 getAllStands(){
+  let showLoading = true;
+  if(this.state.dataSource!==undefined && this.state.dataSource.length>0){
+    showLoading = false;
+  }
+  this.setState({
+    showNoInternet:false,
+    isLoading:showLoading,
+  });
   return fetch(STAND_LIST_SERVICE_URL)
     .then((response) => response.json())
     .then((responseJson) => {
       this.setState({
         isLoading: false,
         dataSource: responseJson,
+        showNoInternet:false,
       }, function(){
       });
     })
     .catch((error) =>{
-      Snackbar.show({
-        text: '¡Parece que no hay internet!',
-        duration: Snackbar.LENGTH_INDEFINITE,
-        action: {
-          text: 'UNDO',
-          textColor: 'red',
-          onPress: () => { /* Do something. */ },
-        },
+      let showNoInternet = true;
+      if(this.state.dataSource!==undefined && this.state.dataSource.length>0){
+        showNoInternet = false;
+        this.showSnackbar();
+      }
+      
+      this.setState({
+        isLoading: false,
+        showNoInternet: showNoInternet,
+      }, function(){
       });
     });
+}
+
+showSnackbar(){
+  Snackbar.show({
+    text: '¡Parece que no hay internet!',
+    duration: Snackbar.LENGTH_LONG,
+    backgroundColor:'red',
+    action: {
+      text: 'REINTENTAR',
+      textColor: 'white',
+      onPress: () => {this.getAllStands();},
+    },
+  });
 }
 
 render() {
@@ -99,12 +126,17 @@ render() {
             [{nativeEvent: {contentOffset: {y: this.state.scrollY}}}]
             )}
       >
-        {(this.state.dataSource !== null && this.state.dataSource !== undefined) &&
-        <StandList stands={this.state.dataSource} navigation={this.props.navigation} isLoadingList={this.state.isLoading}/>
+        {(this.state.dataSource !== null && this.state.dataSource !== undefined && !this.state.showNoInternet) &&
+          <StandList stands={this.state.dataSource} navigation={this.props.navigation} isLoadingList={this.state.isLoading}/>
         }
-          <View style={{flex:1,marginTop:HEADER_MAX_HEIGHT}}>
-            <SkeletonContent
-              containerStyle={{flex: 1}}
+        {(this.state.showNoInternet && !this.state.isLoading) &&
+          <View style={{flex: 1,width: width,height: height-HEADER_MAX_HEIGHT,marginTop:HEADER_MAX_HEIGHT}} >
+            <NoInternetView style={{flex: 1}} onPress={this.onRetryPress}/>
+          </View>
+        }
+        {(this.state.isLoading || this.state.isLoading===undefined) &&
+          <SkeletonContent
+              containerStyle={{flex:1,marginTop:HEADER_MAX_HEIGHT}}
               isLoading={this.state.isLoading}
               layout={[
                         { key:"Picture Mock1", width:450, height: 220, marginBottom:8,marginTop:8},
@@ -117,7 +149,7 @@ render() {
                         { key: "descriptionMock2", width: 320, height: 18, marginBottom: 16, marginLeft:16 },
                       ]}
             />
-          </View>
+          }
         </ScrollView>
 
     </View>
@@ -246,7 +278,7 @@ const ToursNavigator = createStackNavigator({
   DirectionsScreen:DirectionsScreen,
   ImageGalleryScreen: ImageGalleryScreen,
   ToursIntermediateScreen:ToursIntermediateScreen,
-  TourFinishedCongratsScreen,TourFinishedCongratsScreen
+  TourFinishedCongratsScreen:TourFinishedCongratsScreen
 },
 {
     defaultNavigationOptions: {

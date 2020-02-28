@@ -30,6 +30,7 @@ export default class ToursScreen extends React.Component {
             outputRange: [0, -50],
             extrapolate: 'clamp',
           });
+
         return(
             <View style={styles.container}>
             <StatusBar hidden = {false} backgroundColor = "rgba(0,0,0,0)" translucent = {true}/>
@@ -46,8 +47,8 @@ export default class ToursScreen extends React.Component {
              >
                <View style={styles.scrollViewContent}>
                 <View>
-                <TourPreviewRow title="Evitá filas" description="Te sugerimos que stand visitar ahora, evitando filas y sin perderte lo mejor de la expo." navigation={this.props.navigation} nextScreen="StandTourDetailsSwipeScreen"/>
-                <TourPreviewRow title="Tours populares" description="Recorré los tours más visitados de la expo." navigation={this.props.navigation} nextScreen="ToursIntermediateScreen"/>
+                <TourPreviewRow title="Visitá lo mejor, ¡ahora!" description="Te sugerimos qué stand visitar, evitando filas y sin perderte lo mejor" navigation={this.props.navigation} nextScreen="StandTourDetailsSwipeScreen" imgSourceLeft={require('./assets/images/tours/expo1.jpg')} imgSourceTop={require('./assets/images/tours/expo2.jpg')} imgSourceBottom={require('./assets/images/tours/expo3.jpg')} />
+                <TourPreviewRow title="Tours populares" description="Recorré los tours más visitados de la exposición" navigation={this.props.navigation} nextScreen="ToursIntermediateScreen" imgSourceLeft={require('./assets/images/tours/expo7.jpg')} imgSourceTop={require('./assets/images/tours/expo5.jpg')} imgSourceBottom={require('./assets/images/tours/expo6.jpg')}/>
                 </View>
                 </View>
                </ScrollView>
