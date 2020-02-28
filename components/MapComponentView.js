@@ -13,9 +13,11 @@ import StandMarker from './StandMarker';
 import TourMarker from './TourMarker';
 import LocationMarker from './LocationMarker';
 import HorizontalCardGallery from './HorizontalCardGallery';
-import {HITS,DEFAULT_MAP_MARKERS_PADDING,LATITUDE,LONGITUDE, LATITUDE_DELTA,LONGITUDE_DELTA,POLYLINE_DEFAULT_STROKE_WIDTH,POLYLINE_TOUR_DEFAULT_STROKE_WIDTH,mapProperties} from '../assets/constants/constants'
-import {getLocation} from '../services/locationClient';
+import {GET_LOCATION_SERVICE_URL, DEFAULT_MAP_MARKERS_PADDING,LATITUDE,LONGITUDE, LATITUDE_DELTA,LONGITUDE_DELTA,POLYLINE_DEFAULT_STROKE_WIDTH,POLYLINE_TOUR_DEFAULT_STROKE_WIDTH,mapProperties} from '../assets/constants/constants'
 import {getHeatMap} from '../services/heatMapClient';
+import {startRangingBeacons} from '../services/beaconManagerClient';
+import { getUniqueId } from 'react-native-device-info';
+import {getNearbyStands} from '../services/locationClient';
 
 
 /**
@@ -52,6 +54,9 @@ export default class MapComponentView extends React.Component {
       this.markerSelected = null;
       this.state.heatmapWeightedLatLngs = [];
       this.state.layerButtonPressed = false;
+
+      this.getLocation = this.getLocation.bind(this);
+      this.getLocationApiCall = this.getLocationApiCall.bind(this);
     }
 
     componentDidMount() {
@@ -87,26 +92,47 @@ export default class MapComponentView extends React.Component {
       : MAP_TYPES.NONE;
     }
 
+    //TODO MODULARIZE IN locationClient.js
+    getLocationApiCall(beacons) {
+      return fetch(GET_LOCATION_SERVICE_URL, {
+        method: 'POST',
+        headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          device_id: getUniqueId(),
+          nearby_stands: getNearbyStands(beacons)
+        }),
+      })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        this.setState({
+          locationMarker:[responseJson]
+        });
+        this.fitAllMarkers();
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    };
+
+    getLocation(){
+      startRangingBeacons(this.getLocationApiCall);
+    };
+
    /* BUTTON HANDLERS:
       - onGpsButtonPress
-      - onDirectionsButtonPress
       - onLayersButtonPressed
       - onCloseButtonPress
    */
 
   //Method executed when pressing location button
-  onGpsButtonPress = e =>{
-    this.setState({
-      locationMarker:getLocation(),
-    });
-    this.fitAllMarkers();
+  onGpsButtonPress = e => {
+    this.getLocation();
   }
 
-  onDirectionsButtonPress = e =>{
-    this.locateGuy(false);
-  }
-
-  //Display heatmap TODO:Should fetch data from service
+  //Display heatmap
   onLayersButtonPressed = e =>{
     if(!this.state.layerButtonPressed){
       getHeatMap().then(data => {
@@ -140,16 +166,8 @@ export default class MapComponentView extends React.Component {
 
   // Locates position of the user and according to bool:renderPath renders (or not) the path to the stands TODO:Proper calculation of location
   locateGuy(renderPath) {
-    var fakeLocation =  [{
-      id: "ldksfjdslkf",
-      center: {
-        latitude: -34.6403200,
-        longitude: -58.401555,
-      },
-      radius: 1,
-    }];
     this.setState({
-      locationMarker:fakeLocation,
+      locationMarker:this.getLocation(),
     }, function(renderPath){
       if({renderPath}){
         this.fillPolylineDataSource();
@@ -164,8 +182,8 @@ export default class MapComponentView extends React.Component {
 
     if (this.state.locationMarker!== undefined && this.state.locationMarker.length > 0){
       let location=this.state.locationMarker.map(function(location){return {
-        latitude: location.center.latitude,
-        longitude: location.center.longitude
+        latitude: location.latitude,
+        longitude: location.longitude
       }});
       if (stand !== undefined && location !== undefined) {
         this.showRouteToStand(stand, location[0]);
@@ -215,7 +233,7 @@ export default class MapComponentView extends React.Component {
     if(this.map!==null){
       let coordinates = this.state.markerElements.map(marker => marker.latlng);
       if(this.state.locationMarker !== undefined && this.state.locationMarker.length > 0){
-        coordinates.push(this.state.locationMarker[0].center);
+        coordinates.push(this.state.locationMarker[0]);
         this.map.fitToCoordinates(coordinates, {
           edgePadding: DEFAULT_MAP_MARKERS_PADDING,
           animated: true,
@@ -242,14 +260,14 @@ export default class MapComponentView extends React.Component {
 }
 
 animateCamera() {
-  let lat1 =this.state.locationMarker[0].center.latitude;
+  let lat1 =this.state.locationMarker[0].latitude;
   let lat2 =this.state.standsDataSource[0].latitude;
-  let dLon = (this.state.standsDataSource[0].longitude-this.state.locationMarker[0].center.longitude);
+  let dLon = (this.state.standsDataSource[0].longitude-this.state.locationMarker[0].longitude);
   let y = Math.sin(dLon) * Math.cos(this.state.standsDataSource[0].latitude);
   let x = Math.cos(lat1)*Math.sin(lat2) - Math.sin(lat1)*Math.cos(lat2)*Math.cos(dLon);
   let brng =Math.atan2(y, x)* (180/Math.PI);
   brng = (360 - ((brng + 360) % 360));
-  this.map.animateCamera({ center:this.state.locationMarker[0].center,pitch:90,heading:brng,zoom:22 });
+  this.map.animateCamera({ center:this.state.locationMarker[0],pitch:90,heading:brng,zoom:22 });
 }
 
   /* Rendering */
@@ -333,8 +351,8 @@ animateCamera() {
         this.state.locationMarker.map(loc=>{
           return (
             <Marker
-            key={loc.id}
-            coordinate={loc.center}
+            key={"Location"}
+            coordinate={loc}
             style={styles.locationMarkerStyle}
             calloutAnchor={{ x: 0, y: 0 }}
             anchor={{ x: 0.5, y: 0.5 }}

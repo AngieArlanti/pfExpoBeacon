@@ -8,7 +8,7 @@ const startRangingBeacons = (callback) => {
   ToastAndroid.show("Beacons range started", ToastAndroid.SHORT);
     try {
       BeaconManager.startRangingBeacons();
-      startSuscription = suscribeForEvents(callback);
+      suscribeForEvents(callback);
     } catch (e) {
       console.error(e);
       removeAllSuscriptions();
@@ -28,10 +28,10 @@ const stopRangingBeacons = () => {
   };
   
 const suscribeForEvents = (callback) => {
-    return DeviceEventEmitter.addListener(BeaconManager.EVENT_BEACONS_RANGED, (data) => {
+    startSuscription = DeviceEventEmitter.addListener(BeaconManager.EVENT_BEACONS_RANGED, (data) => {
       if(data.beacons){
-        callback(data.beacons);
         stopRangingBeacons();
+        callback(data.beacons);
       }
   })
 };
