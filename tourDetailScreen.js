@@ -30,7 +30,6 @@ export default class ToursDetailScreen extends React.Component {
             outputRange: [0, -50],
             extrapolate: 'clamp',
           });
-          console.log(this.props.navigation);
         return(
             <View style={styles.container}>
             <StatusBar hidden = {false} backgroundColor = "rgba(0,0,0,0)" translucent = {true}/>

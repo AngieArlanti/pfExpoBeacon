@@ -39,14 +39,14 @@ class TourPreviewRow extends Component {
                       <View style={{flex:7}}>
                           <View style={{flex:3,flexDirection: 'row',backgroundColor: 'white'}}>
                             <View style={{flex:6,marginRight:2}}>
-                              <Image style={{flex:1}} resizeMode='cover' source={require('../assets/images/tours-populares.jpg')}/>
+                              <Image style={{flex:1,resizeMode:'cover', width: null, height: null,}} resizeMethod='scale' source={this.props.imgSourceLeft}/>
                             </View>
                             <View style={{flex:4,flexDirection: 'column',backgroundColor: 'white',marginLeft: 2}}>
                               <View style={{flex:1,marginBottom: 2,marginLeft: 2}}>
-                                <Image style={{flex:1}} resizeMode='cover' source={require('../assets/images/tours-tiempo.jpg')}/>
+                                <Image style={{flex:1,resizeMode:'cover',width: null,height: null,}} resizeMethod='auto' source={this.props.imgSourceTop}/>
                               </View>
                               <View style={{flex:1,marginLeft: 2}}>
-                                <Image style={{flex:1}} resizeMode='cover' source={require('../assets/images/muestra.jpg')}/>
+                                <Image style={{flex:1,resizeMode:'cover', width: null, height: null,}} resizeMethod='auto' source={this.props.imgSourceBottom}/>
                               </View>
                             </View>
                           </View>

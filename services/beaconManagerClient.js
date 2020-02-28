@@ -10,7 +10,7 @@ const startRangingBeacons = (callback) => {
       BeaconManager.startRangingBeacons();
       startSuscription = suscribeForEvents(callback);
     } catch (e) {
-      console.error(e);
+      console.log(e);
       removeAllSuscriptions();
     }
   };
@@ -22,11 +22,11 @@ const stopRangingBeacons = () => {
       stopSuscription = unsuscribeForEvents();
       removeSuscription(stopSuscription);
     } catch (e) {
-      console.error(e);
+      console.log(e);
       removeAllSuscriptions();
     }
   };
-  
+
 const suscribeForEvents = (callback) => {
     return DeviceEventEmitter.addListener(BeaconManager.EVENT_BEACONS_RANGED, (data) => {
       if(data.beacons){
