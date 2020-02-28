@@ -7,6 +7,7 @@ import { BarChart } from "react-native-chart-kit";
 import { Dimensions } from "react-native";
 import Orientation from 'react-native-orientation-locker';
 import {saveLocation} from './services/locationClient';
+import Snackbar from 'react-native-snackbar';
 
 const screenWidth = Dimensions.get("window").width;
 const chartConfig = {
@@ -27,6 +28,7 @@ export default class StandInfo extends React.Component {
     this.state = { dataSource:[{}]};
     this.getStandHistogram();
     standId = this.props.navigation.state.params.item.id;
+    this.showSnackbar = this.showSnackbar.bind(this);
     Orientation.lockToPortrait();
     saveLocation();
   }
@@ -52,6 +54,9 @@ export default class StandInfo extends React.Component {
         device_id: getUniqueId(),
         ranking: rating,
       }),
+    })
+    .catch((error) =>{
+        this.showSnackbar;
     });
   }
 
@@ -79,6 +84,14 @@ export default class StandInfo extends React.Component {
     })
     .catch((error) =>{
       console.log(error);
+    });
+  }
+
+  showSnackbar(){
+    Snackbar.show({
+      text: '¡Parece que no hay internet!',
+      duration: Snackbar.LENGTH_LONG,
+      backgroundColor:'red',
     });
   }
 
