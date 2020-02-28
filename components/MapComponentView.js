@@ -16,6 +16,7 @@ import HorizontalCardGallery from './HorizontalCardGallery';
 import {HITS,DEFAULT_MAP_MARKERS_PADDING,LATITUDE,LONGITUDE, LATITUDE_DELTA,LONGITUDE_DELTA,POLYLINE_DEFAULT_STROKE_WIDTH,POLYLINE_TOUR_DEFAULT_STROKE_WIDTH,mapProperties} from '../assets/constants/constants'
 import {getLocation} from '../services/locationClient';
 import {getHeatMap} from '../services/heatMapClient';
+import Snackbar from 'react-native-snackbar';
 
 
 /**
@@ -55,15 +56,12 @@ export default class MapComponentView extends React.Component {
     }
 
     componentDidMount() {
-
       if(this.props.mapType!==undefined){
-        console.log(mapProperties[this.props.mapType]);
         let config =mapProperties[this.props.mapType];
         if(config.showPath && !config.showUserLocation){
           this.showTourRoute();
         }
         if(config.showPath && config.showUserLocation){
-          console.log("componentDidMount");
           this.locateGuy(true);
         }
       }
@@ -119,13 +117,28 @@ export default class MapComponentView extends React.Component {
             weight:100
           }})
         })
-      });
+      }).catch((error) =>{
+          this.showSnackbar();
+        });
     } else {
       this.setState({
         showHeatMap:false,
         layerButtonPressed:false,
       });
     }
+  }
+
+  showSnackbar(){
+    Snackbar.show({
+      text: '¡Parece que no hay internet!',
+      duration: Snackbar.LENGTH_LONG,
+      backgroundColor:'red',
+      action: {
+        text: 'REINTENTAR',
+        textColor: 'white',
+        onPress: () => {this.onLayersButtonPressed();},
+      },
+    });
   }
 
   // On tours tinder screen appears on Route map type to close the full screen map
