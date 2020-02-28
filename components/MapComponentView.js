@@ -107,7 +107,6 @@ export default class MapComponentView extends React.Component {
     return fetch(HEAT_MAP_SERVICE_URL)
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson)
         this.setState({
           heatmapWeightedLatLngs: responseJson.map(function(location){return {
             latitude: location.latitude,
@@ -117,7 +116,7 @@ export default class MapComponentView extends React.Component {
         })
       })
       .catch((error) =>{
-        console.error(error);
+        this.showSnackbar();
       });
   };
 
