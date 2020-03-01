@@ -6,9 +6,6 @@ const getHeatMap = () => {
       .then((responseJson) => {
         return responseJson
       })
-      .catch((error) =>{
-        console.error(error);
-      });
   };
 
 module.exports = {

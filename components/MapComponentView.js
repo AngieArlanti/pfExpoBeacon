@@ -18,6 +18,8 @@ import {getHeatMap} from '../services/heatMapClient';
 import {startRangingBeacons} from '../services/beaconManagerClient';
 import { getUniqueId } from 'react-native-device-info';
 import {getNearbyStands} from '../services/locationClient';
+import Snackbar from 'react-native-snackbar';
+
 
 
 /**
@@ -60,15 +62,12 @@ export default class MapComponentView extends React.Component {
     }
 
     componentDidMount() {
-
       if(this.props.mapType!==undefined){
-        console.log(mapProperties[this.props.mapType]);
         let config =mapProperties[this.props.mapType];
         if(config.showPath && !config.showUserLocation){
           this.showTourRoute();
         }
         if(config.showPath && config.showUserLocation){
-          console.log("componentDidMount");
           this.locateGuy(true);
         }
       }
@@ -145,13 +144,28 @@ export default class MapComponentView extends React.Component {
             weight:100
           }})
         })
-      });
+      }).catch((error) =>{
+          this.showSnackbar();
+        });
     } else {
       this.setState({
         showHeatMap:false,
         layerButtonPressed:false,
       });
     }
+  }
+
+  showSnackbar(){
+    Snackbar.show({
+      text: '¡Parece que no hay internet!',
+      duration: Snackbar.LENGTH_LONG,
+      backgroundColor:'red',
+      action: {
+        text: 'REINTENTAR',
+        textColor: 'white',
+        onPress: () => {this.onLayersButtonPressed();},
+      },
+    });
   }
 
   // On tours tinder screen appears on Route map type to close the full screen map

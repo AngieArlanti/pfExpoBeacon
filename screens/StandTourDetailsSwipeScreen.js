@@ -6,16 +6,21 @@ import Tts from 'react-native-tts';
 import {TOURS_NO_LINES_SERVICE_URL} from '../assets/constants/constants';
 import {saveLocation} from '../services/locationClient';
 import SkeletonContent from "react-native-skeleton-content-nonexpo";
+import Snackbar from 'react-native-snackbar';
+import NoInternetView from '../components/NoInternetView'
 
 export default class StandTourDetailsSwipeScreen extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = { isLoading: true};
+    this.state = { showNoInternet: false};
     this.state = { isDataAvailable: false};
     this.state = { data: [{}]};
     this.state = { standsDataSource:[{}]};
     this.state = { totalStands: 0}
+    this.onRetryPress = this.getNoLinesTour.bind(this);
+    this.onNextBestRetryPress = this.onNextBestStand.bind(this);
   }
 
   // Lifecycle events
@@ -44,17 +49,25 @@ export default class StandTourDetailsSwipeScreen extends React.Component {
   //////////////////
 
   getNoLinesTour(){
+    let showLoading = true;
+    if(this.state.standsDataSource!==undefined && this.state.standsDataSource.length>1){
+      showLoading = false;
+    }
+    this.setState({
+      showNoInternet:false,
+      isLoading:showLoading,
+    });
     return fetch(TOURS_NO_LINES_SERVICE_URL)
     .then((response) => response.json())
     .then((responseJson) => {
       this.onTourFetched(responseJson.tour);
-      this.setState({
-        isLoading: false,
-      }, function(){
-      });
     })
     .catch((error) =>{
-      console.error(error);
+      this.setState({
+        isLoading: false,
+        showNoInternet: true,
+      }, function(){
+      });
     });
   }
 
@@ -80,7 +93,11 @@ export default class StandTourDetailsSwipeScreen extends React.Component {
       callback(responseJson.tour);
     })
     .catch((error) =>{
-      console.error(error);
+      this.showSnackbar(this.onNextBestRetryPress);
+      this.setState({
+        isLoading: false,
+      }, function(){
+      });
     });
     };
 
@@ -97,12 +114,11 @@ export default class StandTourDetailsSwipeScreen extends React.Component {
   //////////////////
 
   onPlayButtonPress(stand){
-    Tts.engines().then(engines => console.log(stand));
     Tts.getInitStatus().then(() => {
-    Tts.setDefaultLanguage('es-AR');
-    Tts.setDefaultRate(0.5);
-    Tts.speak(stand.short_description);
-  });
+      Tts.setDefaultLanguage('es-AR');
+      Tts.setDefaultRate(0.5);
+      Tts.speak(stand.short_description);
+    });
   }
 
   onCloseButtonPress(navigation){
@@ -117,10 +133,20 @@ export default class StandTourDetailsSwipeScreen extends React.Component {
          pendingStands,
          (data) => {this.props.navigation.navigate('StandTourDetailsSwipeScreen', {sties : data })});
     } else if (this.state.standsDataSource.length === 1) {
-      //TODO show finish screen!! Now next button does nothing here.
-      console.log("tuvi");
       this.props.navigation.navigate('TourFinishedCongratsScreen');
     }
+  }
+  showSnackbar(onPress){
+    Snackbar.show({
+      text: '¡Parece que no hay internet!',
+      duration: Snackbar.LENGTH_LONG,
+      backgroundColor:'red',
+      action: {
+        text: 'REINTENTAR',
+        textColor: 'white',
+        onPress: onPress,
+      },
+    });
   }
 
 render() {
@@ -181,6 +207,9 @@ render() {
                     ]}
           />
         </View>
+      }
+      {(this.state.showNoInternet && !this.state.isLoading) &&
+        <NoInternetView style={{flex: 1}} onPress={this.onRetryPress}/>
       }
     </View>
   );
