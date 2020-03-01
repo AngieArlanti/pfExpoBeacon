@@ -10,7 +10,7 @@ export const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 // TODO Eliminar cuando conectemos con server real.
 // REEMPLACEN POR SU IP SI CORREN EN ANDROID FISICO, LA PUEDEN OBTENER CON: ifconfig | grep "inet " | grep -v 127.0.0.1
 // REEMPLAZAR POR 10.0.2.2 SI CORREN EN EMULADOR ANDROID
-export const BASE_PATH ='http://192.168.0.175:8080';
+export const BASE_PATH ='http://192.168.1.113:8080';
 
 /* ------------------------------------------------
 * ------------- SERVICES CONSTANS------------------

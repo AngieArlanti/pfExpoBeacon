@@ -19,7 +19,7 @@ import {startRangingBeacons} from '../services/beaconManagerClient';
 import { getUniqueId } from 'react-native-device-info';
 import {getNearbyStands} from '../services/locationClient';
 import Snackbar from 'react-native-snackbar';
-
+import BackgroundTimer from 'react-native-background-timer';
 
 
 /**
@@ -75,6 +75,7 @@ export default class MapComponentView extends React.Component {
                       mapProps:mapProperties[this.props.mapType]});
     }
     componentWillUnmount() {
+      BackgroundTimer.stopBackgroundTimer();
       if( this.startSubscription !==undefined && this.stopSubscription!==undefined){
         this.startSubscription.remove();
         this.stopSubscription.remove();
@@ -134,20 +135,25 @@ export default class MapComponentView extends React.Component {
   //Display heatmap
   onLayersButtonPressed = e =>{
     if(!this.state.layerButtonPressed){
-      getHeatMap().then(data => {
-        this.setState({
-          showHeatMap:true,
-        layerButtonPressed:true,
-          heatmapWeightedLatLngs: data.map(function(location){return {
-            latitude: location.latitude,
-            longitude: location.longitude,
-            weight:100
-          }})
+      BackgroundTimer.runBackgroundTimer(() => {
+        //code that will be called every 3 seconds
+        getHeatMap().then(data => {
+          this.setState({
+            showHeatMap:true,
+            layerButtonPressed:true,
+            heatmapWeightedLatLngs: data.map(function(location){return {
+              latitude: location.latitude,
+              longitude: location.longitude,
+              weight:1
+            }})
+          });
         })
-      }).catch((error) =>{
+        .catch((error) =>{
           this.showSnackbar();
         });
+    },10000);
     } else {
+      BackgroundTimer.stopBackgroundTimer();
       this.setState({
         showHeatMap:false,
         layerButtonPressed:false,
