@@ -29,7 +29,7 @@ const stopRangingBeacons = () => {
 
 const suscribeForEvents = (callback) => {
     startSuscription = DeviceEventEmitter.addListener(BeaconManager.EVENT_BEACONS_RANGED, (data) => {
-      if(data.beacons){
+      if(data.beacons.length>1){
         stopRangingBeacons();
         callback(data.beacons);
       }

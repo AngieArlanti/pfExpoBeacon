@@ -13,12 +13,12 @@ import StandMarker from './StandMarker';
 import TourMarker from './TourMarker';
 import LocationMarker from './LocationMarker';
 import HorizontalCardGallery from './HorizontalCardGallery';
-import {HITS,DEFAULT_MAP_MARKERS_PADDING,LATITUDE,LONGITUDE, LATITUDE_DELTA,LONGITUDE_DELTA,POLYLINE_DEFAULT_STROKE_WIDTH,POLYLINE_TOUR_DEFAULT_STROKE_WIDTH,mapProperties, HEAT_MAP_SERVICE_URL} from '../assets/constants/constants'
+import {HITS,DEFAULT_MAP_MARKERS_PADDING,LATITUDE,LONGITUDE, LATITUDE_DELTA,LONGITUDE_DELTA,POLYLINE_DEFAULT_STROKE_WIDTH,POLYLINE_TOUR_DEFAULT_STROKE_WIDTH,mapProperties, HEAT_MAP_SERVICE_URL, GET_LOCATION_SERVICE_URL} from '../assets/constants/constants'
 import {startRangingBeacons} from '../services/beaconManagerClient';
 import { getUniqueId } from 'react-native-device-info';
 import {getNearbyStands} from '../services/locationClient';
 import Snackbar from 'react-native-snackbar';
-
+import BackgroundTimer from 'react-native-background-timer';
 
 
 /**
@@ -74,6 +74,14 @@ export default class MapComponentView extends React.Component {
                       mapProps:mapProperties[this.props.mapType]});
     }
     componentWillUnmount() {
+      if (this.state.layerButtonPressed){
+        BackgroundTimer.stopBackgroundTimer();
+        this.setState({
+          showHeatMap:false,
+          layerButtonPressed:false,
+        });
+      }
+
       if( this.startSubscription !==undefined && this.stopSubscription!==undefined){
         this.startSubscription.remove();
         this.stopSubscription.remove();
@@ -152,12 +160,16 @@ export default class MapComponentView extends React.Component {
   };
   onLayersButtonPressed = e =>{
     if(!this.state.layerButtonPressed){
-      this.getHeatMap()
         this.setState({
           showHeatMap:true,
-        layerButtonPressed:true,
-        })
+          layerButtonPressed:true,
+        });
+        BackgroundTimer.runBackgroundTimer(() => {
+          //code that will be called every 3 seconds
+          this.getHeatMap()
+      },10000);
     } else {
+      BackgroundTimer.stopBackgroundTimer();
       this.setState({
         showHeatMap:false,
         layerButtonPressed:false,
