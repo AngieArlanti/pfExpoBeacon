@@ -13,7 +13,7 @@ import StandMarker from './StandMarker';
 import TourMarker from './TourMarker';
 import LocationMarker from './LocationMarker';
 import HorizontalCardGallery from './HorizontalCardGallery';
-import {HITS,DEFAULT_MAP_MARKERS_PADDING,LATITUDE,LONGITUDE, LATITUDE_DELTA,LONGITUDE_DELTA,POLYLINE_DEFAULT_STROKE_WIDTH,POLYLINE_TOUR_DEFAULT_STROKE_WIDTH,mapProperties, HEAT_MAP_SERVICE_URL} from '../assets/constants/constants'
+import {HITS,DEFAULT_MAP_MARKERS_PADDING,LATITUDE,LONGITUDE, LATITUDE_DELTA,LONGITUDE_DELTA,POLYLINE_DEFAULT_STROKE_WIDTH,POLYLINE_TOUR_DEFAULT_STROKE_WIDTH,mapProperties, HEAT_MAP_SERVICE_URL, GET_LOCATION_SERVICE_URL} from '../assets/constants/constants'
 import {startRangingBeacons} from '../services/beaconManagerClient';
 import { getUniqueId } from 'react-native-device-info';
 import {getNearbyStands} from '../services/locationClient';
@@ -166,18 +166,7 @@ export default class MapComponentView extends React.Component {
         });
         BackgroundTimer.runBackgroundTimer(() => {
           //code that will be called every 3 seconds
-          getHeatMap().then(data => {
-            this.setState({
-              heatmapWeightedLatLngs: data.map(function(location){return {
-                latitude: location.latitude,
-                longitude: location.longitude,
-                weight:1
-              }})
-            });
-          })
-          .catch((error) =>{
-            this.showSnackbar();
-          });
+          this.getHeatMap()
       },10000);
     } else {
       BackgroundTimer.stopBackgroundTimer();
