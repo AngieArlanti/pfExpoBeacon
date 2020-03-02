@@ -75,7 +75,14 @@ export default class MapComponentView extends React.Component {
                       mapProps:mapProperties[this.props.mapType]});
     }
     componentWillUnmount() {
-      BackgroundTimer.stopBackgroundTimer();
+      if (this.state.layerButtonPressed){
+        BackgroundTimer.stopBackgroundTimer();
+        this.setState({
+          showHeatMap:false,
+          layerButtonPressed:false,
+        });
+      }
+
       if( this.startSubscription !==undefined && this.stopSubscription!==undefined){
         this.startSubscription.remove();
         this.stopSubscription.remove();
@@ -135,12 +142,14 @@ export default class MapComponentView extends React.Component {
   //Display heatmap
   onLayersButtonPressed = e =>{
     if(!this.state.layerButtonPressed){
+      this.setState({
+        showHeatMap:true,
+        layerButtonPressed:true,
+      });
       BackgroundTimer.runBackgroundTimer(() => {
         //code that will be called every 3 seconds
         getHeatMap().then(data => {
           this.setState({
-            showHeatMap:true,
-            layerButtonPressed:true,
             heatmapWeightedLatLngs: data.map(function(location){return {
               latitude: location.latitude,
               longitude: location.longitude,
@@ -152,6 +161,8 @@ export default class MapComponentView extends React.Component {
           this.showSnackbar();
         });
     },10000);
+
+
     } else {
       BackgroundTimer.stopBackgroundTimer();
       this.setState({
