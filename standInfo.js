@@ -138,6 +138,7 @@ export default class StandInfo extends React.Component {
                 height={160}
                 chartConfig={chartConfig}
                 withHorizontalLabels={false}
+                fromZero={true}
                 withInnerLines={false}
                 strokeWidth={10}
                 style={{
