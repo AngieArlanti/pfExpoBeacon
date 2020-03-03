@@ -10,7 +10,7 @@ export const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 // TODO Eliminar cuando conectemos con server real.
 // REEMPLACEN POR SU IP SI CORREN EN ANDROID FISICO, LA PUEDEN OBTENER CON: ifconfig | grep "inet " | grep -v 127.0.0.1
 // REEMPLAZAR POR 10.0.2.2 SI CORREN EN EMULADOR ANDROID
-export const BASE_PATH ='http://192.168.1.113:8080';
+export const BASE_PATH ='http://192.168.0.76:8080';
 
 /* ------------------------------------------------
 * ------------- SERVICES CONSTANS------------------
@@ -31,8 +31,8 @@ export const GET_LOCATION_SERVICE_URL = BASE_PATH + '/get_location';
 */
 export const { width, height } = Dimensions.get('window');
 export const ASPECT_RATIO = width / height;
-export const LATITUDE = -34.6403339;
-export const LONGITUDE = -58.4015757;
+export const LATITUDE = -34.547040;
+export const LONGITUDE = -58.489338;
 export const LATITUDE_DELTA = 0.000001;
 export const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 export const SPACE = 0.0000001;
