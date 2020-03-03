@@ -14,12 +14,13 @@ import TourMarker from './TourMarker';
 import LocationMarker from './LocationMarker';
 import HorizontalCardGallery from './HorizontalCardGallery';
 import {HITS,DEFAULT_MAP_MARKERS_PADDING,LATITUDE,LONGITUDE, LATITUDE_DELTA,LONGITUDE_DELTA,POLYLINE_DEFAULT_STROKE_WIDTH,POLYLINE_TOUR_DEFAULT_STROKE_WIDTH,mapProperties, HEAT_MAP_SERVICE_URL, GET_LOCATION_SERVICE_URL} from '../assets/constants/constants'
-import {startRangingBeacons} from '../services/beaconManagerClient';
+import {startRangingBeacons, stopRangingBeacons} from '../services/beaconManagerClient';
 import { getUniqueId } from 'react-native-device-info';
 import {getNearbyStands} from '../services/locationClient';
 import Snackbar from 'react-native-snackbar';
 import BackgroundTimer from 'react-native-background-timer';
 
+var BeaconManager = require('NativeModules').BeaconManager;
 
 /**
 * @param props properties needed to render MapComponentView:
@@ -58,6 +59,9 @@ export default class MapComponentView extends React.Component {
 
       this.getLocation = this.getLocation.bind(this);
       this.getLocationApiCall = this.getLocationApiCall.bind(this);
+
+      this.state.startSuscription = null;
+      this.state.stopSuscription = null;
     }
 
     componentDidMount() {
@@ -86,6 +90,7 @@ export default class MapComponentView extends React.Component {
         this.startSubscription.remove();
         this.stopSubscription.remove();
       }
+
     }
 
     onRegionChange(region) {
@@ -123,8 +128,36 @@ export default class MapComponentView extends React.Component {
       });
     };
 
+  suscribeForEvents = () => {
+      this.setState({ startSuscription : DeviceEventEmitter.addListener(BeaconManager.EVENT_BEACONS_RANGED, (data) => {
+        if(data.beacons.length>1){
+          stopRangingBeacons(this.unsuscribeForEvents);
+          this.getLocationApiCall(data.beacons);
+        }
+    })
+  })
+  };
+  
+  unsuscribeForEvents = () => {
+   this.setState({ stopSuscription : DeviceEventEmitter.addListener(BeaconManager.EVENT_BEACONS_RANGE_STOPPED, () => {
+       this.removeSuscription(this.state.startSubscription);
+    })
+  })
+  };
+  
+  removeSuscription = (suscription) => {
+    if (suscription!==undefined && suscription!==null){
+      suscription.remove();
+    }
+  };
+  
+  removeAllSuscriptions = () => {
+    this.removeSuscription(this.state.startSubscription);
+    this.removeSuscription(this.state.stopSubscription);
+  };
+
     getLocation(){
-      startRangingBeacons(this.getLocationApiCall);
+      startRangingBeacons(this.suscribeForEvents);
     };
 
    /* BUTTON HANDLERS:
