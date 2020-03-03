@@ -13,8 +13,8 @@ import StandMarker from './StandMarker';
 import TourMarker from './TourMarker';
 import LocationMarker from './LocationMarker';
 import HorizontalCardGallery from './HorizontalCardGallery';
-import {GET_LOCATION_SERVICE_URL,HITS,DEFAULT_MAP_MARKERS_PADDING,LATITUDE,LONGITUDE, LATITUDE_DELTA,LONGITUDE_DELTA,POLYLINE_DEFAULT_STROKE_WIDTH,POLYLINE_TOUR_DEFAULT_STROKE_WIDTH,mapProperties, HEAT_MAP_SERVICE_URL} from '../assets/constants/constants'
-import {startRangingBeacons, removeAllSuscriptions} from '../services/beaconManagerClient';
+import {HITS,DEFAULT_MAP_MARKERS_PADDING,LATITUDE,LONGITUDE, LATITUDE_DELTA,LONGITUDE_DELTA,POLYLINE_DEFAULT_STROKE_WIDTH,POLYLINE_TOUR_DEFAULT_STROKE_WIDTH,mapProperties, HEAT_MAP_SERVICE_URL, GET_LOCATION_SERVICE_URL} from '../assets/constants/constants'
+import {startRangingBeacons} from '../services/beaconManagerClient';
 import { getUniqueId } from 'react-native-device-info';
 import {getNearbyStands} from '../services/locationClient';
 import Snackbar from 'react-native-snackbar';
