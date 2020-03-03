@@ -13,13 +13,12 @@ import StandMarker from './StandMarker';
 import TourMarker from './TourMarker';
 import LocationMarker from './LocationMarker';
 import HorizontalCardGallery from './HorizontalCardGallery';
-import {HITS,DEFAULT_MAP_MARKERS_PADDING,LATITUDE,LONGITUDE, LATITUDE_DELTA,LONGITUDE_DELTA,POLYLINE_DEFAULT_STROKE_WIDTH,POLYLINE_TOUR_DEFAULT_STROKE_WIDTH,mapProperties, HEAT_MAP_SERVICE_URL} from '../assets/constants/constants'
-import {startRangingBeacons} from '../services/beaconManagerClient';
+import {GET_LOCATION_SERVICE_URL,HITS,DEFAULT_MAP_MARKERS_PADDING,LATITUDE,LONGITUDE, LATITUDE_DELTA,LONGITUDE_DELTA,POLYLINE_DEFAULT_STROKE_WIDTH,POLYLINE_TOUR_DEFAULT_STROKE_WIDTH,mapProperties, HEAT_MAP_SERVICE_URL} from '../assets/constants/constants'
+import {startRangingBeacons, removeAllSuscriptions} from '../services/beaconManagerClient';
 import { getUniqueId } from 'react-native-device-info';
 import {getNearbyStands} from '../services/locationClient';
 import Snackbar from 'react-native-snackbar';
 import BackgroundTimer from 'react-native-background-timer';
-
 
 /**
 * @param props properties needed to render MapComponentView:
@@ -55,12 +54,27 @@ export default class MapComponentView extends React.Component {
       this.markerSelected = null;
       this.state.heatmapWeightedLatLngs = [];
       this.state.layerButtonPressed = false;
+      this.state.disableGPSButton = false;
+      this.state.disableLayersButton = false;
 
       this.getLocation = this.getLocation.bind(this);
       this.getLocationApiCall = this.getLocationApiCall.bind(this);
     }
 
+
     componentDidMount() {
+      this._unsubscribe = this.props.navigation.addListener('willBlur', () => {
+        // do something+
+        console.log("Unsuscribing");
+        if (this.state.layerButtonPressed){
+          BackgroundTimer.stopBackgroundTimer();
+          this.setState({
+            showHeatMap:false,
+            layerButtonPressed:false,
+          });
+        }
+      });
+
       if(this.props.mapType!==undefined){
         let config =mapProperties[this.props.mapType];
         if(config.showPath && !config.showUserLocation){
@@ -74,18 +88,7 @@ export default class MapComponentView extends React.Component {
                       mapProps:mapProperties[this.props.mapType]});
     }
     componentWillUnmount() {
-      if (this.state.layerButtonPressed){
-        BackgroundTimer.stopBackgroundTimer();
-        this.setState({
-          showHeatMap:false,
-          layerButtonPressed:false,
-        });
-      }
-
-      if( this.startSubscription !==undefined && this.stopSubscription!==undefined){
-        this.startSubscription.remove();
-        this.stopSubscription.remove();
-      }
+      this._unsubscribe();
     }
 
     onRegionChange(region) {
@@ -114,12 +117,16 @@ export default class MapComponentView extends React.Component {
       .then((response) => response.json())
       .then((responseJson) => {
         this.setState({
-          locationMarker:[responseJson]
+          locationMarker:[responseJson],
+          disableGPSButton: false,
         });
         this.fitAllMarkers();
       })
       .catch((error) => {
-        console.error(error);
+        console.log(error);
+        this.setState({
+          disableGPSButton: false,
+        });
       });
     };
 
@@ -135,6 +142,9 @@ export default class MapComponentView extends React.Component {
 
   //Method executed when pressing location button
   onGpsButtonPress = e => {
+    this.setState({
+      disableGPSButton: true,
+    });
     this.getLocation();
   }
 
@@ -150,40 +160,36 @@ export default class MapComponentView extends React.Component {
           heatmapWeightedLatLngs: responseJson.map(function(location){return {
             latitude: location.latitude,
             longitude: location.longitude,
+            disableLayersButton:false,
             weight:1
           }})
         })
       })
       .catch((error) =>{
         this.showSnackbar();
+        this.setState({
+          disableLayersButton:false,
+        });
       });
   };
+
   onLayersButtonPressed = e =>{
     if(!this.state.layerButtonPressed){
         this.setState({
           showHeatMap:true,
           layerButtonPressed:true,
+          disableLayersButton:true,
         });
         BackgroundTimer.runBackgroundTimer(() => {
           //code that will be called every 3 seconds
-          getHeatMap().then(data => {
-            this.setState({
-              heatmapWeightedLatLngs: data.map(function(location){return {
-                latitude: location.latitude,
-                longitude: location.longitude,
-                weight:1
-              }})
-            });
-          })
-          .catch((error) =>{
-            this.showSnackbar();
-          });
+          this.getHeatMap();
       },10000);
     } else {
       BackgroundTimer.stopBackgroundTimer();
       this.setState({
         showHeatMap:false,
         layerButtonPressed:false,
+        disableLayersButton:false,
       });
     }
   }
@@ -437,18 +443,18 @@ animateCamera() {
       }
       <View style={styles.bottom}>
         {(this.state.mapProps !==undefined && this.state.mapProps.showHeatMapButton && !this.state.layerButtonPressed) &&
-          <TouchableOpacity style={styles.layersButton} onPress={this.onLayersButtonPressed}>
-            <Icon name={"layers"}  size={20} color="black" />
+          <TouchableOpacity style={styles.layersButton} onPress={this.onLayersButtonPressed} disable={this.state.disableLayersButton}>
+            <Icon name={"layers"} size={20} color="black" />
           </TouchableOpacity>
         }
         {(this.state.mapProps !==undefined && this.state.mapProps.showHeatMapButton && this.state.layerButtonPressed) &&
-          <TouchableOpacity style={styles.layersButton} onPress={this.onLayersButtonPressed}>
-            <Icon name={"layers-clear"}  size={20} color="black" />
+          <TouchableOpacity style={styles.layersButton} onPress={this.onLayersButtonPressed} disable={this.state.disableLayersButton}>
+            <Icon name={'layers-clear'} size={20} color="black" />
           </TouchableOpacity>
         }
         {(this.state.mapProps !==undefined && this.state.mapProps.showGPSButton) &&
-          <TouchableOpacity style={styles.gpsButton} onPress={this.onGpsButtonPress}>
-            <Icon name={"gps-fixed"}  size={20} color="black" />
+          <TouchableOpacity style={styles.gpsButton} onPress={this.onGpsButtonPress} disable={this.state.disableGPSButton}>
+            <Icon name={"gps-fixed"} size={20} color="black" />
           </TouchableOpacity>
         }
         {(this.state.mapProps !==undefined && this.state.mapProps.showGallery) &&
