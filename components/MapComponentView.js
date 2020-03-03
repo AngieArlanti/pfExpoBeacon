@@ -55,7 +55,6 @@ export default class MapComponentView extends React.Component {
       this.state.heatmapWeightedLatLngs = [];
       this.state.layerButtonPressed = false;
       this.state.disableGPSButton = false;
-      this.state.disableLayersButton = false;
 
       this.getLocation = this.getLocation.bind(this);
       this.getLocationApiCall = this.getLocationApiCall.bind(this);
@@ -64,15 +63,13 @@ export default class MapComponentView extends React.Component {
 
     componentDidMount() {
       this._unsubscribe = this.props.navigation.addListener('willBlur', () => {
-        // do something+
-        console.log("Unsuscribing");
-        if (this.state.layerButtonPressed){
-          BackgroundTimer.stopBackgroundTimer();
-          this.setState({
-            showHeatMap:false,
-            layerButtonPressed:false,
-          });
-        }
+          if (this.state.layerButtonPressed){
+            BackgroundTimer.stopBackgroundTimer();
+            this.setState({
+              showHeatMap:false,
+              layerButtonPressed:false,
+            });
+          }
       });
 
       if(this.props.mapType!==undefined){
@@ -87,6 +84,7 @@ export default class MapComponentView extends React.Component {
       this.setState({ standsDataSource : this.props.stands,
                       mapProps:mapProperties[this.props.mapType]});
     }
+
     componentWillUnmount() {
       this._unsubscribe();
     }
@@ -160,16 +158,12 @@ export default class MapComponentView extends React.Component {
           heatmapWeightedLatLngs: responseJson.map(function(location){return {
             latitude: location.latitude,
             longitude: location.longitude,
-            disableLayersButton:false,
             weight:1
           }})
         })
       })
       .catch((error) =>{
         this.showSnackbar();
-        this.setState({
-          disableLayersButton:false,
-        });
       });
   };
 
@@ -178,7 +172,6 @@ export default class MapComponentView extends React.Component {
         this.setState({
           showHeatMap:true,
           layerButtonPressed:true,
-          disableLayersButton:true,
         });
         BackgroundTimer.runBackgroundTimer(() => {
           //code that will be called every 3 seconds
@@ -189,7 +182,6 @@ export default class MapComponentView extends React.Component {
       this.setState({
         showHeatMap:false,
         layerButtonPressed:false,
-        disableLayersButton:false,
       });
     }
   }
@@ -443,12 +435,12 @@ animateCamera() {
       }
       <View style={styles.bottom}>
         {(this.state.mapProps !==undefined && this.state.mapProps.showHeatMapButton && !this.state.layerButtonPressed) &&
-          <TouchableOpacity style={styles.layersButton} onPress={this.onLayersButtonPressed} disable={this.state.disableLayersButton}>
+          <TouchableOpacity style={styles.layersButton} onPress={this.onLayersButtonPressed}>
             <Icon name={"layers"} size={20} color="black" />
           </TouchableOpacity>
         }
         {(this.state.mapProps !==undefined && this.state.mapProps.showHeatMapButton && this.state.layerButtonPressed) &&
-          <TouchableOpacity style={styles.layersButton} onPress={this.onLayersButtonPressed} disable={this.state.disableLayersButton}>
+          <TouchableOpacity style={styles.layersButton} onPress={this.onLayersButtonPressed}>
             <Icon name={'layers-clear'} size={20} color="black" />
           </TouchableOpacity>
         }
