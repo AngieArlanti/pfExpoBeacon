@@ -67,14 +67,17 @@ export default class MapComponentView extends React.Component {
 
 
     componentDidMount() {
+      console.log("didmount MapComponentView")
       this._unsubscribe = this.props.navigation.addListener('willBlur', () => {
           if (this.state.layerButtonPressed){
             BackgroundTimer.stopBackgroundTimer();
             this.setState({
               showHeatMap:false,
               layerButtonPressed:false,
+              locationMarker:[],
             });
           }
+          this.removeAllSuscriptions();
       });
 
       if(this.props.mapType!==undefined){
@@ -91,7 +94,10 @@ export default class MapComponentView extends React.Component {
     }
 
     componentWillUnmount() {
-      this._unsubscribe();
+      console.log("unmount");
+      if(this.state.mapProps.showDestinationHeader){
+        this._unsubscribe();
+      }
     }
 
     onRegionChange(region) {
