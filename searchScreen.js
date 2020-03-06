@@ -17,12 +17,6 @@ export default class SearchScreen extends React.Component {
     this.state = { standsDataSource:[{}]};
     this.onRetryPress = this.getAllStands.bind(this);
   }
-
-  componentWillUnmount() {
-    this.startSubscription.remove();
-    this.stopSubscription.remove();
-  }
-
   // Lifecycle events
   componentDidMount(){
     this._subscribe = this.props.navigation.addListener('didFocus', () => {
