@@ -354,7 +354,7 @@ animateCamera() {
       }}
       minZoomLevel={16}
       maxZoomLevel={22}
-      rotateEnabled={false}
+      rotateEnabled={true}
       toolbarEnabled={false}
       showCompass={false}
       ref={ref => {
