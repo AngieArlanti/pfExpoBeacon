@@ -86,7 +86,7 @@ export default class MapComponentView extends React.Component {
     }
 
     componentWillUnmount() {
-      this._unsubscribe();
+      this._unsubscribe.remove();
     }
 
     onRegionChange(region) {
