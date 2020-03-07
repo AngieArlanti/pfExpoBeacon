@@ -68,17 +68,7 @@ export default class MapComponentView extends React.Component {
 
     componentDidMount() {
       console.log("didmount MapComponentView")
-      this._unsubscribe = this.props.navigation.addListener('willBlur', () => {
-          if (this.state.layerButtonPressed){
-            BackgroundTimer.stopBackgroundTimer();
-            this.setState({
-              showHeatMap:false,
-              layerButtonPressed:false,
-              locationMarker:[],
-            });
-          }
-          this.removeAllSuscriptions();
-      });
+      this.unsubscribe();
 
       if(this.props.mapType!==undefined){
         let config =mapProperties[this.props.mapType];
@@ -95,10 +85,21 @@ export default class MapComponentView extends React.Component {
 
     componentWillUnmount() {
       console.log("unmount");
-      if(this.state.mapProps.showDestinationHeader){
-        this._unsubscribe();
-      }
+      this.unsubscribe();
     }
+
+    unsubscribe() { this.props.navigation.addListener('willBlur', () => {
+      if (this.state.layerButtonPressed){
+        BackgroundTimer.stopBackgroundTimer();
+        this.setState({
+          showHeatMap:false,
+          layerButtonPressed:false,
+          locationMarker:[],
+        });
+      }
+      this.removeAllSuscriptions();
+  });
+}
 
     onRegionChange(region) {
       this.setState({ region });

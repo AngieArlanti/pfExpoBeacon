@@ -30,18 +30,15 @@ export default class DirectionsScreen extends React.Component {
   }
 
   componentDidMount(){
-    this._subscribe = this.props.navigation.addListener('didFocus', () => {
+    //this._subscribe = this.props.navigation.addListener('didFocus', () => {
       this.getLocation();
-    });
-      console.log("didmount MapComponentView")
-      this._unsubscribe = this.props.navigation.addListener('willBlur', () => {
-          this.removeAllSuscriptions();
-      });
+    //});
+      console.log("didmount DirectionScreen")
   }
 
   componentWillUnmount() {
-    console.log("unmount");
-    this._unsubscribe();
+    console.log("unmount DirectionScreen");
+    this.removeAllSuscriptions();
   }
 
   getLocationApiCall(beacons) {
@@ -150,6 +147,7 @@ removeSuscription = (suscription) => {
 };
 
 removeAllSuscriptions = () => {
+  console.log("removeAllSubscriptions")
   this.removeSuscription(this.state.startSubscription);
   this.removeSuscription(this.state.stopSubscription);
 };
