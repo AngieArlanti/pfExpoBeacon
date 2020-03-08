@@ -78,6 +78,7 @@ export default class MapComponentView extends React.Component {
           this.showTourRoute();
         }
         if(config.showPath && config.showUserLocation){
+          console.log("hace locate guy")
           this.locateGuy(true);
         }
       }
@@ -416,7 +417,7 @@ animateCamera() {
       </MapView>
 
       {(this.state.mapProps !==undefined && this.state.mapProps.showDestinationHeader) &&
-        <View style={{flex:1,alignSelf:'flex-start',top:600,left:16,right: 8,borderRadius: 6,position: 'absolute',flexDirection: 'row', backgroundColor: 'green',padding: 16,justifyContent:'center'}}>
+        <View style={{flex:1, alignSelf:'flex-start',top:100,left:16,right: 8,borderRadius: 6,position: 'absolute',flexDirection: 'row', backgroundColor: 'green',padding: 16,justifyContent:'center'}}>
           <View style={{flex:1,flexDirection: 'column',alignContent: 'center'}}>
             <Icon color="white" name={"arrow-upward"} size={24}/>
             <View style={{flex:1,marginTop: 8,flexDirection: 'row',alignContent: 'flex-end',justifyContent: 'center'}}>
