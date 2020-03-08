@@ -37,7 +37,7 @@ render() {
   }
   return (
     <View style={styles.container}>
-      <StatusBar style={styles.container} hidden={true} backgroundColor="#609bd1" translucent={true}/>
+      <StatusBar style={styles.container} hidden={false} backgroundColor="#609bd1" translucent={true}/>
       {
         (this.props.navigation.state.params.target_stand!==undefined && this.state.target_stand!==undefined  && this.state.ditance!==0) && <MapComponentView style={styles.container} stands={this.state.target_stand} target_distance={this.state.distance} mapType={MAP_COMPONENT_VIEW_TYPES.ROUTE} navigation={this.props.navigation} />
       }

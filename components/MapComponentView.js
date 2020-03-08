@@ -414,13 +414,9 @@ animateCamera() {
         strokeWidth={this.state.polylineStrokeWidth}
       />
       </MapView>
-      {(this.state.mapProps !==undefined && this.state.mapProps.showCloseButton) &&
-        <TouchableOpacity style={{flex:1,alignSelf:'flex-start',top: 16,left:16,position: 'absolute'}} onPress={() =>this.onCloseButtonPress(this.props.navigation)}>
-          <Icon color="black" name={"close"} size={24}/>
-        </TouchableOpacity>
-      }
+
       {(this.state.mapProps !==undefined && this.state.mapProps.showDestinationHeader) &&
-        <View style={{flex:1,alignSelf:'flex-start',top:48,left:16,right: 8,borderRadius: 6,position: 'absolute',flexDirection: 'row', backgroundColor: 'green',padding: 16,justifyContent:'center'}}>
+        <View style={{flex:1,alignSelf:'flex-start',top:600,left:16,right: 8,borderRadius: 6,position: 'absolute',flexDirection: 'row', backgroundColor: 'green',padding: 16,justifyContent:'center'}}>
           <View style={{flex:1,flexDirection: 'column',alignContent: 'center'}}>
             <Icon color="white" name={"arrow-upward"} size={24}/>
             <View style={{flex:1,marginTop: 8,flexDirection: 'row',alignContent: 'flex-end',justifyContent: 'center'}}>
@@ -470,7 +466,7 @@ const styles = StyleSheet.create({
   },
   map: {
     position: 'absolute',
-    top: 0,
+    top: 25,
     left: 0,
     right: 0,
     bottom: 0,
