@@ -20,7 +20,6 @@ export default class DirectionsScreen extends React.Component {
     this.state = { showNoInternet: false};
     this.state = { target_stand: null};
     this.state = { target_location: null};
-    this.state.origin = {};
     this.state.distance = 0;
     this.getLocationDirection = this.getLocationDirection.bind(this)
     this.getLocationApiCallDirection = this.getLocationApiCallDirection.bind(this);
@@ -33,7 +32,7 @@ export default class DirectionsScreen extends React.Component {
   getLocationApiCallDirection(beacons) {
     console.log("lalalalalalalaaallalalalalalalalalalal")
     let showLoading = true;
-    if(this.state.standsDataSource!==undefined && this.state.standsDataSource.length>1){
+    if(this.state.standsDataSource!==undefined && this.state.standsDataSource.length>1 && this.state.origin !== undefined){
       showLoading = false;
     }
     this.setState({
@@ -105,6 +104,19 @@ export default class DirectionsScreen extends React.Component {
     startRangingBeacons(this.getLocationApiCallDirection);
   };
 
+  showSnackbar(){
+    Snackbar.show({
+      text: '¡Parece que no hay internet!',
+      duration: Snackbar.LENGTH_LONG,
+      backgroundColor:'red',
+      action: {
+        text: 'REINTENTAR',
+        textColor: 'white',
+        onPress: () => {this.onLayersButtonPressed();},
+      },
+    });
+  }
+
 render() {
   console.log("Render: " + JSON.stringify(this.state.origin))
   return (
@@ -119,8 +131,7 @@ render() {
           containerStyle={{flex: 1}}
           isLoading={this.state.isLoading}
           layout={[
-                  { key: "card1",position:'absolute', height: 180,width: 220, marginLeft: 20,bottom: 24, borderWidth: 0.5, borderRadius: 6,borderColor: '#dddddd', shadowColor: '#000', shadowOffset: { width: 0, height: 2 } , shadowOpacity: 0.8, shadowRadius: 2 },
-                  { key: "card2",position:'absolute', height: 180,width: 220, marginLeft: 260,bottom: 24, borderWidth: 0.5, borderRadius: 6,borderColor: '#dddddd', shadowColor: '#000', shadowOffset: { width: 0, height: 2 } , shadowOpacity: 0.8, shadowRadius: 2  },
+                  { key: "card1",position:'absolute', height: 80,width: 330, marginLeft: 20, top: 100, borderWidth: 0.5, borderRadius: 6, borderColor: '#dddddd', shadowColor: '#000', shadowOffset: { width: 0, height: 2 } , shadowOpacity: 0.8, shadowRadius: 2 },
                   ]}
         />
       }
