@@ -164,7 +164,7 @@ render() {
                   <View style={styles.controllersContainer}>
                       <View style={{flex:1,width: 220}}>
                         <Icon color="white" name={"directions-walk"} size={72}/>
-                        <Text style={styles.directionsLabel}>Camina 25 metros hasta el stand {this.state.standsDataSource[0].stand_number+100}</Text>
+                        <Text style={styles.directionsLabel}>Camina hasta el stand {this.state.standsDataSource[0].stand_number+100}</Text>
                       </View>
                       <View style={{flex:1,height: 60,marginTop: 32, alignItems: 'center',alignSelf: 'center',position: 'absolute'}}>
                         <TouchableOpacity style={styles.buttonStyle} onPress={() =>this.onPlayButtonPress(this.state.standsDataSource[0])}>

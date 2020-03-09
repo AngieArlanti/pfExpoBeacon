@@ -85,13 +85,13 @@ export default class ToursIntermediateScreen extends React.Component {
                  <View style={styles.scrollViewContent}>
                     <View>
                       {(this.state.dataSource!==undefined && this.state.dataSource.length >0) &&
-                        <TourCategoryButton title="Tour popular: opción A" image={require('../assets/images/tours-populares.jpg')} navigation={this.props.navigation} stands={this.state.dataSource[0].tour} detailType={STAND_TOUR_DETAIL_TYPES.MAP_DETAIL}/>
+                        <TourCategoryButton title="Tour popular: Top 1" image={require('../assets/images/tours-populares.jpg')} navigation={this.props.navigation} stands={this.state.dataSource[0].tour} detailType={STAND_TOUR_DETAIL_TYPES.MAP_DETAIL}/>
                       }
                       {(this.state.dataSource!==undefined && this.state.dataSource.length >0) &&
-                        <TourCategoryButton title="Tour popular: opción B" image={require('../assets/images/tours-esquivando-filas.jpg')} navigation={this.props.navigation} stands={this.state.dataSource[1].tour} detailType={STAND_TOUR_DETAIL_TYPES.MAP_DETAIL}/>
+                        <TourCategoryButton title="Tour popular: Top 2" image={require('../assets/images/tours-esquivando-filas.jpg')} navigation={this.props.navigation} stands={this.state.dataSource[1].tour} detailType={STAND_TOUR_DETAIL_TYPES.MAP_DETAIL}/>
                       }
                       {(this.state.dataSource!==undefined && this.state.dataSource.length >0) &&
-                        <TourCategoryButton title="Tour popular: opción C" image={require('../assets/images/tours-tiempo.jpg')} navigation={this.props.navigation} stands={this.state.dataSource[2].tour}  detailType={STAND_TOUR_DETAIL_TYPES.MAP_DETAIL}/>
+                        <TourCategoryButton title="Tour popular: Top 3" image={require('../assets/images/tours-tiempo.jpg')} navigation={this.props.navigation} stands={this.state.dataSource[2].tour}  detailType={STAND_TOUR_DETAIL_TYPES.MAP_DETAIL}/>
                       }
                       {(this.state.isLoading || this.state.isLoading===undefined) &&
                         <SkeletonContent
