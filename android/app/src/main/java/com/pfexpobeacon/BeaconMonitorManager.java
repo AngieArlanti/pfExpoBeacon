@@ -153,6 +153,7 @@ public class BeaconMonitorManager extends ReactContextBaseJavaModule implements 
         beaconManager.bind(this);
 
         beaconManager.setBackgroundMode(false);
+        beaconManager.setForegroundScanPeriod(5500L);
         beaconManager.setForegroundBetweenScanPeriod(DEFAULT_FOREGROUND_SCAN_PERIOD);
 
         //This property tells the library to treat two beacons as distinct if
