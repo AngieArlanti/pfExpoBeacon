@@ -31,8 +31,8 @@ export const GET_LOCATION_SERVICE_URL = BASE_PATH + '/get_location';
 */
 export const { width, height } = Dimensions.get('window');
 export const ASPECT_RATIO = width / height;
-export const LATITUDE = -34.6403339;
-export const LONGITUDE = -58.4015757;
+export const LATITUDE = -34.641262;
+export const LONGITUDE = -58.401111;
 export const LATITUDE_DELTA = 0.000001;
 export const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 export const SPACE = 0.0000001;
