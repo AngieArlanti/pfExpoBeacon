@@ -3,6 +3,7 @@ package com.pfexpobeacon;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.rnfs.RNFSPackage;
 import com.ocetnik.timer.BackgroundTimerPackage;
 import org.wonday.orientation.OrientationPackage;
 import net.no_mad.tts.TextToSpeechPackage;
@@ -34,6 +35,7 @@ public class MainApplication extends Application implements ReactApplication {
         protected List<ReactPackage> getPackages() {
             return Arrays.asList(
                 new MainReactPackage(),
+            new RNFSPackage(),
             new BackgroundTimerPackage(),
             new OrientationPackage(),
             new TextToSpeechPackage(),

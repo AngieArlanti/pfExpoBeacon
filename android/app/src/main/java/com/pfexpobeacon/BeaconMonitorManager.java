@@ -153,7 +153,7 @@ public class BeaconMonitorManager extends ReactContextBaseJavaModule implements 
         beaconManager.bind(this);
 
         beaconManager.setBackgroundMode(false);
-        beaconManager.setForegroundScanPeriod(5500L);
+        beaconManager.setForegroundScanPeriod(10000L);
         beaconManager.setForegroundBetweenScanPeriod(DEFAULT_FOREGROUND_SCAN_PERIOD);
 
         //This property tells the library to treat two beacons as distinct if
@@ -310,13 +310,13 @@ public class BeaconMonitorManager extends ReactContextBaseJavaModule implements 
      */
     @ReactMethod
     public void stopRangingBeacons() {
-        Log.d(TAG, "stopRangingBeacons called");
+        //Log.d(TAG, "stopRangingBeacons called");
         try {
-            beaconManager.stopMonitoringBeaconsInRegion(beaconRegion);
-            beaconManager.stopRangingBeaconsInRegion(beaconRegion);
-            beaconManager.removeAllRangeNotifiers();
-            beaconManager.unbind(this);
-            sendEvent(EVENT_BEACONS_RANGE_STOPPED, null);
+            //beaconManager.stopMonitoringBeaconsInRegion(beaconRegion);
+            //beaconManager.stopRangingBeaconsInRegion(beaconRegion);
+            //beaconManager.removeAllRangeNotifiers();
+            //beaconManager.unbind(this);
+            //sendEvent(EVENT_BEACONS_RANGE_STOPPED, null);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet,ScrollView, Dimensions, TouchableOpacity,StatusBar} from 'react-native';
+import {View, Text, StyleSheet,ScrollView, Dimensions, TouchableOpacity,StatusBar,ToastAndroid} from 'react-native';
 import * as Constants from '../assets/constants/constants'
 import MapComponentView from '../components/MapComponentView';
 import {Icon} from 'react-native-elements';
@@ -9,6 +9,7 @@ import {startRangingBeacons} from '../services/beaconManagerClient';
 import { getUniqueId } from 'react-native-device-info';
 import {getNearbyStands} from '../services/locationClient';
 import SkeletonContent from "react-native-skeleton-content-nonexpo";
+import { logger } from "react-native-logs";
 import Snackbar from 'react-native-snackbar';
 import NoInternetView from '../components/NoInternetView'
 
@@ -29,8 +30,8 @@ export default class DirectionsScreen extends React.Component {
     this.getLocationDirection();
   }
 
-  getLocationApiCallDirection(beacons) {
-    console.log("lalalalalalalaaallalalalalalalalalalal")
+  getLocationApiCallDirection(beacons) {  
+    this.logBeaconsRanged(beacons);
     let showLoading = true;
     if(this.state.standsDataSource!==undefined && this.state.standsDataSource.length>1 && this.state.origin !== undefined){
       showLoading = false;
@@ -74,7 +75,7 @@ export default class DirectionsScreen extends React.Component {
               let d = getDistance(this.state.origin,location[0], 0.01);
               let x = Math.floor(d)
               this.state.distance = x;
-              console.log("DISCTANCE: " + this.state.distance);
+              console.log("DISTANCE: " + this.state.distance);
             }
       
             
@@ -99,6 +100,12 @@ export default class DirectionsScreen extends React.Component {
       });
     });
   };
+
+  logBeaconsRanged(beacons){
+    if (beacons){
+      beacons.map((b)=>console.log(`Beacon ranged: ${b}`));
+    }
+  }
 
   getLocationDirection(){
     startRangingBeacons(this.getLocationApiCallDirection);
