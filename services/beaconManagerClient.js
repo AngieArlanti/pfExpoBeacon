@@ -13,7 +13,7 @@ const startRangingBeacons = (callback) => {
       console.log(e);
       removeAllSuscriptions();
     }
-  };
+};
 
 const stopRangingBeacons = () => {
   ToastAndroid.show("Beacons range stopped", ToastAndroid.SHORT);
@@ -25,11 +25,11 @@ const stopRangingBeacons = () => {
       console.log(e);
       removeAllSuscriptions();
     }
-  };
+};
 
 const suscribeForEvents = (callback) => {
     startSuscription = DeviceEventEmitter.addListener(BeaconManager.EVENT_BEACONS_RANGED, (data) => {
-      if(data.beacons.length>1){
+      if(data.beacons.length>2){
         stopRangingBeacons();
         callback(data.beacons);
       }
