@@ -47,6 +47,9 @@ componentDidMount(){
   });
 }
 
+componentWillUnmount() {
+  this._subscribe.remove();
+}
 // Services TODO: Modularize
 getAllStands(){
   let showLoading = true;

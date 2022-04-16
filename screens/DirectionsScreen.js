@@ -30,7 +30,6 @@ export default class DirectionsScreen extends React.Component {
   }
 
   getLocationApiCallDirection(beacons) {
-    console.log("lalalalalalalaaallalalalalalalalalalal")
     let showLoading = true;
     if(this.state.standsDataSource!==undefined && this.state.standsDataSource.length>1 && this.state.origin !== undefined){
       showLoading = false;
