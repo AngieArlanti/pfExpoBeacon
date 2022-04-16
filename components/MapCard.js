@@ -21,7 +21,7 @@ class MapCard extends Component {
                     <ImageBackground source={{uri:this.props.item.cover}}
                         style={{ flex: 1, width: null, height: null, resizeMode: 'cover' }}>
                         <View style={styles.bubble}>
-                          <Text style={[styles.standIdLabel]}>{this.props.item.stand_number+100}</Text>
+                          <Text style={[styles.standIdLabel]}>{this.props.item.stand_number}</Text>
                         </View>
                     </ImageBackground>
                 </View>

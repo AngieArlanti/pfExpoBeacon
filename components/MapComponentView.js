@@ -388,7 +388,7 @@ animateCamera() {
             calloutAnchor={{ x: 0, y: 0 }}
             anchor={{ x: 0.5, y: 0.5 }}
             >
-            {(this.state.mapProps !==undefined && this.state.mapProps.showOrderMarker)?<TourMarker order={marker.stand_index+1}/>:<StandMarker standId={marker.stand_number+100} selected={this.state.markerSelected===marker.stand_index}/>}
+            {(this.state.mapProps !==undefined && this.state.mapProps.showOrderMarker)?<TourMarker order={marker.stand_index+1}/>:<StandMarker standId={marker.stand_number} selected={this.state.markerSelected===marker.stand_index}/>}
             </Marker>
           );
         })
