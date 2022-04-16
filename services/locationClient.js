@@ -4,9 +4,11 @@ import {startRangingBeacons} from '../services/beaconManagerClient';
     
     const getNearbyStands = (beacons) => {
         return beacons.map(function(stand){
+          console.log("macAddress: " + stand.macAddress);
+          console.log("distance: " + Math.abs(stand.distance));
           return {
             stand_id : stand.macAddress,
-            distance : stand.distance
+            distance : Math.abs(stand.distance)
           }
         });
       };
