@@ -1,5 +1,6 @@
 package com.pfexpobeacon;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -62,11 +63,15 @@ public class BeaconMonitorManager extends ReactContextBaseJavaModule implements 
     private Region beaconRegion = null;
     private ReactApplicationContext reactContext;
     private Context applicationContext;
+    private Collection<Beacon> beaconsRanged;
+    private long totalMeasures;
 
     BeaconMonitorManager(@Nonnull final ReactApplicationContext reactContext) {
         super(reactContext);
         this.reactContext = reactContext;
         this.applicationContext = this.reactContext.getApplicationContext();
+        this.beaconsRanged = new ArrayList<>();
+        this.totalMeasures = 0L;
     }
 
     /**
@@ -153,6 +158,9 @@ public class BeaconMonitorManager extends ReactContextBaseJavaModule implements 
         beaconManager.bind(this);
 
         beaconManager.setBackgroundMode(false);
+
+        // This makes to start ranging beacons in periods of 5 secs, waiting for 1 sec between
+        // periods. This will repeat until stopRangingBeacons is called.
         beaconManager.setForegroundScanPeriod(5500L);
         beaconManager.setForegroundBetweenScanPeriod(DEFAULT_FOREGROUND_SCAN_PERIOD);
 
@@ -220,8 +228,11 @@ public class BeaconMonitorManager extends ReactContextBaseJavaModule implements 
                                                 final Region region) {
                 if (beacons != null && !beacons.isEmpty()) {
                     Log.d(TAG, "Beacons found: " + beacons.size());
-                    sendEvent(EVENT_BEACONS_RANGED,
-                            createResponse(beacons, region));
+                    beaconsRanged.addAll(beacons);
+                    if (totalMeasures == 10) {
+                        sendEvent(EVENT_BEACONS_RANGED, createResponse(beaconsRanged, region));
+                    }
+                    totalMeasures++;
                 } else {
                     Log.d(TAG, "No beacons found.");
                 }
