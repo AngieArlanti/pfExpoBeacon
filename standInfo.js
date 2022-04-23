@@ -42,6 +42,10 @@ export default class StandInfo extends React.Component {
     });
  }
 
+  componentWillUnmount() {
+    this._subscribe.remove();
+ }
+
   ratingCompleted(rating) {
     fetch(STAND_RANKING_SERVICE_URL, {
       method: 'POST',

@@ -24,6 +24,10 @@ export default class SearchScreen extends React.Component {
     });
   }
 
+  componentWillUnmount() {
+    this._subscribe.remove();
+ }
+
   // Services TODO: Modularize
   getAllStands(){
     let showLoading = true;
